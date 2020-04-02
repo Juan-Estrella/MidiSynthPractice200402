@@ -1,4 +1,7 @@
 #include <Arduino.h>
+#include <Audio.h>
+#include "Functions.h"
+#include "GuiTool.h"
 
 void setup() {
   // put your setup code here, to run once:
