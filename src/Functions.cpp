@@ -66,14 +66,14 @@ void InitializeAudio()
 
   osc4n.amplitude(0.0);
 }
-void MyNoteOn(byte channel, byte note, byte velocity)
+void MyNoteOn(uint8_t channel, uint8_t note, uint8_t velocity)
 {
   osc1a.frequency(440);
   osc1a.amplitude(1);
   Serial.println("Note on");
 }
 
-void MyNoteOff(byte channel, byte note, byte velocity)
+void MyNoteOff(uint8_t channel, uint8_t note, uint8_t velocity)
 {
   osc1a.frequency(440);
   osc1a.amplitude(0);
