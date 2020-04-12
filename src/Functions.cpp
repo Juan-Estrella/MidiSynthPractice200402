@@ -23,6 +23,7 @@ void InitializeAudio()
   osc1c.frequency(440);
 
   osc1n.amplitude(0.0);
+  //filtosc1a.frequency(10000);
   //*** Voice 2
   osc2a.begin(WAVEFORM_SAWTOOTH);
   osc2a.amplitude(0.5);
@@ -71,11 +72,15 @@ void MyNoteOn(uint8_t channel, uint8_t note, uint8_t velocity)
   osc1a.frequency(440);
   osc1a.amplitude(1);
   Serial.println("Note on");
+  ADSR1.noteOn();
+  ADSRosc1a.noteOn();
 }
 
 void MyNoteOff(uint8_t channel, uint8_t note, uint8_t velocity)
 {
   osc1a.frequency(440);
   osc1a.amplitude(0);
+  ADSR1.noteOff();
+  ADSRosc1a.noteOff();
   Serial.println("Note off");
 }
