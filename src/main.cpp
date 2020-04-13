@@ -3,6 +3,8 @@
 #include <USBHost_t36.h>
 #include "Functions.h"
 #include "GuiTool.h"
+#include "LfoUpdate.h"
+#include "Globals.h"
 
 //*************Object Instantiations For USB MIDI********
 USBHost myusb;

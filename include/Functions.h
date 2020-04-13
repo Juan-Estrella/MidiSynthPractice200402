@@ -6,3 +6,4 @@ void SetOsc();
 void SetADSR();
 void SetFilter();
 void ADSRoff();
+void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom, int str);

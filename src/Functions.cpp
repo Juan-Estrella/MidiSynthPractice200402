@@ -1,7 +1,10 @@
 #include <Arduino.h>
 #include <Audio.h>
+#include <USBHost_t36.h>
 #include "Functions.h"
 #include "GuiTool.h"
+#include "LfoUpdate.h"
+#include "Globals.h"
 
 //**************Functions****************************
 void SetOsc()
@@ -127,3 +130,4 @@ void ADSRoff()
   ADSRosc1c.noteOff();
   ADSRosc1n.noteOff();
 }
+
