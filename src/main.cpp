@@ -47,6 +47,14 @@ Martone str[4]
   /*string 4*/ Martone( 3,    -3,  str[3].A, str[3].dimChord,.6,       2000,        1,      .25,    35,    1,       50,      1,        0,             2000,     1,        1,        0,   0,        1,           false,       false,str[3].justTemp,   0),
 };
 
+//================
+//Global Variables
+//================
+
+
+Martone *pStr[4] = {&str[0], &str[1], &str[2], &str[3]};
+
+
 //==============================
 //Callback Function Declarations
 //==============================
@@ -62,6 +70,7 @@ void setup()
   myusb.begin();
   midi1.setHandleNoteOn(MyNoteOn); 
   midi1.setHandleNoteOff(MyNoteOff);
+  //Serial.println(pStr[3]->m_octave);
 }
 
 //=======================
@@ -69,7 +78,7 @@ void setup()
 //=======================
 void loop()
 {
-  martone.Update();
+  martone.Update(pStr, 4);
   myusb.Task();
   midi1.read();  
   //LfoUpdate(false, sp.lfoModeSelect[2], sp.filterPercentage[2], sp.lfoDepth[2], 2);

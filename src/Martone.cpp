@@ -55,7 +55,6 @@ Martone::Martone()
     m_poly = true;
     m_temperament = justTemp;
     m_electrode3D;
-
       //************************
     int m_pIndex = 0;                        //for mapping commands to parameters
     bool m_parameterSelect = false;  
@@ -127,14 +126,21 @@ void Martone::HandleNoteOff(int channel, int note, int velocity)
     Serial.println("***");
 }
 //*************************************************************
-void Martone::Update()
+void Martone::Update(Martone * pStr[], int strNum)
 {
-    ProcessKeyboardData();
+    //Serial.println(pStr[0]->m_octave);
+    ProcessKeyboardData(pStr, strNum);
+}
+//*****************************************************
+void Martone::Troubleshoot()
+{
+    Serial.println("Troubleshoot");
 }
 
 //=================
 //Private Functions
 //=================
+
 void Martone::SetFilter()
 {
     filter1.frequency(10000);
@@ -216,8 +222,9 @@ void Martone::ADSRoff()
 }
 
 //************************************************************
-void Martone::ProcessKeyboardData()
+void Martone::ProcessKeyboardData(Martone * pStr[], int strNum)
 {
+    Serial.println(pStr[0]->m_octave);
     if (m_parameterSelect == true)
   {
     m_rawKnobValue = analogRead(A13); // double read?
@@ -228,7 +235,7 @@ void Martone::ProcessKeyboardData()
     if (m_rawKnobValue < (m_oldKnobValue - 4) || m_rawKnobValue > (m_oldKnobValue + 4))
     {
       m_oldKnobValue = m_rawKnobValue;
-      UpdateSettings(m_pIndex, m_str);
+     // UpdateSettings(m_pIndex, m_str);
       Serial.println(m_mappedKnobValue[m_str][m_pIndex]);
     }
   }
@@ -285,23 +292,23 @@ void Martone::ProcessKeyboardData()
   }
 }
 //*************************************************************
-    void Martone::UpdateSettings(int pIndex, int str)
-{
-  float xSpeed;
-  switch (pIndex)
-  {
-    case 0:
-      m_volume = m_mappedKnobValue[str][pIndex];                   //'~' Set string volume
-      //SetVolume();
-      break;
+//     void Martone::UpdateSettings(int pIndex, int str)
+// {
+//   float xSpeed;
+//   switch (pIndex)
+//   {
+//     case 0:
+//       m_volume = m_mappedKnobValue[str][pIndex];                   //'~' Set string volume
+//       //SetVolume();
+//       break;
 
-    case 1:
-      //sp.waveform1[str] = waveforms[(int)m_mappedKnobValue[str][pIndex]];      //'!' Set Waveform 1
-      break;
-       default:
-      break;
-  }
-}
+//     case 1:
+//       //sp.waveform1[str] = waveforms[(int)m_mappedKnobValue[str][pIndex]];      //'!' Set Waveform 1
+//       break;
+//        default:
+//       break;
+//   }
+// }
 //**************************************************************
 int Martone::SetWaveform(int waveform, int target)
 {

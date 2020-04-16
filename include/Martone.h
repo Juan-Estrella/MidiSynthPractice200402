@@ -24,14 +24,15 @@ public:
     enum scales{chromatic,majScale,harmonicMinorScale,pentatonicMajorScale,pentatonicMinorScale,bluesScale,majChord,minChord,dimChord,dom7Chord,maj7Chord,min7Chord,overtone16Div,overtone24Div,overtone8Div};
     enum notes{A, Bb, B, C, Db, D, Eb, E, F, Gb, G, Ab};          //for printing names of notes
     enum temperaments{equal12Temp,justTemp,overtone16Temp,equal24Temp,overtone8Temp};
-
+    int waveform;
 //=================
 //Public Functions
 //=================
     void Initialize();
     void HandleNoteOn(int channel, int note, int velocity);
     void HandleNoteOff(int channel, int note, int velocity);
-    void Update();
+    void Update(Martone * pStr[], int strNum);
+    void Troubleshoot();
 //****************************************Private****************************************
 
 private:
@@ -119,7 +120,7 @@ private:
     void Transpose(int transpose, int target);
     void Detune(float detune, int target);
     void Interval(int interval, int target);
-    void ProcessKeyboardData();
+    void ProcessKeyboardData(Martone * pStr[], int strNum);
     void ProcessBluetoothDataData(int string);
     void ProcessKnobData();
     void StartOscPoly(int midiNote, int vel, int string, int wobble, int offset);
@@ -129,7 +130,7 @@ private:
     void KeyBuff(int midiNote, int vel, int string, int wobble, int offset, bool playNote);
     void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom);
     void GetReleaseState();
-    void UpdateSettings(int pIndex, int str);
+    //void UpdateSettings(int pIndex, int str);
 
     void SetFilter();
     void SetOsc();
