@@ -78,7 +78,7 @@ void setup()
 //=======================
 void loop()
 {
-  martone.Update(pStr, 4);
+  martone.Update(pStr);
   myusb.Task();
   midi1.read();  
   //LfoUpdate(false, sp.lfoModeSelect[2], sp.filterPercentage[2], sp.lfoDepth[2], 2);

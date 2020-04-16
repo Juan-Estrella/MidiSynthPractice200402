@@ -109,7 +109,7 @@ void Martone::Initialize()
     AudioMemory(20);
     sgtl5000_1.enable();
     sgtl5000_1.volume(0.4);
-    SetOsc();
+    SetOsc(m_volume);
     Serial.println("Martone Set-up Complete!");
 }
 //************************************************************
@@ -126,10 +126,10 @@ void Martone::HandleNoteOff(int channel, int note, int velocity)
     Serial.println("***");
 }
 //*************************************************************
-void Martone::Update(Martone * pStr[], int strNum)
+void Martone::Update(Martone * pStr[])
 {
     //Serial.println(pStr[0]->m_octave);
-    ProcessKeyboardData(pStr, strNum);
+    ProcessKeyboardData(pStr);
 }
 //*****************************************************
 void Martone::Troubleshoot()
@@ -159,23 +159,23 @@ void Martone::SetFilter()
     filtosc1n.resonance(1);
 }
 //*********************************************************
-void Martone::SetOsc()
+void Martone::SetOsc(float m_volume)
 {
 
     //***Voice 1
     osc1a.begin(WAVEFORM_TRIANGLE);
-    osc1a.amplitude(0.5);
+    osc1a.amplitude(m_volume);
     osc1a.frequency(220);
 
     osc1b.begin(WAVEFORM_SAWTOOTH);
-    osc1b.amplitude(0.5);
+    osc1b.amplitude(m_volume);
     osc1b.frequency(440);
 
     osc1c.begin(WAVEFORM_SQUARE);
-    osc1c.amplitude(0.5);
+    osc1c.amplitude(m_volume);
     osc1c.frequency(880);
 
-    osc1n.amplitude(0.5);
+    osc1n.amplitude(m_volume);
 }
 //*********************************************************
 void Martone::SetADSR(float attack, float decay, float sustain, float release, int target)
@@ -222,9 +222,10 @@ void Martone::ADSRoff()
 }
 
 //************************************************************
-void Martone::ProcessKeyboardData(Martone * pStr[], int strNum)
+void Martone::ProcessKeyboardData(Martone * pStr[])
 {
-    Serial.println(pStr[0]->m_octave);
+    // pStr[0]->m_octave =7;
+    // Serial.println(pStr[0]->m_octave);
     if (m_parameterSelect == true)
   {
     m_rawKnobValue = analogRead(A13); // double read?
@@ -235,7 +236,7 @@ void Martone::ProcessKeyboardData(Martone * pStr[], int strNum)
     if (m_rawKnobValue < (m_oldKnobValue - 4) || m_rawKnobValue > (m_oldKnobValue + 4))
     {
       m_oldKnobValue = m_rawKnobValue;
-     // UpdateSettings(m_pIndex, m_str);
+      UpdateSettings(m_pIndex, pStr, m_str);
       Serial.println(m_mappedKnobValue[m_str][m_pIndex]);
     }
   }
@@ -292,23 +293,25 @@ void Martone::ProcessKeyboardData(Martone * pStr[], int strNum)
   }
 }
 //*************************************************************
-//     void Martone::UpdateSettings(int pIndex, int str)
-// {
-//   float xSpeed;
-//   switch (pIndex)
-//   {
-//     case 0:
-//       m_volume = m_mappedKnobValue[str][pIndex];                   //'~' Set string volume
-//       //SetVolume();
-//       break;
+    void Martone::UpdateSettings(int pIndex, Martone * pStr[], int m_str)
+{
+  float xSpeed;
+  switch (pIndex)
+  {
+    case 0:
+      pStr[m_str]->m_volume = m_mappedKnobValue[m_str][pIndex];                   //'~' Set string volume
+      //Serial.println(pStr[m_str]->m_volume);
+      SetOsc(pStr[m_str]->m_volume);
+      //SetVolume();
+      break;
 
-//     case 1:
-//       //sp.waveform1[str] = waveforms[(int)m_mappedKnobValue[str][pIndex]];      //'!' Set Waveform 1
-//       break;
-//        default:
-//       break;
-//   }
-// }
+    case 1:
+      //sp.waveform1[str] = waveforms[(int)m_mappedKnobValue[str][pIndex]];      //'!' Set Waveform 1
+      break;
+       default:
+      break;
+  }
+}
 //**************************************************************
 int Martone::SetWaveform(int waveform, int target)
 {

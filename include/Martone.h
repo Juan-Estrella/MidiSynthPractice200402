@@ -31,7 +31,7 @@ public:
     void Initialize();
     void HandleNoteOn(int channel, int note, int velocity);
     void HandleNoteOff(int channel, int note, int velocity);
-    void Update(Martone * pStr[], int strNum);
+    void Update(Martone * pStr[]);
     void Troubleshoot();
 //****************************************Private****************************************
 
@@ -120,7 +120,7 @@ private:
     void Transpose(int transpose, int target);
     void Detune(float detune, int target);
     void Interval(int interval, int target);
-    void ProcessKeyboardData(Martone * pStr[], int strNum);
+    void ProcessKeyboardData(Martone * pStr[]);
     void ProcessBluetoothDataData(int string);
     void ProcessKnobData();
     void StartOscPoly(int midiNote, int vel, int string, int wobble, int offset);
@@ -130,10 +130,10 @@ private:
     void KeyBuff(int midiNote, int vel, int string, int wobble, int offset, bool playNote);
     void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom);
     void GetReleaseState();
-    //void UpdateSettings(int pIndex, int str);
+    void UpdateSettings(int pIndex, Martone * pStr[],int m_str);
 
     void SetFilter();
-    void SetOsc();
+    void SetOsc(float m_volume);
     void SetADSR(float attack, float decay, float sustain, float release, int target);
     void ADSRoff();
 //***************************************************************************************************
