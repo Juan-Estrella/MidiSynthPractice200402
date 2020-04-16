@@ -27,6 +27,11 @@
 //#include "Globals.h"
 #include "Martone.h"
 
+//================
+//Global Constants
+//================
+const int NUM_STRINGS = 4;
+
 //=====================
 //Object Instantiations
 //=====================
@@ -39,7 +44,7 @@ Martone martone;
 //=======================
 //Initial String Settings
 //=======================
-Martone str[4]
+Martone str[NUM_STRINGS]
 {//                  waveform, octave, startnote, scale, volume, filtFreqCutoff, filtRes, attack, decay, sustain, release, lfoShape, lfoModeSelect, lfoSpeed, lfoDepth, lfoPitch, lfo, lfoRange, filtPercent, interpolate, poly, temperament, electrode3D
   /*string 1*/ Martone( 0,    -2,  str[0].A, str[0].minChord, .9,      10000,       0,      25,     35,    1,       2500,    1,        0,             2000,     0,        1,        0,   0,        1,           false,       true, str[0].justTemp,   0),
   /*string 2*/ Martone( 1,     0,  str[1].A, str[1].harmonicMinorScale,.8,  10000,  0,      50,     25,    1,       100,     1,        0,             7000*0.7, 0,        1,        0,   0,        1,           false,       true, str[1].justTemp,   0),
@@ -47,13 +52,7 @@ Martone str[4]
   /*string 4*/ Martone( 3,    -3,  str[3].A, str[3].dimChord,.6,       2000,        1,      .25,    35,    1,       50,      1,        0,             2000,     1,        1,        0,   0,        1,           false,       false,str[3].justTemp,   0),
 };
 
-//================
-//Global Variables
-//================
-
-
-Martone *pStr[4] = {&str[0], &str[1], &str[2], &str[3]};
-
+Martone *pStr[NUM_STRINGS] = {&str[0], &str[1], &str[2], &str[3]};
 
 //==============================
 //Callback Function Declarations

@@ -55,7 +55,7 @@ private:
 //=============================
 //Private Variable Declarations
 //=============================
-    int m_waveform[m_NUM_OSC];
+    int m_waveform;
     int m_octave;
     int m_startNote;
     int m_scale;
@@ -133,7 +133,7 @@ private:
     void UpdateSettings(int pIndex, Martone * pStr[],int m_str);
 
     void SetFilter();
-    void SetOsc(float m_volume);
+    void SetOsc(float m_volume, int m_waveform);
     void SetADSR(float attack, float decay, float sustain, float release, int target);
     void ADSRoff();
 //***************************************************************************************************
