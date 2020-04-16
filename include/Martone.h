@@ -49,7 +49,7 @@ private:
     static const int m_BUFFER = 10; //Size of keyboard buffer
     static const int m_NUM_CHARS = 32;
     static const int m_NUM_OSC = 4;
-    static const int waveforms[]; 
+    static const int m_WAVEFORMS[]; 
 
 //=============================
 //Private Variable Declarations
@@ -82,6 +82,15 @@ private:
     int m_velocity;
     int m_note;
     int m_string;
+    //************************
+    int m_pIndex;                        //for mapping commands to parameters
+    bool m_parameterSelect;
+    float m_oldKnobValue;
+    float m_low, m_high;                       //for range mapping
+    float m_mappedKnobValue[m_NUM_STRINGS][m_NUM_EFFECTS];
+    float m_rawKnobValue;
+    int m_str;
+    bool m_stringSelect;                  //for keyboard processing
 
 //=============================
 //Private Function Declarations
@@ -120,6 +129,7 @@ private:
     void KeyBuff(int midiNote, int vel, int string, int wobble, int offset, bool playNote);
     void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom);
     void GetReleaseState();
+    void UpdateSettings(int pIndex, int str);
 
     void SetFilter();
     void SetOsc();
