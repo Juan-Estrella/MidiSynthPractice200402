@@ -162,26 +162,38 @@ void Martone::SetOsc(float m_volume, int m_waveform, int m_osc)
 {
 
     //***Voice 1
-    if(m_osc ==0)
+    if (m_osc == 0)
     {
-    osc1a.begin(waveforms[m_waveform]);
-    osc1a.amplitude(m_volume);
-    osc1a.frequency(220);
-    Serial.println(m_osc);
+        osc1a.begin(waveforms[m_waveform]);
+        osc1a.amplitude(m_volume);
+        osc1a.frequency(220);
     }
-    if(m_osc ==1)
+    if (m_osc == 1)
     {
-    osc1b.begin(waveforms[m_waveform]);
-    osc1b.amplitude(m_volume);
-    osc1b.frequency(440);
-    Serial.println(m_osc);
+        osc1b.begin(waveforms[m_waveform]);
+        osc1b.amplitude(m_volume);
+        osc1b.frequency(440);
     }
-    if(m_osc ==2)
+    if (m_osc == 2)
     {
-    osc1c.begin(waveforms[m_waveform]);
-    osc1c.amplitude(m_volume);
-    osc1c.frequency(880);
-    Serial.println(m_osc);
+        osc1c.begin(waveforms[m_waveform]);
+        osc1c.amplitude(m_volume);
+        osc1c.frequency(880);
+    }
+
+    if (m_osc == 5)        //all oscillators selected
+    {
+        osc1a.begin(waveforms[m_waveform]);
+        osc1a.amplitude(m_volume);
+        osc1a.frequency(220);
+
+        osc1b.begin(waveforms[m_waveform]);
+        osc1b.amplitude(m_volume);
+        osc1b.frequency(440);
+
+        osc1c.begin(waveforms[m_waveform]);
+        osc1c.amplitude(m_volume);
+        osc1c.frequency(880);
     }
 
     osc1n.amplitude(0);
@@ -332,6 +344,15 @@ void Martone::ProcessKeyboardData(Martone *pStr[])
             Serial.print("Select Oscillator 4 ");
             break;
 
+            case '^': //All Oscillators Selected
+            m_pIndex = 6;
+            m_low = 0;
+            m_high = 9;
+            m_osc = 5;
+            m_parameterSelect = true;
+            Serial.print("All Oscillators Selected ");
+            break;
+
         default:
             // Serial.println("Invalid Entry");
             break;
@@ -354,7 +375,7 @@ void Martone::UpdateSettings(int pIndex, Martone *pStr[], int m_str, int m_osc)
     case 1:
         //sp.waveform1[str] = waveforms[(int)m_mappedKnobValue[str][pIndex]];      //'!' Set Waveform 1
         pStr[m_str]->m_waveform = waveforms[(int)m_mappedKnobValue[m_str][pIndex]];
-       // SetOsc(pStr[m_str]->m_volume, pStr[m_str]->m_waveform);
+        // SetOsc(pStr[m_str]->m_volume, pStr[m_str]->m_waveform);
         break;
 
     case 2:
@@ -377,6 +398,12 @@ void Martone::UpdateSettings(int pIndex, Martone *pStr[], int m_str, int m_osc)
 
     case 5:
         //sp.waveform1[str] = waveforms[(int)m_mappedKnobValue[str][pIndex]];      //'%' Set Oscillator 4
+        pStr[m_str]->m_waveform = waveforms[(int)m_mappedKnobValue[m_str][pIndex]];
+        SetOsc(pStr[m_str]->m_volume, pStr[m_str]->m_waveform, m_osc);
+        break;
+
+    case 6:
+        //sp.waveform1[str] = waveforms[(int)m_mappedKnobValue[str][pIndex]];      //'^'Select all Oscs
         pStr[m_str]->m_waveform = waveforms[(int)m_mappedKnobValue[m_str][pIndex]];
         SetOsc(pStr[m_str]->m_volume, pStr[m_str]->m_waveform, m_osc);
         break;
