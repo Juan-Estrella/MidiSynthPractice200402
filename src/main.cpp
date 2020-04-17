@@ -41,9 +41,9 @@ USBHub hub2(myusb);
 MIDIDevice midi1(myusb);
 Martone martone;
 
-//=======================
-//Initial String Settings
-//=======================
+//==================================
+//Initialize Martone String Settings
+//==================================
 Martone str[NUM_STRINGS]
 {//                  waveform, octave, startnote, scale, volume, filtFreqCutoff, filtRes, attack, decay, sustain, release, lfoShape, lfoModeSelect, lfoSpeed, lfoDepth, lfoPitch, lfo, lfoRange, filtPercent, interpolate, poly, temperament, electrode3D
   /*string 1*/ Martone( 1,    -2,  str[0].A, str[0].minChord, .9,      10000,       0,      25,     35,    1,       2500,    1,        0,             2000,     0,        1,        0,   0,        1,           false,       true, str[0].justTemp,   0),

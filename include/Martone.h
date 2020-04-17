@@ -124,6 +124,7 @@ private:
     //************************
     int m_pIndex; //for mapping commands to parameters
     bool m_parameterSelect;
+    bool m_oscSelect;
     float m_oldKnobValue;
     float m_low, m_high; //for range mapping
     float m_mappedKnobValue[m_NUM_STRINGS][m_NUM_EFFECTS];
@@ -174,54 +175,8 @@ private:
     void SetOsc(float m_volume, int m_waveform, int m_osc);
     void SetADSR(float attack, float decay, float sustain, float release, int target);
     void ADSRoff();
+    void ShowWaveform(int m_waveform);
     //***************************************************************************************************
 protected:
 };
 #endif
-//****************************************************************************************************
-
-//********************************Set-up****************************************
-//  void SetInitialSettings();
-//     /***/void SetString();
-//     /***/void ReinitializeString(int string);
-//     /********/float ApplyScaleMask(const float tuningArray[][NUM_NOTES_INST], const int scaleMask[][NUM_NOTES_STRING], int string); //applies scale mask to tuning array. Stores results into global 'tempNotesArray'.
-//     /********/int GetScaleSteps(const int scaleMask[][NUM_NOTES_STRING], int string);
-//     /********/void InitScale(int steps, float tempNotesArray[][NUM_NOTES_INST], int numberOfNotes, int string);  //turns 1 octave 'tempNotesArray' scale into 12 octave scale.
-//     /********/void TransposeScale(int octave, float startNote, int string);
-//     /********/void SetADSR(float atk, float dec, float sus, float rel);
-//     //*********************************Loop*****************************************
-//     void ProcessKeyboardData();
-//     /***/void UpdateSettings(int pIndex, int str);
-//     /********/void SetVolume();
-//     //////////void ReinitializeString(int string);
-//     /********/void SetOsc(int str);
-//     /********/void SetFilter(int str);
-//     void ParseBluetoothData();                                                              //for parsing bluetooth data.
-//     void ProcessBluetoothData(int string);
-//     void GetReleaseState();
-//     void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom);
-// //********************************Callback Functions********************************************
-//     void MyNoteOn(byte channel, byte note, byte velocity);                        //Poly Mode
-//     /////void SetADSR(float atk, float dec, float sus, float rel);
-//     /***/void StartOscPoly(int midiNote, int vel, int string, int wobble, int offset); //inside MyNoteOn callback function.
-//     //////////void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom);
-//     /********/const char *GetNoteName(int midi_note);
-//     /***************/ int GetNoteNumber(int midi_note);
-//     /********/int GetOctave(float midi_note);
-
-//     void MyNoteOff(byte channel, byte note, byte velocity);                       //Poly Mode
-//     /***/void SetADSR(float atk, float dec, float sus, float rel);
-//     /***/void StopOscPoly(int note, int vel, int string, int offset);                  //inside MyNoteOff callback function. //turns on 4 waveforms for 10 voices.
-//     /////const char *GetNoteName(int midi_note);
-//     //////////// int GetNoteNumber(int midi_note);
-
-//     //void MyNoteOn(byte channel, byte note, byte velocity);                        //Callback function. Mono Mode
-//     /*****/void KeyBuff(int midiNote, int vel, int string, int wobble, int offset, bool playNote);
-//     /***********/void StartOscMono(int midiNote, int offset, int string, int vel);
-//     //////////////////const char *GetNoteName(int midi_note);
-//     //////////////////int GetOctave(float midi_note);
-
-//     //void MyNoteOff(byte channel, byte note, byte velocity);                        //Callback function. Mono Mode
-//     /*****/void StopOscMono(int midiNote, int vel, int string, int offset);
-//     /**********/const char *GetNoteName(int midi_note);
-//     /*****************/ int GetNoteNumber(int midi_note);
