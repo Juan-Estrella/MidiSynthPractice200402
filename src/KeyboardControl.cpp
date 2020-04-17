@@ -29,25 +29,21 @@ void Martone::ProcessKeyboardData(Martone *pStr[])
             m_stringSelect = true;
             Serial.println("String 1 Selected");
             break;
-
         case '2': //Select string 2
             m_str = 1;
             m_stringSelect = true;
             Serial.println("String 2 Selected");
             break;
-
         case '3': //Select string 3
             m_str = 2;
             m_stringSelect = true;
             Serial.println("String 3 Selected");
             break;
-
         case '4': //Select string 4
             m_str = 3;
             m_stringSelect = true;
             Serial.println("String 4 Selected");
             break;
-
             //************************************************************
         case '~': //Oscillator 1 select
             m_pIndex = 0;
@@ -71,11 +67,11 @@ void Martone::ProcessKeyboardData(Martone *pStr[])
             m_pIndex = 3;
             m_osc = 3;
             m_oscSelect = true;
-            Serial.println("Oscillator 4 Selected");
+            Serial.println("Noise Oscillator Selected");
             break;
         case '$': //All Oscillators Selected
             m_pIndex = 4;
-            m_osc = 5;
+            m_osc = 4;
             m_oscSelect = true;
             Serial.println("All Oscillators Selected ");
             break;
@@ -86,7 +82,7 @@ void Martone::ProcessKeyboardData(Martone *pStr[])
             m_parameterSelect = true;
             Serial.println("Waveform Select ");
             break;
-        case '^': //waveform gain
+        case '^': //Volume
             m_pIndex = 6;
             m_low = 0;
             m_high = 1;

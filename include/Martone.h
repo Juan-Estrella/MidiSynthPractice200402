@@ -14,7 +14,7 @@ public:
     //Constructors
     //============
     Martone();
-    Martone(int waveform, int octave, int startnote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoModeSelect, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D);
+    Martone(int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V, int octave, int startnote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoModeSelect, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D);
     ~Martone();
 
     //=================
@@ -65,7 +65,7 @@ public:
     //=================
     //Public Functions
     //=================
-    void Initialize();
+    void Initialize(Martone *pStr[]);
     void HandleNoteOn(int channel, int note, int velocity);
     void HandleNoteOff(int channel, int note, int velocity);
     void Update(Martone *pStr[]);
@@ -77,6 +77,7 @@ private:
     //Private Constants
     //=================
     static const int m_NUM_VOICES = 4;
+    static const int m_NUM_WAVEFORMS = 9;
     static const int m_NUM_EFFECTS = 50;
     static const int m_NUM_NOTES_STRING = 36; //rows on Livid Block Midi controller grid
     static const int m_NUM_NOTES_INST = 64;   //number of notes in scale/instrument
@@ -91,8 +92,10 @@ private:
     //=============================
     //Private Variable Declarations
     //=============================
-    int m_waveform;
+    //int m_waveform;
     int m_osc;
+    int m_oscWave[3];
+    float m_oscVol[4];
     int m_oscIndex;
     int m_octave;
     int m_startNote;
@@ -172,8 +175,8 @@ private:
     void UpdateSettings(int pIndex, Martone *pStr[], int m_str, int m_osc);
 
     void SetFilter();
-    void SetOsc(float m_volume, int m_waveform, int m_osc);
-    void SetADSR(float attack, float decay, float sustain, float release, int target);
+    void SetOsc(float m_volume, int m_waveform, int m_osc, Martone *pStr[]);
+    void SetADSR(float attack, float decay, float sustain, float release, bool payNote);
     void ADSRoff();
     void ShowWaveform(int m_waveform);
     //***************************************************************************************************

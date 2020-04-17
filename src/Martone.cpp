@@ -14,15 +14,15 @@
 //Public Constants
 //=================
 static const int waveforms[] = {
-    WAVEFORM_SINE,              //0
-    WAVEFORM_TRIANGLE,          //1
-    WAVEFORM_TRIANGLE_VARIABLE, //2
-    WAVEFORM_SQUARE,            //3
-    WAVEFORM_SAWTOOTH,          //4
-    WAVEFORM_SAWTOOTH_REVERSE,  //5
-    WAVEFORM_ARBITRARY,         //6
-    WAVEFORM_PULSE,             //7
-    WAVEFORM_SAMPLE_HOLD};      //8
+    WAVEFORM_SINE,               //0
+    WAVEFORM_SAWTOOTH,           //1
+    WAVEFORM_SQUARE,             //2
+    WAVEFORM_TRIANGLE,           //3
+    WAVEFORM_ARBITRARY,          //4
+    WAVEFORM_PULSE,              //5
+    WAVEFORM_SAWTOOTH_REVERSE,   //6
+    WAVEFORM_SAMPLE_HOLD,        //7
+    WAVEFORM_TRIANGLE_VARIABLE}; //8
 
 //********************************************************************************
 //============
@@ -30,7 +30,14 @@ static const int waveforms[] = {
 //============
 Martone::Martone()
 {
-    m_waveform = 0;
+    //m_waveform = 0;
+    m_oscWave[0] = 0;
+    m_oscWave[1] = 0;
+    m_oscWave[2] = 0;
+    m_oscVol[0] = .5;
+    m_oscVol[1] = .5;
+    m_oscVol[2] = .5;
+    m_oscVol[3] = .5;
     m_octave = -3;
     m_startNote = A;
     m_scale = chromatic;
@@ -38,7 +45,7 @@ Martone::Martone()
     m_volume = .9;
     m_filtFreqCutoff = 700;
     m_filtRes = 1;
-    m_attack = .1;
+    m_attack = 100;
     m_decay = 35;
     m_sustain = 1;
     m_release = 40;
@@ -63,12 +70,18 @@ Martone::Martone()
     bool m_stringSelect = false;
 }
 //******************************
-Martone::Martone(int waveform, int octave, int startNote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoMode, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D)
+Martone::Martone(int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V, int octave, int startNote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoMode, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D)
 {
-    // for (int i = 0; i < m_NUM_OSC; i++)
-    // {
-    m_waveform = waveform;
-    //  }
+
+    //m_waveform = waveform;
+    m_oscWave[0] = osc1W;
+    m_oscWave[1] = osc2W;
+    m_oscWave[2] = osc3W;
+
+    m_oscVol[0] = osc1V;
+    m_oscVol[1] = osc2V;
+    m_oscVol[2] = osc3V;
+    m_oscVol[3] = osc4V;
 
     m_octave = octave;
     m_startNote = startNote;
@@ -101,15 +114,16 @@ Martone::~Martone() {}
 //=================
 //Public Functions
 //=================
-void Martone::Initialize()
+void Martone::Initialize(Martone *pStr[])
 {
     delay(3000); // 3 second delay for recovery
     Serial.begin(115200);
     AudioMemory(20);
     sgtl5000_1.enable();
     sgtl5000_1.volume(0.4);
-    for (int i = 0; i< m_NUM_OSC; i++)
-    SetOsc(m_volume, m_waveform, i);
+    for (int i = 0; i < m_NUM_OSC; i++)
+        SetOsc(m_volume, m_oscWave[m_osc], i, pStr);
+    SetADSR(1, 2, 3, 4, false);
     Serial.println("Martone Set-up Complete!");
 }
 //************************************************************
@@ -128,7 +142,6 @@ void Martone::HandleNoteOff(int channel, int note, int velocity)
 //*************************************************************
 void Martone::Update(Martone *pStr[])
 {
-    //Serial.println(pStr[0]->m_octave);
     ProcessKeyboardData(pStr);
 }
 //*****************************************************
@@ -159,79 +172,131 @@ void Martone::SetFilter()
     filtosc1n.resonance(1);
 }
 //*********************************************************
-void Martone::SetOsc(float m_volume, int m_waveform, int m_osc)
+void Martone::SetOsc(float m_volume, int m_waveform, int m_osc, Martone *pStr[])
 {
 
     //***Voice 1
-    if (m_osc == 0)
+    if (m_osc == 0) //osc 1
     {
-        osc1a.begin(waveforms[m_waveform]);
-        osc1a.amplitude(m_volume);
+        osc1a.begin(waveforms[pStr[m_str]->m_oscWave[m_osc]]);
+        osc1a.amplitude(pStr[m_str]->m_oscVol[m_osc]);
         osc1a.frequency(220);
     }
-    if (m_osc == 1)
+    if (m_osc == 1) //osc 2
     {
-        osc1b.begin(waveforms[m_waveform]);
-        osc1b.amplitude(m_volume);
+        osc1b.begin(waveforms[m_oscWave[m_osc]]);
+        osc1b.amplitude(pStr[m_str]->m_oscVol[m_osc]);
         osc1b.frequency(440);
     }
-    if (m_osc == 2)
+    if (m_osc == 2) //osc 3
     {
-        osc1c.begin(waveforms[m_waveform]);
-        osc1c.amplitude(m_volume);
+        osc1c.begin(waveforms[m_oscWave[m_osc]]);
+        osc1c.amplitude(pStr[m_str]->m_oscVol[m_osc]);
         osc1c.frequency(880);
     }
-
-    if (m_osc == 5) //all oscillators selected
+    if (m_osc == 3) //osc 4
     {
-        osc1a.begin(waveforms[m_waveform]);
-        osc1a.amplitude(m_volume);
+        osc1n.amplitude(pStr[m_str]->m_oscVol[m_osc]);
+    }
+    if (m_osc == 4) //all oscillators selected
+    {
+        osc1a.begin(waveforms[m_oscWave[0]]);
+        osc1a.amplitude(pStr[m_str]->m_oscVol[m_osc]);
         osc1a.frequency(220);
 
-        osc1b.begin(waveforms[m_waveform]);
-        osc1b.amplitude(m_volume);
+        osc1b.begin(waveforms[m_oscWave[1]]);
+        osc1b.amplitude(pStr[m_str]->m_oscVol[m_osc]);
         osc1b.frequency(440);
 
-        osc1c.begin(waveforms[m_waveform]);
-        osc1c.amplitude(m_volume);
+        osc1c.begin(waveforms[m_oscWave[2]]);
+        osc1c.amplitude(pStr[m_str]->m_oscVol[m_osc]);
         osc1c.frequency(880);
-    }
 
-    osc1n.amplitude(0);
+        osc1n.amplitude(0);
+    }
 }
 //*********************************************************
-void Martone::SetADSR(float attack, float decay, float sustain, float release, int target)
+void Martone::UpdateSettings(int pIndex, Martone *pStr[], int m_str, int m_osc)
 {
-    ADSR1.noteOn();
-    ADSRosc1a.noteOn();
-    ADSRosc1b.noteOn();
-    ADSRosc1c.noteOn();
-    ADSRosc1n.noteOn();
+    float xSpeed;
+    switch (pIndex)
+    {
+    case 5: //'%' Set Osc Waveform
+        pStr[m_str]->m_oscWave[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][pIndex]];
+        SetOsc(pStr[m_str]->m_oscVol[m_osc], pStr[m_str]->m_oscWave[m_osc], m_osc, pStr);
+        break;
+    case 6: //'^' Set Osc Volume
+        pStr[m_str]->m_oscVol[m_osc] = m_mappedKnobValue[m_str][pIndex];
+        SetOsc(pStr[m_str]->m_oscVol[m_osc], pStr[m_str]->m_oscWave[m_osc], m_osc, pStr);
+        break;
 
-    ADSR1.attack(1);     //default 10.5ms. max 11.88 seconds
-    ADSR1.decay(35);     //default 35 ms. max 11.88 seconds
-    ADSR1.sustain(1);    //0-1
-    ADSR1.release(2000); //default 300ms. max 11.88 seconds
+    default:
+        break;
+    }
+}
+//*************************************************************
+void Martone::SetADSR(float attack, float decay, float sustain, float release, bool playNote)
+{
+    if (playNote == true)
+    {
+        ADSR1.noteOn();
+        ADSRosc1a.noteOn();
+        ADSRosc1b.noteOn();
+        ADSRosc1c.noteOn();
+        ADSRosc1n.noteOn();
 
-    ADSRosc1a.attack(900);  //tri
-    ADSRosc1b.attack(800);  //saw
-    ADSRosc1c.attack(300);  //square
-    ADSRosc1n.attack(1000); //noise
+        ADSR1.attack(1);     //default 10.5ms. max 11.88 seconds
+        ADSR1.decay(35);     //default 35 ms. max 11.88 seconds
+        ADSR1.sustain(1);    //0-1
+        ADSR1.release(2000); //default 300ms. max 11.88 seconds
 
-    ADSRosc1a.decay(1);
-    ADSRosc1b.decay(1);
-    ADSRosc1c.decay(1);
-    ADSRosc1n.decay(1);
+        ADSRosc1a.attack(900);  //tri
+        ADSRosc1b.attack(800);  //saw
+        ADSRosc1c.attack(300);  //square
+        ADSRosc1n.attack(1000); //noise
 
-    ADSRosc1a.sustain(1);
-    ADSRosc1b.sustain(1);
-    ADSRosc1c.sustain(1);
-    ADSRosc1n.sustain(1);
+        ADSRosc1a.decay(1);
+        ADSRosc1b.decay(1);
+        ADSRosc1c.decay(1);
+        ADSRosc1n.decay(1);
 
-    ADSRosc1a.release(1000);
-    ADSRosc1b.release(200);
-    ADSRosc1c.release(400);
-    ADSRosc1n.release(50);
+        ADSRosc1a.sustain(1);
+        ADSRosc1b.sustain(1);
+        ADSRosc1c.sustain(1);
+        ADSRosc1n.sustain(1);
+
+        ADSRosc1a.release(1000);
+        ADSRosc1b.release(200);
+        ADSRosc1c.release(400);
+        ADSRosc1n.release(50);
+    }
+    else
+    {
+        ADSR1.attack(1);     //default 10.5ms. max 11.88 seconds
+        ADSR1.decay(35);     //default 35 ms. max 11.88 seconds
+        ADSR1.sustain(1);    //0-1
+        ADSR1.release(2000); //default 300ms. max 11.88 seconds
+
+        ADSRosc1a.attack(900);  //tri
+        ADSRosc1b.attack(800);  //saw
+        ADSRosc1c.attack(300);  //square
+        ADSRosc1n.attack(1000); //noise
+
+        ADSRosc1a.decay(1);
+        ADSRosc1b.decay(1);
+        ADSRosc1c.decay(1);
+        ADSRosc1n.decay(1);
+
+        ADSRosc1a.sustain(1);
+        ADSRosc1b.sustain(1);
+        ADSRosc1c.sustain(1);
+        ADSRosc1n.sustain(1);
+
+        ADSRosc1a.release(1000);
+        ADSRosc1b.release(200);
+        ADSRosc1c.release(400);
+        ADSRosc1n.release(50);
+    }
 }
 //***********************************************************
 void Martone::ADSRoff()
@@ -245,34 +310,10 @@ void Martone::ADSRoff()
 
 //************************************************************
 
-//*************************************************************
-void Martone::UpdateSettings(int pIndex, Martone *pStr[], int m_str, int m_osc)
-{
-    float xSpeed;
-    switch (pIndex)
-    {
-    case 5:
-        pStr[m_str]->m_waveform = waveforms[(int)m_mappedKnobValue[m_str][pIndex]]; //'%' Set Osc Waveform
-        SetOsc(pStr[m_str]->m_volume, pStr[m_str]->m_waveform, m_osc);
-        break;
-    case 6:
-        pStr[m_str]->m_volume = m_mappedKnobValue[m_str][pIndex]; //'^' Set Osc Volume
-        SetOsc(pStr[m_str]->m_volume, pStr[m_str]->m_waveform, m_osc);
-        break;
-
-    default:
-        break;
-    }
-}
 //**************************************************************
 void Martone::ShowWaveform(int m_waveform)
 {
-
 }
-
-
-
-
 
 //*****************************************************************
 int Martone::SetWaveform(int waveform, int target)
