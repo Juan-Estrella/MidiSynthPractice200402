@@ -1,6 +1,7 @@
 #include "Martone.h"
+#include "MartoneOsc.h"
 
-void Martone::ProcessKeyboardData(Martone *pStr[])
+void MartoneOsc::ProcessKeyboardData(Martone *pStr[], MartoneOsc *pOsc[])
 {
     // pStr[0]->m_octave =7;
     // Serial.println(pStr[0]->m_octave);
@@ -14,7 +15,7 @@ void Martone::ProcessKeyboardData(Martone *pStr[])
         if (m_rawKnobValue < (m_oldKnobValue - 4) || m_rawKnobValue > (m_oldKnobValue + 4))
         {
             m_oldKnobValue = m_rawKnobValue;
-            UpdateSettings(m_pIndex, pStr, m_str, m_osc);
+            UpdateSettings(m_pIndex, pStr, m_str, m_osc, pOsc);
             Serial.println(m_mappedKnobValue[m_str][m_pIndex]);
         }
     }

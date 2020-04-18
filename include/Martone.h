@@ -1,5 +1,4 @@
-#ifndef Martone_H
-#define Martone_H
+#pragma once
 
 #include <Arduino.h>
 #include "GuiTool.h"
@@ -7,14 +6,36 @@
 
 class Martone
 {
-    //****************************************Public*****************************************
+ //****************************************Public*****************************************
 
 public:
+
     //============
     //Constructors
     //============
     Martone();
-    Martone(int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V, int octave, int startnote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoModeSelect, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D);
+    Martone(int octave, 
+            int startnote, 
+            int scale, 
+            float volume, 
+            float filtFreqCutoff, 
+            float filtRes, 
+            float attack, 
+            float decay, 
+            float sustain, 
+            float release, 
+            int lfoShape, 
+            int lfoModeSelect, 
+            float lfoSpeed, 
+            float lfoDepth, 
+            float lfoPitch, 
+            float lfo, 
+            float lfoRange, 
+            float filtPercent, 
+            bool interpolate, 
+            bool poly, 
+            int temperament, 
+            int electrode3D);
     ~Martone();
 
     //=================
@@ -38,7 +59,7 @@ public:
         overtone24Div,
         overtone8Div
     };
-    enum notes
+     enum notes  //for printing names of notes
     {
         A,
         Bb,
@@ -52,7 +73,7 @@ public:
         Gb,
         G,
         Ab
-    }; //for printing names of notes
+    }; 
     enum temperaments
     {
         equal12Temp,
@@ -61,21 +82,19 @@ public:
         equal24Temp,
         overtone8Temp
     };
-    int waveform;
     //=================
     //Public Functions
     //=================
-    void Initialize(Martone *pStr[]);
-    void HandleNoteOn(int channel, int note, int velocity);
-    void HandleNoteOff(int channel, int note, int velocity);
-    void Update(Martone *pStr[]);
-    void Troubleshoot();
+    //void Initialize(Martone *pStr[], Martone *pOsc[]);
+    //void HandleNoteOn(int channel, int note, int velocity);
+    //void HandleNoteOff(int channel, int note, int velocity);
+    //void Update(Martone *pStr[], Martone *pOsc[]);
     //****************************************Private****************************************
 
-private:
-    //=================
-    //Private Constants
-    //=================
+protected:
+    //===================
+    //Protected Constants
+    //===================
     static const int m_NUM_VOICES = 4;
     static const int m_NUM_WAVEFORMS = 9;
     static const int m_NUM_EFFECTS = 50;
@@ -89,14 +108,9 @@ private:
     static const int m_NUM_OSC = 4;
     static const int m_WAVEFORMS[];
 
-    //=============================
-    //Private Variable Declarations
-    //=============================
-    //int m_waveform;
-    int m_osc;
-    int m_oscWave[3];
-    float m_oscVol[4];
-    int m_oscIndex;
+    //===============================
+    //Protected Variable Declarations
+    //===============================
     int m_octave;
     int m_startNote;
     int m_scale;
@@ -124,62 +138,21 @@ private:
     int m_velocity;
     int m_note;
     int m_string;
-    //************************
     int m_pIndex; //for mapping commands to parameters
+    bool m_stringSelect;   //for keyboard processing
     bool m_parameterSelect;
     bool m_oscSelect;
     float m_oldKnobValue;
-    float m_low, m_high; //for range mapping
-    float m_mappedKnobValue[m_NUM_STRINGS][m_NUM_EFFECTS];
+    float m_low, m_high;       //for range mapping
+    float m_mappedKnobValue[5][m_NUM_EFFECTS];
     float m_rawKnobValue;
     int m_str;
-    bool m_stringSelect; //for keyboard processing
-
+    
     //=============================
     //Private Function Declarations
     //=============================
-    int SetWaveform(int waveform, int target);
-    void SetOctave(int octave, int target);
-    void SetStartNote(int startNote);
-    void SetScale(int scale);
-    void SetVolume(int volume, int target);
-    void SetFreqCutoff(float cutoff, int target);
-    void SetFreqRes(float res, int target);
-
-    void SetAttack(float attack, int target);
-    void SetDecay(float decay, int target);
-    void SetSustain(float sustain, int target);
-    void SetRelease(float release, int target);
-    void SetLfoTarget(int target);
-    void SetLfoShape(int lfoShape, int target);
-    void SetLfoMode(int lfoMode, int target);
-    void SetLfoSpeed(int lfoSpeed, int target);
-    void SetLfoDepth(int lfoDepth, int target);
-    void SetLfoPitch(int lfoPitch, int target);
-    void SetTemperament(int temperament, int target);
-    void SetPoly(bool poly);
-    void ShowInfo();
-    void Transpose(int transpose, int target);
-    void Detune(float detune, int target);
-    void Interval(int interval, int target);
-    void ProcessKeyboardData(Martone *pStr[]);
-    void ProcessBluetoothDataData(int string);
-    void ProcessKnobData();
-    void StartOscPoly(int midiNote, int vel, int string, int wobble, int offset);
-    void StopOscPoly(int note, int vel, int string, int offset);
-    void StartOscMono(int midiNote, int offset, int string, int vel);
-    void StopOscMono(int midiNote, int vel, int string, int offset);
-    void KeyBuff(int midiNote, int vel, int string, int wobble, int offset, bool playNote);
-    void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom);
-    void GetReleaseState();
-    void UpdateSettings(int pIndex, Martone *pStr[], int m_str, int m_osc);
-
-    void SetFilter();
-    void SetOsc(float m_volume, int m_waveform, int m_osc, Martone *pStr[]);
-    void SetADSR(float attack, float decay, float sustain, float release, bool payNote);
-    void ADSRoff();
-    void ShowWaveform(int m_waveform);
+    
     //***************************************************************************************************
-protected:
+private:
 };
-#endif
+
