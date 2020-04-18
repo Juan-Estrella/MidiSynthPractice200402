@@ -146,7 +146,7 @@ void MartoneOsc::SetOsc(float m_volume, int m_waveform, int m_osc, Martone *pStr
 void MartoneOsc::UpdateSettings(int pIndex, Martone *pStr[], int m_str, int m_osc,  MartoneOsc *pOsc[])
 
 {
-    float xSpeed;
+    //float xSpeed;
     switch (pIndex)
     {
     case 5: //'%' Set Osc Waveform

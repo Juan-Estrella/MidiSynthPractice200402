@@ -35,18 +35,17 @@ void HandleNoteOff(int channel, int note, int velocity);
 void Update(Martone *pStr[], MartoneOsc *pOsc[]);
 //****************************************Private****************************************
 
-protected:
+private:
 //===================
-//Protected Constants
+//Private Constants
 //===================
 
 //===============================
-//Protected Variable Declarations
+//Private Variable Declarations
 //===============================
-//int m_waveform;
 int m_osc;
-int m_oscWave[3];
-float m_oscVol[4];
+int m_oscWave[m_NUM_OSC-1];
+float m_oscVol[m_NUM_OSC+1];
 int m_oscIndex;
 
 //=============================
@@ -58,7 +57,6 @@ void SetFilter();
 void SetOsc(float m_volume, int m_waveform, int m_osc, Martone *pStr[], MartoneOsc *pOsc[]);
 void SetADSR(float attack, float decay, float sustain, float release, bool payNote);
 void ADSRoff();
-
 
 int SetWaveform(int waveform, int target);
 void SetOctave(int octave, int target);
@@ -84,7 +82,6 @@ void Transpose(int transpose, int target);
 void Detune(float detune, int target);
 void Interval(int interval, int target);
 void ProcessBluetoothDataData(int string);
-void ProcessKnobData();
 void StartOscPoly(int midiNote, int vel, int string, int wobble, int offset);
 void StopOscPoly(int note, int vel, int string, int offset);
 void StartOscMono(int midiNote, int offset, int string, int vel);
@@ -94,5 +91,5 @@ void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom);
 void GetReleaseState();
 void ShowWaveform(int m_waveform);
 //***************************************************************************************************
-private:
+protected:
 };
