@@ -66,7 +66,8 @@ public:
     //=================
     //Public Functions
     //=================
-    void SetOsc(int string, int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V);
+    void SetOsc(int string, int osc, int waveform, float volume);     //  int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V);
+    
     void SetString(int string, int octave, int startnote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoModeSelect, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D);
     void Initialize();
     void HandleNoteOn(int channel, int note, int velocity);

@@ -21,10 +21,6 @@
 #include <Arduino.h>
 #include <Audio.h>
 #include <USBHost_t36.h>
-//#include "Functions.h"
-//#include "GuiTool.h"
-//#include "LfoUpdate.h"
-//#include "Globals.h"
 #include "Martone.h"
 
 //================
@@ -52,11 +48,43 @@ void MyNoteOff(unsigned char channel, unsigned char note, unsigned char velocity
 //================
 void setup()
 {
+  //String 1. string, osc, waveform, volume                   
+  martone.SetOsc(1,   1,   0,        .5);    
+  martone.SetOsc(1,   2,   0,        .5);     
+  martone.SetOsc(1,   3,   0,        .5);     
+  martone.SetOsc(1,   4,   0,        .5);  
+
+  //String 2. string, osc, waveform, volume                   
+  martone.SetOsc(2,   1,   0,        .5);    
+  martone.SetOsc(2,   2,   0,        .5);     
+  martone.SetOsc(2,   3,   0,        .5);     
+  martone.SetOsc(2,   4,   0,        .5);    
+
+  //String 3. string, osc, waveform, volume                   
+  martone.SetOsc(3,   1,   0,        .5);    
+  martone.SetOsc(3,   2,   0,        .5);     
+  martone.SetOsc(3,   3,   0,        .5);     
+  martone.SetOsc(3,   4,   0,        .5);
+
+  //String 4. string, osc, waveform, volume                   
+  martone.SetOsc(4,   1,   0,        .5);    
+  martone.SetOsc(4,   2,   0,        .5);     
+  martone.SetOsc(4,   3,   0,        .5);     
+  martone.SetOsc(4,   4,   0,        .5);                    
+
+
+
+
+
+
+
+
+
   //           string, osc1W, osc2W, osc3W,  osc1V, osc2V, osc3V,  osc4V
-  martone.SetOsc(1,    0,     0,     0,     .5,    .5,    .5,      0);
-  martone.SetOsc(2,    0,     0,     0,     .5,    .5,    .5,      0);
-  martone.SetOsc(3,    0,     0,     0,     .5,    .5,    .5,      0);
-  martone.SetOsc(4,    0,     0,     0,     .5,    .5,    .5,      0);
+  // martone.SetOsc(1,    0,     0,     0,     .5,    .5,    .5,      0);
+  // martone.SetOsc(2,    0,     0,     0,     .5,    .5,    .5,      0);
+  // martone.SetOsc(3,    0,     0,     0,     .5,    .5,    .5,      0);
+  // martone.SetOsc(4,    0,     0,     0,     .5,    .5,    .5,      0);
 
 
 //              string, octave, startnote,  scale,                     vol, filtCutoff, filtRes, attack, decay, sustain, release, lfoShape, lfoMode, lfoSpeed, lfoDepth, lfoPitch, lfo, lfoRange, filtPercent, interpolate, poly, temperament,    electrode3D

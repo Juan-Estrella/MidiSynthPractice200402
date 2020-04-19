@@ -54,23 +54,18 @@ Martone::Martone()
     m_str = 0;
     m_stringSelect = false;
 }
-//*****************************************************************************
+
 Martone::~Martone() {}
 
+//*****************************************************************************
 //=================
 //Public Functions
 //=================
-void Martone::SetOsc(int string, int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V)
+void Martone::SetOsc(int string, int osc, int waveform , float volume)
 {
     Serial.println("SetOsc");
-    str[0].m_oscV[0] = osc1V;
-    str[string - 1].m_oscV[1] = osc2V;
-    str[string - 1].m_oscV[2] = osc3V;
-    str[string - 1].m_oscV[3] = osc4V;
-
-    str[string - 1].m_oscW[0] = osc1W;
-    str[string - 1].m_oscW[1] = osc2W;
-    str[string - 1].m_oscW[2] = osc3W;
+    str[string-1].m_oscV[osc-1] = volume; 
+    str[string-1].m_oscW[osc-1] = waveform;
 }
 //****************************************************************
 void Martone::AssignOsc(float m_volume, int m_waveform, int m_osc)
