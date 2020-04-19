@@ -146,7 +146,7 @@ private:
     //=============================
     void UpdateSettings(int pIndex, int m_str, int m_osc);
     void SetFilter();
-    void AssignOsc(float m_volume, int m_waveform, int m_osc);
+    void AssignOsc(float m_volume, int m_waveform, int m_osc, int string);
     void SetADSR(float attack, float decay, float sustain, float release, bool payNote);
     void ADSRoff();
     void ProcessKeyboardData();
