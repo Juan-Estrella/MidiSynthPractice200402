@@ -298,8 +298,8 @@ void Martone::ShowWaveform(int m_waveform)
 }
 
 //*****************************************************************
-int Martone::SetWaveform(int waveform, int target)
-{
+//int Martone::SetWaveform(int waveform, int target)
+//{
     // switch (waveform)
     // {
     // case 1:
@@ -369,5 +369,5 @@ int Martone::SetWaveform(int waveform, int target)
     //     Serial.println("SetWaveform error");
     //     break;
     // }
-}
+//}
 //*********************************************************
