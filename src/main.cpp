@@ -48,6 +48,7 @@ void MyNoteOff(unsigned char channel, unsigned char note, unsigned char velocity
 //================
 void setup()
 {
+  //********************Oscillator Set Up********************
   //String 1. string, osc, waveform, volume                   
   martone.SetOsc(1,   1,   0,        .5);    
   martone.SetOsc(1,   2,   0,        .5);     
@@ -72,7 +73,7 @@ void setup()
   martone.SetOsc(4,   3,   0,        0);     
   martone.SetOsc(4,   4,   0,        0);                    
 
-
+//********************String Set Up*************************
 //              string, octave, startnote,  scale,                     vol, filtCutoff, filtRes, attack, decay, sustain, release, lfoShape, lfoMode, lfoSpeed, lfoDepth, lfoPitch, lfo, lfoRange, filtPercent, interpolate, poly, temperament,    electrode3D
   martone.SetString(1, -2,      martone.A,  martone.minChord,          .9,  10000,      0,       25,     35,    1,       2500,    1,        0,       2000,     0,        1,        0,   0,        1,           false,       true,  martone.justTemp,   0);
   martone.SetString(2,  0,      martone.A,  martone.harmonicMinorScale,.8,  10000,      0,       50,     25,    1,       100,     1,        0,       7000*0.7, 0,        1,        0,   0,        1,           false,       true,  martone.justTemp,   0);

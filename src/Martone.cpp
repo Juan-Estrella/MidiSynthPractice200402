@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <Audio.h>
 #include <USBHost_t36.h>
+//#include <Fastled.h>
 #include "Martone.h"
 
 //=================
@@ -61,14 +62,6 @@ Martone::~Martone() {}
 //=================
 //Public Functions
 //=================
-void Martone::SetOsc(int string, int osc, int waveform , float volume)
-{
-    Serial.println("SetOsc");
-    str[string-1].m_oscV[osc-1] = volume; 
-    str[string-1].m_oscW[osc-1] = waveform;
-}
-
-//************************************************************
 void Martone::Initialize()
 {
     delay(3000); // 3 second delay for recovery
@@ -81,30 +74,8 @@ void Martone::Initialize()
     SetADSR(1, 2, 3, 4, false);
     Serial.println("Martone Set-up Complete!");
 }
-//************************************************************
-void Martone::HandleNoteOn(int channel, int note, int velocity)
-{
-    SetADSR(1, 2, 3, 4, true);
-    SetFilter();
-    Serial.println("***");
-}
-//*************************************************************
-void Martone::HandleNoteOff(int channel, int note, int velocity)
-{
-    ADSRoff();
-    Serial.println("***");
-}
-//*************************************************************
-void Martone::Update()
-{
-    ProcessKeyboardData();
-}
-//*************************************************************
-
-//=================
-//Private Functions
-//=================
-void Martone::AssignOsc(float volume, int waveform, int osc, int string)
+//********************************************************************
+void Martone::AssignOsc(float volume, u8 waveform, u8 osc, u8 string)
 {
     //***Voice 1
     if (osc == 0) //osc 1
@@ -144,44 +115,6 @@ void Martone::AssignOsc(float volume, int waveform, int osc, int string)
         osc1c.frequency(880);
 
         osc1n.amplitude(0);
-    }
-}
-//*************************************************************
-
-void Martone::SetFilter()
-{
-    filter1.frequency(10000);
-    filter1.resonance(1);
-
-    filtosc1a.frequency(10000); //tri
-    filtosc1a.resonance(1);
-
-    filtosc1b.frequency(10000); //saw
-    filtosc1b.resonance(1);
-
-    filtosc1c.frequency(500); //square
-    filtosc1c.resonance(1);
-
-    filtosc1n.frequency(10000); //noise
-    filtosc1n.resonance(1);
-}
-//*********************************************************
-void Martone::UpdateSettings(int pIndex, int m_str, int m_osc)
-{
-    // float xSpeed;
-    switch (pIndex)
-    {
-    case 5: //'%' Set Osc Waveform
-        str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][pIndex]];
-        AssignOsc(str[m_str].m_oscV[m_osc], str[m_str].m_oscW[m_osc], m_osc, m_str);
-        break;
-    case 6: //'^' Set Osc Volume
-        str[m_str].m_oscV[m_osc] = m_mappedKnobValue[m_str][pIndex];
-        AssignOsc(str[m_str].m_oscV[m_osc], str[m_str].m_oscW[m_osc], m_osc, m_str);
-        break;
-
-    default:
-        break;
     }
 }
 //*************************************************************
@@ -248,6 +181,68 @@ void Martone::SetADSR(float attack, float decay, float sustain, float release, b
         ADSRosc1n.release(50);
     }
 }
+//************************************************************************
+void Martone::SetOsc(u8 string, u8 osc, u8 waveform , float volume)
+{
+    Serial.println("SetOsc");
+    str[string-1].m_oscV[osc-1] = volume; 
+    str[string-1].m_oscW[osc-1] = waveform;
+}
+//************************************************************
+void Martone::Update()
+{
+    ProcessKeyboardData();     //defined in KeyboardControl.cpp file
+}
+//********************************************************************
+void Martone::UpdateKeyboardData(u8 pIndex, u8 m_str, u8 m_osc)
+{
+    // float xSpeed;
+    switch (pIndex)
+    {
+    case 5: //'%' Set Osc Waveform
+        str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][pIndex]];
+        AssignOsc(str[m_str].m_oscV[m_osc], str[m_str].m_oscW[m_osc], m_osc, m_str);
+        break;
+    case 6: //'^' Set Osc Volume
+        str[m_str].m_oscV[m_osc] = m_mappedKnobValue[m_str][pIndex];
+        AssignOsc(str[m_str].m_oscV[m_osc], str[m_str].m_oscW[m_osc], m_osc, m_str);
+        break;
+
+    default:
+        break;
+    }
+}
+//*********************************************************
+void Martone::HandleNoteOn(u8 channel, u8 note, u8 velocity)
+{
+    SetADSR(1, 2, 3, 4, true);
+    SetFilter();
+    Serial.println("***");
+}
+//*************************************************************
+void Martone::HandleNoteOff(u8 channel, u8 note, u8 velocity)
+{
+    ADSRoff();
+    Serial.println("***");
+}
+//**************************************************************
+void Martone::SetFilter()
+{
+    filter1.frequency(10000);
+    filter1.resonance(1);
+
+    filtosc1a.frequency(10000); //tri
+    filtosc1a.resonance(1);
+
+    filtosc1b.frequency(10000); //saw
+    filtosc1b.resonance(1);
+
+    filtosc1c.frequency(500); //square
+    filtosc1c.resonance(1);
+
+    filtosc1n.frequency(10000); //noise
+    filtosc1n.resonance(1);
+}
 //***********************************************************
 void Martone::ADSRoff()
 {
@@ -257,15 +252,12 @@ void Martone::ADSRoff()
     ADSRosc1c.noteOff();
     ADSRosc1n.noteOff();
 }
-
-//************************************************************
-
 //**************************************************************
-void Martone::ShowWaveform(int m_waveform)
+void Martone::ShowWaveform(u8 m_waveform)
 {
 }
 //*********************************************************
-void Martone::SetString(int string, int octave, int startNote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoMode, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D)
+void Martone::SetString(u8 string, s8 octave, u8 startNote, u8 scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, u8 lfoShape, u8 lfoMode, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, u8 temperament, u8 electrode3D)
 {
     //     m_octave = octave;
     //     m_startNote = startNote;

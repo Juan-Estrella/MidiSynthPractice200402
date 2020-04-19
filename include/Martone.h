@@ -1,9 +1,10 @@
-#ifndef Martone_H
-#define Martone_H
+#pragma once
 
 #include <Arduino.h>
 #include "GuiTool.h"
-//#include "Globals.h"
+
+typedef uint8_t u8;
+typedef int8_t s8;
 
 class Martone
 {
@@ -62,17 +63,16 @@ public:
         equal24Temp,
         overtone8Temp
     };
-    int waveform;
     //=================
     //Public Functions
     //=================
-    void SetOsc(int string, int osc, int waveform, float volume);     //  int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V);
-    
-    void SetString(int string, int octave, int startnote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoModeSelect, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D);
     void Initialize();
-    void HandleNoteOn(int channel, int note, int velocity);
-    void HandleNoteOff(int channel, int note, int velocity);
+    void SetOsc(u8 string, u8 osc, u8 waveform, float volume);     //  int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V);
+    void SetString(u8 string, s8 octave, u8 startnote, u8 scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, u8 lfoShape, u8 lfoMode, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, u8 temperament, u8 electrode3D);
     void Update();
+    void HandleNoteOn(u8 channel, u8 note, u8 velocity);
+    void HandleNoteOff(u8 channel, u8 note, u8 velocity);
+
     //****************************************Private****************************************
 
 private:
@@ -99,15 +99,24 @@ private:
     struct stringParameters
     {
         float m_oscV[m_NUM_OSC];
-        int m_oscW[m_NUM_OSC];
-    } str[4];
+        u8 m_oscW[m_NUM_OSC];
+    } str[m_NUM_STRINGS];
 
-    int m_osc;
-    int m_str;
-    int m_oscIndex;
-    int m_octave;
-    int m_startNote;
-    int m_scale;
+    u8 m_osc;
+    u8 m_str;
+    u8 m_oscIndex;
+    u8 m_pIndex; //for mapping commands to parameters
+    bool m_parameterSelect;
+    bool m_oscSelect;
+    bool m_stringSelect; //for keyboard processing
+    float m_oldKnobValue;
+    float m_low, m_high; //for range mapping
+    float m_mappedKnobValue[m_NUM_STRINGS + 1][m_NUM_EFFECTS];
+    float m_rawKnobValue;
+
+    s8 m_octave;
+    u8 m_startNote;
+    u8 m_scale;
     float m_volume;
     float m_filtFreqCutoff;
     float m_filtRes;
@@ -115,8 +124,8 @@ private:
     float m_decay;   //default is 35ms. Max is 11880
     float m_sustain; //0-1
     float m_release; //default is 300ms. max is 11880
-    int m_lfoShape;
-    int m_lfoMode;
+    u8 m_lfoShape;
+    u8 m_lfoMode;
     float m_lfoSpeed;
     float m_lfoDepth;
     float m_lfoPitch;
@@ -126,65 +135,57 @@ private:
     float m_scaleFreqs[m_NUM_NOTES_INST];
     bool m_interpolate;
     bool m_poly;
-    int m_temperament;
-    int m_electrode3D;
-    int m_channel;
-    int m_velocity;
-    int m_note;
-    int m_string;
-    int m_pIndex; //for mapping commands to parameters
-    bool m_parameterSelect;
-    bool m_oscSelect;
-    bool m_stringSelect; //for keyboard processing
-    float m_oldKnobValue;
-    float m_low, m_high; //for range mapping
-    float m_mappedKnobValue[m_NUM_STRINGS + 1][m_NUM_EFFECTS];
-    float m_rawKnobValue;
-
+    u8 m_temperament;
+    u8 m_electrode3D;
+    u8 m_channel;
+    u8 m_velocity;
+    u8 m_note;
+    u8 m_string;
+   
     //=============================
     //Private Function Declarations
     //=============================
-    void UpdateSettings(int pIndex, int m_str, int m_osc);
+    void UpdateKeyboardData(u8 pIndex, u8 m_str, u8 m_osc);
     void SetFilter();
-    void AssignOsc(float m_volume, int m_waveform, int m_osc, int string);
+    void AssignOsc(float m_volume, u8 m_waveform, u8 m_osc, u8 string);
     void SetADSR(float attack, float decay, float sustain, float release, bool payNote);
     void ADSRoff();
     void ProcessKeyboardData();
 
-    int SetWaveform(int waveform, int target);
-    void SetOctave(int octave, int target);
-    void SetStartNote(int startNote);
-    void SetScale(int scale);
-    void SetVolume(int volume, int target);
-    void SetFreqCutoff(float cutoff, int target);
-    void SetFreqRes(float res, int target);
-    void SetAttack(float attack, int target);
-    void SetDecay(float decay, int target);
-    void SetSustain(float sustain, int target);
-    void SetRelease(float release, int target);
-    void SetLfoTarget(int target);
-    void SetLfoShape(int lfoShape, int target);
-    void SetLfoMode(int lfoMode, int target);
-    void SetLfoSpeed(int lfoSpeed, int target);
-    void SetLfoDepth(int lfoDepth, int target);
-    void SetLfoPitch(int lfoPitch, int target);
-    void SetTemperament(int temperament, int target);
+    u8 SetWaveform(u8 waveform, u8 target);
+    void SetOctave(s8 octave, u8 target);
+    void SetStartNote(u8 startNote);
+    void SetScale(u8 scale);
+    void SetVolume(float volume, u8 target);
+    void SetFreqCutoff(float cutoff, u8 target);
+    void SetFreqRes(float res, u8 target);
+    void SetAttack(float attack, u8 target);
+    void SetDecay(float decay, u8 target);
+    void SetSustain(float sustain, u8 target);
+    void SetRelease(float release, u8 target);
+    void SetLfoTarget(u8 target);
+    void SetLfoShape(u8 lfoShape, u8 target);
+    void SetLfoMode(u8 lfoMode, u8 target);
+    void SetLfoSpeed(u8 lfoSpeed, u8 target);
+    void SetLfoDepth(u8 lfoDepth, u8 target);
+    void SetLfoPitch(u8 lfoPitch, u8 target);
+    void SetTemperament(u8 temperament, u8 target);
     void SetPoly(bool poly);
     void ShowInfo();
-    void Transpose(int transpose, int target);
-    void Detune(float detune, int target);
-    void Interval(int interval, int target);
-    void ProcessBluetoothDataData(int string);
+    void Transpose(s8 transpose, u8 target);
+    void Detune(float detune, u8 target);
+    void Interval(s8 interval, u8 target);
+    void ProcessBluetoothDataData(u8 string);
     void ProcessKnobData();
-    void StartOscPoly(int midiNote, int vel, int string, int wobble, int offset);
-    void StopOscPoly(int note, int vel, int string, int offset);
-    void StartOscMono(int midiNote, int offset, int string, int vel);
-    void StopOscMono(int midiNote, int vel, int string, int offset);
-    void KeyBuff(int midiNote, int vel, int string, int wobble, int offset, bool playNote);
-    void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom);
+    void StartOscPoly(u8 midiNote, u8 vel, u8 string, u8 wobble, u8 offset);
+    void StopOscPoly(u8 note, u8 vel, u8 string, u8 offset);
+    void StartOscMono(u8 midiNote, u8 offset, u8 string, u8 vel);
+    void StopOscMono(u8 midiNote, u8 vel, u8 string, u8 offset);
+    void KeyBuff(u8 midiNote, u8 vel, u8 string, u8 wobble, u8 offset, bool playNote);
+    void LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom);
     void GetReleaseState();
-    void ShowWaveform(int m_waveform);
+    void ShowWaveform(u8 m_waveform);
     //***************************************************************************************************
 protected:
 };
-#endif
+
