@@ -4,10 +4,6 @@
 #include <Arduino.h>
 #include <Audio.h>
 #include <USBHost_t36.h>
-//#include "Functions.h"
-//#include "GuiTool.h"
-//#include "LfoUpdate.h"
-//#include "Globals.h"
 #include "Martone.h"
 
 //=================
@@ -30,18 +26,9 @@ static const int waveforms[] = {
 //============
 Martone::Martone()
 {
-    //m_waveform = 0;
-    m_oscWave[0] = 0;
-    m_oscWave[1] = 0;
-    m_oscWave[2] = 0;
-    m_oscVol[0] = .5;
-    m_oscVol[1] = .5;
-    m_oscVol[2] = .5;
-    m_oscVol[3] = .5;
     m_octave = -3;
     m_startNote = A;
     m_scale = chromatic;
-
     m_volume = .9;
     m_filtFreqCutoff = 700;
     m_filtRes = 1;
@@ -49,72 +36,115 @@ Martone::Martone()
     m_decay = 35;
     m_sustain = 1;
     m_release = 40;
-    m_lfoShape;
+    //m_lfoShape;
     m_lfoMode = 1;
     m_lfoSpeed = 7000 * 0.7;
     m_lfoDepth = 0;
     m_lfoPitch = 1;
-    m_lfo;
-    m_lfoRange;
-
+    //m_lfo;
+   // m_lfoRange;
     m_filtPercent = 1;
     m_interpolate = false;
     m_poly = true;
     m_temperament = justTemp;
-    m_electrode3D;
-    //************************
-    int m_pIndex = 0; //for mapping commands to parameters
-    bool m_parameterSelect = false;
-    float m_mappedKnobValue[m_NUM_STRINGS][m_NUM_EFFECTS] = {0};
-    int m_str = 0;
-    bool m_stringSelect = false;
+   // m_electrode3D;
+    m_pIndex = 0; //for mapping commands to parameters
+    m_parameterSelect = false;
+    m_mappedKnobValue[m_NUM_STRINGS][m_NUM_EFFECTS] = {0};
+    m_str = 0;
+    m_stringSelect = false;
 }
-//******************************
-Martone::Martone(int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V, int octave, int startNote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoMode, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D)
-{
-
-    //m_waveform = waveform;
-    m_oscWave[0] = osc1W;
-    m_oscWave[1] = osc2W;
-    m_oscWave[2] = osc3W;
-
-    m_oscVol[0] = osc1V;
-    m_oscVol[1] = osc2V;
-    m_oscVol[2] = osc3V;
-    m_oscVol[3] = osc4V;
-
-    m_octave = octave;
-    m_startNote = startNote;
-    m_scale = scale;
-
-    m_volume = volume;
-    m_filtFreqCutoff = filtFreqCutoff;
-    m_filtRes = filtRes;
-    m_attack = attack;
-    m_decay = decay;
-    m_sustain = sustain;
-    m_release = release;
-    m_lfoShape = lfoShape;
-    m_lfoMode = lfoMode;
-    m_lfoSpeed = lfoSpeed;
-    m_lfoDepth = lfoDepth;
-    m_lfoPitch = lfoPitch;
-    m_lfo = lfo;
-    m_lfoRange = lfoRange;
-
-    m_filtPercent = filtPercent;
-    m_interpolate = interpolate;
-    m_poly = poly;
-    m_temperament = temperament;
-    m_electrode3D = electrode3D;
-}
-
+//*****************************************************************************
 Martone::~Martone() {}
 
 //=================
 //Public Functions
 //=================
-void Martone::Initialize(Martone *pStr[])
+void Martone::SetOsc(int string, int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V)
+{
+    Serial.println("SetOsc");
+    str[0].m_oscV[0] = osc1V;
+    str[string - 1].m_oscV[1] = osc2V;
+    str[string - 1].m_oscV[2] = osc3V;
+    str[string - 1].m_oscV[3] = osc4V;
+
+    str[string - 1].m_oscW[0] = osc1W;
+    str[string - 1].m_oscW[1] = osc2W;
+    str[string - 1].m_oscW[2] = osc3W;
+}
+//****************************************************************
+void Martone::AssignOsc(float m_volume, int m_waveform, int m_osc)
+{
+    //***Voice 1
+    if (m_osc == 0) //osc 1
+    {
+        osc1a.begin(waveforms[str[0].m_oscW[0]]);
+        osc1a.amplitude(str[0].m_oscV[0]);
+        osc1a.frequency(220);
+    }
+    if (m_osc == 1) //osc 2
+    {
+        osc1b.begin(waveforms[str[0].m_oscW[1]]);
+        osc1b.amplitude(str[0].m_oscV[1]);
+        osc1b.frequency(440);
+    }
+    if (m_osc == 2) //osc 3
+    {
+        osc1c.begin(waveforms[str[0].m_oscW[2]]);
+        osc1c.amplitude(str[0].m_oscV[2]);
+        osc1c.frequency(880);
+    }
+    if (m_osc == 3) //osc 4
+    {
+        osc1n.amplitude(str[0].m_oscV[3]);
+    }
+    if (m_osc == 4) //all oscillators selected
+    {
+        osc1a.begin(waveforms[str[0].m_oscW[0]]);
+        osc1a.amplitude(str[0].m_oscV[0]);
+        osc1a.frequency(220);
+
+        osc1b.begin(waveforms[str[0].m_oscW[1]]);
+        osc1b.amplitude(str[0].m_oscV[1]);
+        osc1b.frequency(440);
+
+        osc1c.begin(waveforms[str[0].m_oscW[2]]);
+        osc1c.amplitude(str[0].m_oscV[2]);
+        osc1c.frequency(880);
+
+        osc1n.amplitude(0);
+    }
+}
+//*********************************************************
+void Martone::SetString(int string, int octave, int startNote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoMode, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D)
+{
+    //     m_octave = octave;
+    //     m_startNote = startNote;
+    //     m_scale = scale;
+
+    //     m_volume = volume;
+    //     m_filtFreqCutoff = filtFreqCutoff;
+    //     m_filtRes = filtRes;
+    //     m_attack = attack;
+    //     m_decay = decay;
+    //     m_sustain = sustain;
+    //     m_release = release;
+    //     m_lfoShape = lfoShape;
+    //     m_lfoMode = lfoMode;
+    //     m_lfoSpeed = lfoSpeed;
+    //     m_lfoDepth = lfoDepth;
+    //     m_lfoPitch = lfoPitch;
+    //     m_lfo = lfo;
+    //     m_lfoRange = lfoRange;
+
+    //     m_filtPercent = filtPercent;
+    //     m_interpolate = interpolate;
+    //     m_poly = poly;
+    //     m_temperament = temperament;
+    //     m_electrode3D = electrode3D;
+}
+//*************************************************************
+void Martone::Initialize()
 {
     delay(3000); // 3 second delay for recovery
     Serial.begin(115200);
@@ -122,14 +152,14 @@ void Martone::Initialize(Martone *pStr[])
     sgtl5000_1.enable();
     sgtl5000_1.volume(0.4);
     for (int i = 0; i < m_NUM_OSC; i++)
-        SetOsc(m_volume, m_oscWave[m_osc], i, pStr);
+        AssignOsc(str[0].m_oscV[i], str[0].m_oscW[i], i);
     SetADSR(1, 2, 3, 4, false);
     Serial.println("Martone Set-up Complete!");
 }
 //************************************************************
 void Martone::HandleNoteOn(int channel, int note, int velocity)
 {
-    SetADSR(1, 2, 3, 4, 5);
+    SetADSR(1, 2, 3, 4, true);
     SetFilter();
     Serial.println("***");
 }
@@ -140,15 +170,11 @@ void Martone::HandleNoteOff(int channel, int note, int velocity)
     Serial.println("***");
 }
 //*************************************************************
-void Martone::Update(Martone *pStr[])
+void Martone::Update()
 {
-    ProcessKeyboardData(pStr);
+    ProcessKeyboardData();
 }
 //*****************************************************
-void Martone::Troubleshoot()
-{
-    Serial.println("Troubleshoot");
-}
 
 //=================
 //Private Functions
@@ -172,62 +198,18 @@ void Martone::SetFilter()
     filtosc1n.resonance(1);
 }
 //*********************************************************
-void Martone::SetOsc(float m_volume, int m_waveform, int m_osc, Martone *pStr[])
+void Martone::UpdateSettings(int pIndex, int m_str, int m_osc)
 {
-
-    //***Voice 1
-    if (m_osc == 0) //osc 1
-    {
-        osc1a.begin(waveforms[pStr[m_str]->m_oscWave[m_osc]]);
-        osc1a.amplitude(pStr[m_str]->m_oscVol[m_osc]);
-        osc1a.frequency(220);
-    }
-    if (m_osc == 1) //osc 2
-    {
-        osc1b.begin(waveforms[m_oscWave[m_osc]]);
-        osc1b.amplitude(pStr[m_str]->m_oscVol[m_osc]);
-        osc1b.frequency(440);
-    }
-    if (m_osc == 2) //osc 3
-    {
-        osc1c.begin(waveforms[m_oscWave[m_osc]]);
-        osc1c.amplitude(pStr[m_str]->m_oscVol[m_osc]);
-        osc1c.frequency(880);
-    }
-    if (m_osc == 3) //osc 4
-    {
-        osc1n.amplitude(pStr[m_str]->m_oscVol[m_osc]);
-    }
-    if (m_osc == 4) //all oscillators selected
-    {
-        osc1a.begin(waveforms[m_oscWave[0]]);
-        osc1a.amplitude(pStr[m_str]->m_oscVol[m_osc]);
-        osc1a.frequency(220);
-
-        osc1b.begin(waveforms[m_oscWave[1]]);
-        osc1b.amplitude(pStr[m_str]->m_oscVol[m_osc]);
-        osc1b.frequency(440);
-
-        osc1c.begin(waveforms[m_oscWave[2]]);
-        osc1c.amplitude(pStr[m_str]->m_oscVol[m_osc]);
-        osc1c.frequency(880);
-
-        osc1n.amplitude(0);
-    }
-}
-//*********************************************************
-void Martone::UpdateSettings(int pIndex, Martone *pStr[], int m_str, int m_osc)
-{
-    float xSpeed;
+    // float xSpeed;
     switch (pIndex)
     {
     case 5: //'%' Set Osc Waveform
-        pStr[m_str]->m_oscWave[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][pIndex]];
-        SetOsc(pStr[m_str]->m_oscVol[m_osc], pStr[m_str]->m_oscWave[m_osc], m_osc, pStr);
+        str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][pIndex]];
+        AssignOsc(str[m_str].m_oscV[m_osc], str[m_str].m_oscW[m_osc], m_osc);
         break;
     case 6: //'^' Set Osc Volume
-        pStr[m_str]->m_oscVol[m_osc] = m_mappedKnobValue[m_str][pIndex];
-        SetOsc(pStr[m_str]->m_oscVol[m_osc], pStr[m_str]->m_oscWave[m_osc], m_osc, pStr);
+        str[m_str].m_oscV[m_osc] = m_mappedKnobValue[m_str][pIndex];
+        AssignOsc(str[m_str].m_oscV[m_osc], str[m_str].m_oscW[m_osc], m_osc);
         break;
 
     default:

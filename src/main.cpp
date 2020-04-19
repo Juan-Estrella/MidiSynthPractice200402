@@ -41,19 +41,6 @@ USBHub hub2(myusb);
 MIDIDevice midi1(myusb);
 Martone martone;
 
-//==================================
-//Initialize Martone String Settings
-//==================================
-Martone str[NUM_STRINGS]
-{//                 osc1W, osc2W, osc3W,  osc1V, osc2V, osc3V,  osc4V, octave, startnote, scale, volume, filtFreqCutoff, filtRes, attack, decay, sustain, release, lfoShape, lfoModeSelect, lfoSpeed, lfoDepth, lfoPitch, lfo, lfoRange, filtPercent, interpolate, poly, temperament, electrode3D
-  /*string 1*/ Martone( 0, 0,     0,     .5,    .5,    .5,      0,    -2,  str[0].A, str[0].minChord, .9,      10000,       0,      25,     35,    1,       2500,    1,        0,             2000,     0,        1,        0,   0,        1,           false,       true, str[0].justTemp,   0),
-  /*string 2*/ Martone( 1, 1,     1,     .5,    .5,    .5,      0,     0,  str[1].A, str[1].harmonicMinorScale,.8,  10000,  0,      50,     25,    1,       100,     1,        0,             7000*0.7, 0,        1,        0,   0,        1,           false,       true, str[1].justTemp,   0),
-  /*string 3*/ Martone( 2, 2,     2,     .5,    .5,    .5,      0,    -3,  str[2].A, str[2].chromatic, .9,     700,         1,      .1,     35,    1,       40,      1,        1,             7000*0.7, 0,        1,        0,   0,        1,           false,       true, str[2].justTemp,   0),
-  /*string 4*/ Martone( 3, 3,     3,     .5,    .5,    .5,      0,    -3,  str[3].A, str[3].dimChord,.6,       2000,        1,      .25,    35,    1,       50,      1,        0,             2000,     1,        1,        0,   0,        1,           false,       false,str[3].justTemp,   0),
-};
-
-Martone *pStr[NUM_STRINGS] = {&str[0], &str[1], &str[2], &str[3]};
-
 //==============================
 //Callback Function Declarations
 //==============================
@@ -65,7 +52,20 @@ void MyNoteOff(unsigned char channel, unsigned char note, unsigned char velocity
 //================
 void setup()
 {
-  martone.Initialize(pStr);
+  //           string, osc1W, osc2W, osc3W,  osc1V, osc2V, osc3V,  osc4V
+  martone.SetOsc(1,    0,     0,     0,     .5,    .5,    .5,      0);
+  martone.SetOsc(2,    0,     0,     0,     .5,    .5,    .5,      0);
+  martone.SetOsc(3,    0,     0,     0,     .5,    .5,    .5,      0);
+  martone.SetOsc(4,    0,     0,     0,     .5,    .5,    .5,      0);
+
+
+//              string, octave, startnote,  scale,                     vol, filtCutoff, filtRes, attack, decay, sustain, release, lfoShape, lfoMode, lfoSpeed, lfoDepth, lfoPitch, lfo, lfoRange, filtPercent, interpolate, poly, temperament,    electrode3D
+  martone.SetString(1, -2,      martone.A,  martone.minChord,          .9,  10000,      0,       25,     35,    1,       2500,    1,        0,       2000,     0,        1,        0,   0,        1,           false,       true,  martone.justTemp,   0);
+  martone.SetString(2,  0,      martone.A,  martone.harmonicMinorScale,.8,  10000,      0,       50,     25,    1,       100,     1,        0,       7000*0.7, 0,        1,        0,   0,        1,           false,       true,  martone.justTemp,   0);
+  martone.SetString(3, -3,      martone.A,  martone.chromatic,         .9,  700,        1,       .1,     35,    1,       40,      1,        1,       7000*0.7, 0,        1,        0,   0,        1,           false,       true,  martone.justTemp,   0);
+  martone.SetString(4, -3,      martone.A,  martone.dimChord,          .6,  2000,       1,       .25,    35,    1,       50,      1,        0,       2000,     1,        1,        0,   0,        1,           false,       false, martone.justTemp,   0);
+
+  martone.Initialize();
   myusb.begin();
   midi1.setHandleNoteOn(MyNoteOn); 
   midi1.setHandleNoteOff(MyNoteOff);
@@ -76,7 +76,7 @@ void setup()
 //=======================
 void loop()
 {
-  martone.Update(pStr);
+  martone.Update();
   myusb.Task();
   midi1.read();  
   //LfoUpdate(false, sp.lfoModeSelect[2], sp.filterPercentage[2], sp.lfoDepth[2], 2);

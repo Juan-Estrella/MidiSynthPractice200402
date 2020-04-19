@@ -1,9 +1,7 @@
 #include "Martone.h"
 
-void Martone::ProcessKeyboardData(Martone *pStr[])
+void Martone::ProcessKeyboardData()
 {
-    // pStr[0]->m_octave =7;
-    // Serial.println(pStr[0]->m_octave);
     if (m_parameterSelect == true)
     {
         m_rawKnobValue = analogRead(A13); // double read?
@@ -14,7 +12,7 @@ void Martone::ProcessKeyboardData(Martone *pStr[])
         if (m_rawKnobValue < (m_oldKnobValue - 4) || m_rawKnobValue > (m_oldKnobValue + 4))
         {
             m_oldKnobValue = m_rawKnobValue;
-            UpdateSettings(m_pIndex, pStr, m_str, m_osc);
+            UpdateSettings(m_pIndex, m_str, m_osc);
             Serial.println(m_mappedKnobValue[m_str][m_pIndex]);
         }
     }

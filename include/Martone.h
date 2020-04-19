@@ -14,7 +14,8 @@ public:
     //Constructors
     //============
     Martone();
-    Martone(int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V, int octave, int startnote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoModeSelect, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D);
+    //Martone(int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V);
+    //Martone(int octave, int startnote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoModeSelect, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D);
     ~Martone();
 
     //=================
@@ -65,14 +66,16 @@ public:
     //=================
     //Public Functions
     //=================
-    void Initialize(Martone *pStr[]);
+    void SetOsc(int string, int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V);
+    void SetString(int string, int octave, int startnote, int scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, int lfoShape, int lfoModeSelect, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, int temperament, int electrode3D);
+    void Initialize();
     void HandleNoteOn(int channel, int note, int velocity);
     void HandleNoteOff(int channel, int note, int velocity);
-    void Update(Martone *pStr[]);
-    void Troubleshoot();
+    void Update();
     //****************************************Private****************************************
 
 private:
+
     //=================
     //Private Constants
     //=================
@@ -92,10 +95,14 @@ private:
     //=============================
     //Private Variable Declarations
     //=============================
-    //int m_waveform;
+    struct stringParameters
+    {
+        float m_oscV[m_NUM_OSC];
+        int m_oscW[m_NUM_OSC];
+    } str[4];
+
     int m_osc;
-    int m_oscWave[3];
-    float m_oscVol[4];
+    int m_str;
     int m_oscIndex;
     int m_octave;
     int m_startNote;
@@ -124,20 +131,25 @@ private:
     int m_velocity;
     int m_note;
     int m_string;
-    //************************
     int m_pIndex; //for mapping commands to parameters
     bool m_parameterSelect;
     bool m_oscSelect;
+    bool m_stringSelect; //for keyboard processing
     float m_oldKnobValue;
     float m_low, m_high; //for range mapping
-    float m_mappedKnobValue[m_NUM_STRINGS][m_NUM_EFFECTS];
+    float m_mappedKnobValue[m_NUM_STRINGS + 1][m_NUM_EFFECTS];
     float m_rawKnobValue;
-    int m_str;
-    bool m_stringSelect; //for keyboard processing
 
     //=============================
     //Private Function Declarations
     //=============================
+    void UpdateSettings(int pIndex, int m_str, int m_osc);
+    void SetFilter();
+    void AssignOsc(float m_volume, int m_waveform, int m_osc);
+    void SetADSR(float attack, float decay, float sustain, float release, bool payNote);
+    void ADSRoff();
+    void ProcessKeyboardData();
+
     int SetWaveform(int waveform, int target);
     void SetOctave(int octave, int target);
     void SetStartNote(int startNote);
@@ -145,7 +157,6 @@ private:
     void SetVolume(int volume, int target);
     void SetFreqCutoff(float cutoff, int target);
     void SetFreqRes(float res, int target);
-
     void SetAttack(float attack, int target);
     void SetDecay(float decay, int target);
     void SetSustain(float sustain, int target);
@@ -162,7 +173,6 @@ private:
     void Transpose(int transpose, int target);
     void Detune(float detune, int target);
     void Interval(int interval, int target);
-    void ProcessKeyboardData(Martone *pStr[]);
     void ProcessBluetoothDataData(int string);
     void ProcessKnobData();
     void StartOscPoly(int midiNote, int vel, int string, int wobble, int offset);
@@ -172,12 +182,6 @@ private:
     void KeyBuff(int midiNote, int vel, int string, int wobble, int offset, bool playNote);
     void LfoUpdate(bool retrig, int mode, float FILtop, float FILbottom);
     void GetReleaseState();
-    void UpdateSettings(int pIndex, Martone *pStr[], int m_str, int m_osc);
-
-    void SetFilter();
-    void SetOsc(float m_volume, int m_waveform, int m_osc, Martone *pStr[]);
-    void SetADSR(float attack, float decay, float sustain, float release, bool payNote);
-    void ADSRoff();
     void ShowWaveform(int m_waveform);
     //***************************************************************************************************
 protected:
