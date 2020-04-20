@@ -12,7 +12,7 @@ void Martone::ProcessKeyboardData()
         if (m_rawKnobValue < (m_oldKnobValue - 4) || m_rawKnobValue > (m_oldKnobValue + 4))
         {
             m_oldKnobValue = m_rawKnobValue;
-            UpdateKeyboardData(m_pIndex, m_str, m_osc);
+            UpdateKeyboardData();
             Serial.println(m_mappedKnobValue[m_str][m_pIndex]);
         }
     }

@@ -43,12 +43,12 @@ Martone::Martone()
     m_lfoDepth = 0;
     m_lfoPitch = 1;
     //m_lfo;
-   // m_lfoRange;
+    // m_lfoRange;
     m_filtPercent = 1;
     m_interpolate = false;
     m_poly = true;
     m_temperament = justTemp;
-   // m_electrode3D;
+    // m_electrode3D;
     m_pIndex = 0; //for mapping commands to parameters
     m_parameterSelect = false;
     m_mappedKnobValue[m_NUM_STRINGS][m_NUM_EFFECTS] = {0};
@@ -64,41 +64,50 @@ Martone::~Martone() {}
 //=================
 void Martone::Initialize()
 {
-    delay(3000); // 3 second delay for recovery
+    delay(5000); // 3 second delay for recovery
     Serial.begin(115200);
     AudioMemory(20);
     sgtl5000_1.enable();
     sgtl5000_1.volume(0.4);
-    for (int i = 0; i < m_NUM_OSC; i++)
-        AssignOsc(str[i].m_oscV[i], str[i].m_oscW[i], i, i);
+    for (int j = m_NUM_STRINGS-1; j >= 0; j--)
+    {
+        for (int i = 0; i < m_NUM_OSC; i++)
+        {
+            AssignOsc(i, j);
+        }
+    }
     SetADSR(1, 2, 3, 4, false);
     Serial.println("Martone Set-up Complete!");
 }
 //********************************************************************
-void Martone::AssignOsc(float volume, u8 waveform, u8 osc, u8 string)
+void Martone::AssignOsc(u8 osc, u8 string)
 {
-    //***Voice 1
     if (osc == 0) //osc 1
     {
-        osc1a.begin(waveforms[str[string].m_oscW[waveform]]);
+        osc1a.begin(waveforms[str[string].m_oscW[osc]]);
         osc1a.amplitude(str[string].m_oscV[osc]);
         osc1a.frequency(220);
+        Serial.println(str[string].m_oscW[osc]);
     }
     if (osc == 1) //osc 2
     {
-        osc1b.begin(waveforms[str[string].m_oscW[waveform]]);
+        osc1b.begin(waveforms[str[string].m_oscW[osc]]);
         osc1b.amplitude(str[string].m_oscV[osc]);
         osc1b.frequency(440);
+        Serial.println(str[string].m_oscW[osc]);
     }
     if (osc == 2) //osc 3
     {
-        osc1c.begin(waveforms[str[string].m_oscW[waveform]]);
+        osc1c.begin(waveforms[str[string].m_oscW[osc]]);
         osc1c.amplitude(str[string].m_oscV[osc]);
         osc1c.frequency(880);
+        Serial.println(str[string].m_oscW[osc]);
     }
     if (osc == 3) //osc 4
     {
         osc1n.amplitude(str[string].m_oscV[osc]);
+        //osc1n.amplitude(0);
+        Serial.println(str[string].m_oscW[osc]);
     }
     if (osc == 4) //all oscillators selected
     {
@@ -182,30 +191,30 @@ void Martone::SetADSR(float attack, float decay, float sustain, float release, b
     }
 }
 //************************************************************************
-void Martone::SetOsc(u8 string, u8 osc, u8 waveform , float volume)
+void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform)
 {
     Serial.println("SetOsc");
-    str[string-1].m_oscV[osc-1] = volume; 
-    str[string-1].m_oscW[osc-1] = waveform;
+    str[string - 1].m_oscV[osc - 1] = volume;
+    str[string - 1].m_oscW[osc - 1] = waveform;
 }
 //************************************************************
 void Martone::Update()
 {
-    ProcessKeyboardData();     //defined in KeyboardControl.cpp file
+    ProcessKeyboardData(); //defined in KeyboardControl.cpp file
 }
 //********************************************************************
-void Martone::UpdateKeyboardData(u8 pIndex, u8 m_str, u8 m_osc)
+void Martone::UpdateKeyboardData()
 {
     // float xSpeed;
-    switch (pIndex)
+    switch (m_pIndex)
     {
     case 5: //'%' Set Osc Waveform
-        str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][pIndex]];
-        AssignOsc(str[m_str].m_oscV[m_osc], str[m_str].m_oscW[m_osc], m_osc, m_str);
+        str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][m_pIndex]];
+        AssignOsc(m_osc, m_str);
         break;
     case 6: //'^' Set Osc Volume
-        str[m_str].m_oscV[m_osc] = m_mappedKnobValue[m_str][pIndex];
-        AssignOsc(str[m_str].m_oscV[m_osc], str[m_str].m_oscW[m_osc], m_osc, m_str);
+        str[m_str].m_oscV[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
+        AssignOsc(m_osc, m_str);
         break;
 
     default:
@@ -289,74 +298,74 @@ void Martone::SetString(u8 string, s8 octave, u8 startNote, u8 scale, float volu
 //*****************************************************************
 //int Martone::SetWaveform(int waveform, int target)
 //{
-    // switch (waveform)
-    // {
-    // case 1:
-    //     if (target < m_NUM_OSC)
-    //         m_waveform[target] = WAVEFORM_SINE;
-    //     else
-    //         for (int i = 0; i < m_NUM_OSC; i++)
-    //             m_waveform[i] = WAVEFORM_SINE;
-    //     return m_WAVEFORMS[waveform];
-    // case 2:
-    //     if (target < m_NUM_OSC)
-    //         m_waveform[target] = WAVEFORM_TRIANGLE;
-    //     else
-    //         for (int i = 0; i < m_NUM_OSC; i++)
-    //             m_waveform[i] = WAVEFORM_TRIANGLE;
-    //     return m_WAVEFORMS[waveform];
-    // case 3:
-    //     if (target < m_NUM_OSC)
-    //         m_waveform[target] = WAVEFORM_TRIANGLE_VARIABLE;
-    //     else
-    //         for (int i = 0; i < m_NUM_OSC; i++)
-    //             m_waveform[i] = WAVEFORM_TRIANGLE_VARIABLE;
-    //     return m_WAVEFORMS[waveform];
-    // case 4:
-    //     if (target < m_NUM_OSC)
-    //         m_waveform[target] = WAVEFORM_SQUARE;
-    //     else
-    //         for (int i = 0; i < m_NUM_OSC; i++)
-    //             m_waveform[i] = WAVEFORM_SQUARE;
-    //     return m_WAVEFORMS[waveform];
-    // case 5:
-    //     if (target < m_NUM_OSC)
-    //         m_waveform[target] = WAVEFORM_SAWTOOTH;
-    //     else
-    //         for (int i = 0; i < m_NUM_OSC; i++)
-    //             m_waveform[i] = WAVEFORM_SAWTOOTH;
-    //     return m_WAVEFORMS[waveform];
-    // case 6:
-    //     if (target < m_NUM_OSC)
-    //         m_waveform[target] = WAVEFORM_SAWTOOTH_REVERSE;
-    //     else
-    //         for (int i = 0; i < m_NUM_OSC; i++)
-    //             m_waveform[i] = WAVEFORM_SAWTOOTH_REVERSE;
-    //     return m_WAVEFORMS[waveform];
-    // case 7:
-    //     if (target < m_NUM_OSC)
-    //         m_waveform[target] = WAVEFORM_ARBITRARY;
-    //     else
-    //         for (int i = 0; i < m_NUM_OSC; i++)
-    //             m_waveform[i] = WAVEFORM_ARBITRARY;
-    //     return m_WAVEFORMS[waveform];
-    // case 8:
-    //     if (target < m_NUM_OSC)
-    //         m_waveform[target] = WAVEFORM_PULSE;
-    //     else
-    //         for (int i = 0; i < m_NUM_OSC; i++)
-    //             m_waveform[i] = WAVEFORM_PULSE;
-    //     return m_WAVEFORMS[waveform];
-    // case 9:
-    //     if (target < m_NUM_OSC)
-    //         m_waveform[target] = WAVEFORM_SAMPLE_HOLD;
-    //     else
-    //         for (int i = 0; i < m_NUM_OSC; i++)
-    //             m_waveform[i] = WAVEFORM_SAMPLE_HOLD;
-    //     return m_WAVEFORMS[waveform];
-    // default:
-    //     Serial.println("SetWaveform error");
-    //     break;
-    // }
+// switch (waveform)
+// {
+// case 1:
+//     if (target < m_NUM_OSC)
+//         m_waveform[target] = WAVEFORM_SINE;
+//     else
+//         for (int i = 0; i < m_NUM_OSC; i++)
+//             m_waveform[i] = WAVEFORM_SINE;
+//     return m_WAVEFORMS[waveform];
+// case 2:
+//     if (target < m_NUM_OSC)
+//         m_waveform[target] = WAVEFORM_TRIANGLE;
+//     else
+//         for (int i = 0; i < m_NUM_OSC; i++)
+//             m_waveform[i] = WAVEFORM_TRIANGLE;
+//     return m_WAVEFORMS[waveform];
+// case 3:
+//     if (target < m_NUM_OSC)
+//         m_waveform[target] = WAVEFORM_TRIANGLE_VARIABLE;
+//     else
+//         for (int i = 0; i < m_NUM_OSC; i++)
+//             m_waveform[i] = WAVEFORM_TRIANGLE_VARIABLE;
+//     return m_WAVEFORMS[waveform];
+// case 4:
+//     if (target < m_NUM_OSC)
+//         m_waveform[target] = WAVEFORM_SQUARE;
+//     else
+//         for (int i = 0; i < m_NUM_OSC; i++)
+//             m_waveform[i] = WAVEFORM_SQUARE;
+//     return m_WAVEFORMS[waveform];
+// case 5:
+//     if (target < m_NUM_OSC)
+//         m_waveform[target] = WAVEFORM_SAWTOOTH;
+//     else
+//         for (int i = 0; i < m_NUM_OSC; i++)
+//             m_waveform[i] = WAVEFORM_SAWTOOTH;
+//     return m_WAVEFORMS[waveform];
+// case 6:
+//     if (target < m_NUM_OSC)
+//         m_waveform[target] = WAVEFORM_SAWTOOTH_REVERSE;
+//     else
+//         for (int i = 0; i < m_NUM_OSC; i++)
+//             m_waveform[i] = WAVEFORM_SAWTOOTH_REVERSE;
+//     return m_WAVEFORMS[waveform];
+// case 7:
+//     if (target < m_NUM_OSC)
+//         m_waveform[target] = WAVEFORM_ARBITRARY;
+//     else
+//         for (int i = 0; i < m_NUM_OSC; i++)
+//             m_waveform[i] = WAVEFORM_ARBITRARY;
+//     return m_WAVEFORMS[waveform];
+// case 8:
+//     if (target < m_NUM_OSC)
+//         m_waveform[target] = WAVEFORM_PULSE;
+//     else
+//         for (int i = 0; i < m_NUM_OSC; i++)
+//             m_waveform[i] = WAVEFORM_PULSE;
+//     return m_WAVEFORMS[waveform];
+// case 9:
+//     if (target < m_NUM_OSC)
+//         m_waveform[target] = WAVEFORM_SAMPLE_HOLD;
+//     else
+//         for (int i = 0; i < m_NUM_OSC; i++)
+//             m_waveform[i] = WAVEFORM_SAMPLE_HOLD;
+//     return m_WAVEFORMS[waveform];
+// default:
+//     Serial.println("SetWaveform error");
+//     break;
+// }
 //}
 //*********************************************************
