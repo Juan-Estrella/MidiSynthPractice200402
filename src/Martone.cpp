@@ -10,7 +10,7 @@
 //=================
 //Public Constants
 //=================
-   const int waveforms[] = {
+const int waveforms[] = {
     WAVEFORM_SINE,               //0
     WAVEFORM_SAWTOOTH,           //1
     WAVEFORM_SQUARE,             //2
@@ -32,6 +32,15 @@ Martone::Martone()
     m_scale = chromatic;
     m_volume = .9;
     m_filtFreqCutoff = 700;
+
+    for (int i = 0; i < m_NUM_STRINGS; i++)
+    {
+        for (int j = 0; j < m_NUM_OSC; j++)
+        {
+            str[i].m_filtSlope[j] = 2.33;
+        }
+    }
+
     m_filtRes = 1;
     m_attack = 100;
     m_decay = 35;
@@ -69,7 +78,7 @@ void Martone::Initialize()
     AudioMemory(20);
     sgtl5000_1.enable();
     sgtl5000_1.volume(0.4);
-    for (int j = m_NUM_STRINGS-1; j >= 0; j--)
+    for (int j = m_NUM_STRINGS - 1; j >= 0; j--)
     {
         for (int i = 0; i < m_NUM_OSC; i++)
         {
@@ -87,7 +96,8 @@ void Martone::AssignOsc(u8 osc, u8 string) const
         osc1a.begin(waveforms[str[string].m_oscW[osc]]);
         osc1a.amplitude(str[string].m_oscV[osc]);
         osc1a.frequency(str[string].m_freq[osc]);
-        filtosc1a.frequency(str[m_str].m_freqCut[m_osc]); 
+        filtosc1a.frequency(str[string].m_freqCut[osc]);
+        filtosc1a.resonance(str[string].m_filtRes[osc]);
         //Serial.println(str[string].m_oscW[osc]);
     }
     if (osc == 1) //osc 2
@@ -95,7 +105,8 @@ void Martone::AssignOsc(u8 osc, u8 string) const
         osc1b.begin(waveforms[str[string].m_oscW[osc]]);
         osc1b.amplitude(str[string].m_oscV[osc]);
         osc1b.frequency(str[string].m_freq[osc]);
-        filtosc1b.frequency(str[m_str].m_freqCut[m_osc]); 
+        filtosc1b.frequency(str[string].m_freqCut[osc]);
+        filtosc1b.resonance(str[string].m_filtRes[osc]);
         //Serial.println(str[string].m_oscW[osc]);
     }
     if (osc == 2) //osc 3
@@ -103,31 +114,36 @@ void Martone::AssignOsc(u8 osc, u8 string) const
         osc1c.begin(waveforms[str[string].m_oscW[osc]]);
         osc1c.amplitude(str[string].m_oscV[osc]);
         osc1c.frequency(str[string].m_freq[osc]);
-        filtosc1c.frequency(str[m_str].m_freqCut[m_osc]); 
+        filtosc1c.frequency(str[string].m_freqCut[osc]);
+        filtosc1c.resonance(str[string].m_filtRes[osc]);
         //Serial.println(str[string].m_oscW[osc]);
     }
     if (osc == 3) //osc 4
     {
         osc1n.amplitude(str[string].m_oscV[osc]);
-         filtosc1n.frequency(str[m_str].m_freqCut[m_osc]); 
+        filtosc1n.frequency(str[string].m_freqCut[osc]);
+        filtosc1n.resonance(str[string].m_filtRes[osc]);
         //Serial.println(str[string].m_oscV[osc]);
     }
     if (osc == 4) //all oscillators selected
     {
         osc1a.begin(waveforms[str[string].m_oscW[0]]);
         osc1a.amplitude(str[string].m_oscV[0]);
-        osc1a.frequency(str[string].m_freq[osc]);
-        filtosc1a.frequency(str[m_str].m_freqCut[m_osc]); 
-
+        osc1a.frequency(str[string].m_freq[0]);
+        filtosc1a.frequency(str[string].m_freqCut[0]);
+        filtosc1a.resonance(str[string].m_filtRes[0]);
+       
         osc1b.begin(waveforms[str[string].m_oscW[1]]);
         osc1b.amplitude(str[string].m_oscV[1]);
-        osc1b.frequency(str[string].m_freq[osc]);
-        filtosc1b.frequency(str[m_str].m_freqCut[m_osc]); 
+        osc1b.frequency(str[string].m_freq[1]);
+        filtosc1b.frequency(str[string].m_freqCut[1]);
+        filtosc1b.resonance(str[string].m_filtRes[1]);
 
         osc1c.begin(waveforms[str[string].m_oscW[2]]);
         osc1c.amplitude(str[string].m_oscV[2]);
-        osc1c.frequency(str[string].m_freq[osc]);
-        filtosc1c.frequency(str[m_str].m_freqCut[m_osc]); 
+        osc1c.frequency(str[string].m_freq[2]);
+        filtosc1c.frequency(str[string].m_freqCut[2]);
+        filtosc1c.resonance(str[string].m_filtRes[2]);
 
         osc1n.amplitude(0);
     }
@@ -197,14 +213,15 @@ void Martone::SetADSR(float attack, float decay, float sustain, float release, b
     }
 }
 //************************************************************************
-void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency, int freqCut)
+void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency, int freqCut, float filtSlope, float filtRes)
 {
     Serial.println("SetOsc");
     str[string - 1].m_oscV[osc - 1] = volume;
     str[string - 1].m_oscW[osc - 1] = waveform;
     str[string - 1].m_freq[osc - 1] = frequency;
     str[string - 1].m_freqCut[osc - 1] = freqCut;
-
+    str[string - 1].m_filtSlope[osc - 1] = filtSlope;
+    str[string - 1].m_filtRes[osc - 1] = filtRes;
 }
 //************************************************************
 void Martone::Update()

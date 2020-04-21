@@ -117,6 +117,20 @@ void Martone::ProcessKeyboardData()
             m_parameterSelect = true;
             Serial.println("Filter Frequency Cutoff");
             break;
+        case '(': //Freqency Cutoff Slope
+            m_pIndex = 9;
+            m_low = 0;
+            m_high = 10;
+            m_parameterSelect = true;
+            Serial.println("Filter Frequency Slope");
+            break;
+        case ')': //Filter Resonance
+            m_pIndex = 10;
+            m_low = 0;
+            m_high = 1;
+            m_parameterSelect = true;
+            Serial.println("Filter Resonance");
+            break;
 
         default:
             // Serial.println("Invalid Entry");
@@ -127,7 +141,8 @@ void Martone::ProcessKeyboardData()
     //********************************************************************
 void Martone::UpdateKeyboardData()
 {
-
+     float x = m_mappedKnobValue[m_str][m_pIndex];
+     float n = str[m_str].m_filtSlope[m_osc];  
     // float xSpeed;
     switch (m_pIndex)
     {
@@ -146,10 +161,20 @@ void Martone::UpdateKeyboardData()
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_freq[m_osc]);
         break;
-    case 8: //'*' Set Frequency Cutoff
-        str[m_str].m_freqCut[m_osc] = 10000 * pow(100, m_mappedKnobValue[m_str][m_pIndex] - 1);
+    case 8: //'*' Set Filter Frequency Cutoff
+        str[m_str].m_freqCut[m_osc] = 5000* pow(   pow((1-(1-x)), (1/n)),   n);
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_freqCut[m_osc]);
+        break;
+    case 9: //'(' Set Filter Slope
+        str[m_str].m_filtSlope[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_filtSlope[m_osc]);
+        break;
+    case 10: //')' Set Filter Resonance
+        str[m_str].m_filtRes[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_filtRes[m_osc]);
         break;
 
     default:
