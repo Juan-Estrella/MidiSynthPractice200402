@@ -67,7 +67,7 @@ public:
     //Public Functions
     //=================
     void Initialize();
-    void SetOsc(u8 string, u8 osc, float volume, u8 waveform);     //  int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V);
+    void SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency, int freqCut);     //  int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V);
     void SetString(u8 string, s8 octave, u8 startnote, u8 scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, u8 lfoShape, u8 lfoMode, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, u8 temperament, u8 electrode3D);
     void Update();
     void HandleNoteOn(u8 channel, u8 note, u8 velocity);
@@ -100,6 +100,9 @@ private:
     {
         float m_oscV[m_NUM_OSC];
         u8 m_oscW[m_NUM_OSC];
+        int m_freq[m_NUM_OSC];
+        int m_freqCut[m_NUM_OSC];
+
     } str[m_NUM_STRINGS];
 
     u8 m_osc;
@@ -147,7 +150,7 @@ private:
     //=============================
     void UpdateKeyboardData();
     void SetFilter();
-    void AssignOsc(u8 m_osc, u8 string);
+    void AssignOsc(u8 m_osc, u8 string) const;
     void SetADSR(float attack, float decay, float sustain, float release, bool payNote);
     void ADSRoff();
     void ProcessKeyboardData();

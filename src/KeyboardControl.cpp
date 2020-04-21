@@ -1,5 +1,16 @@
 #include "Martone.h"
 
+const int waveforms[] = {
+    WAVEFORM_SINE,               //0
+    WAVEFORM_SAWTOOTH,           //1
+    WAVEFORM_SQUARE,             //2
+    WAVEFORM_TRIANGLE,           //3
+    WAVEFORM_ARBITRARY,          //4
+    WAVEFORM_PULSE,              //5
+    WAVEFORM_SAWTOOTH_REVERSE,   //6
+    WAVEFORM_SAMPLE_HOLD,        //7
+    WAVEFORM_TRIANGLE_VARIABLE}; //8
+
 void Martone::ProcessKeyboardData()
 {
     if (m_parameterSelect == true)
@@ -13,7 +24,7 @@ void Martone::ProcessKeyboardData()
         {
             m_oldKnobValue = m_rawKnobValue;
             UpdateKeyboardData();
-            Serial.println(m_mappedKnobValue[m_str][m_pIndex]);
+            //Serial.println(m_mappedKnobValue[m_str][m_pIndex]);
         }
     }
     //****************************************************
@@ -89,13 +100,59 @@ void Martone::ProcessKeyboardData()
             {
             Serial.print("Oscillator ");
             Serial.print(m_osc+1);
-            Serial.println(" Gain");
+            Serial.println(" Volume");
             }else  Serial.println("All Oscillator Gain");
+            break;
+         case '&': //waveform frequency
+            m_pIndex = 7;
+            m_low = 0;
+            m_high = 20000;
+            m_parameterSelect = true;
+            Serial.println("Oscillator Frequency ");
+            break;
+        case '*': //Freqency Cutoff
+            m_pIndex = 8;
+            m_low = 0;
+            m_high = 1;
+            m_parameterSelect = true;
+            Serial.println("Filter Frequency Cutoff");
             break;
 
         default:
             // Serial.println("Invalid Entry");
             break;
         }
+    }
+}
+    //********************************************************************
+void Martone::UpdateKeyboardData()
+{
+
+    // float xSpeed;
+    switch (m_pIndex)
+    {
+    case 5: //'%' Set Osc Waveform
+        str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][m_pIndex]];
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_oscW[m_osc]);
+        break;
+    case 6: //'^' Set Osc Volume
+        str[m_str].m_oscV[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_oscV[m_osc]);
+        break;
+    case 7: //'&' Set Osc Frequency
+        str[m_str].m_freq[m_osc] = (int)m_mappedKnobValue[m_str][m_pIndex];
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_freq[m_osc]);
+        break;
+    case 8: //'*' Set Frequency Cutoff
+        str[m_str].m_freqCut[m_osc] = 10000 * pow(100, m_mappedKnobValue[m_str][m_pIndex] - 1);
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_freqCut[m_osc]);
+        break;
+
+    default:
+        break;
     }
 }

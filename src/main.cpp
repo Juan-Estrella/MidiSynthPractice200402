@@ -48,30 +48,41 @@ void MyNoteOff(unsigned char channel, unsigned char note, unsigned char velocity
 //================
 void setup()
 {
+ /* WAVEFORM_SINE,               //0
+    WAVEFORM_SAWTOOTH,           //1
+    WAVEFORM_SQUARE,             //2
+    WAVEFORM_TRIANGLE,           //3
+    WAVEFORM_ARBITRARY,          //4
+    WAVEFORM_PULSE,              //5
+    WAVEFORM_SAWTOOTH_REVERSE,   //6
+    WAVEFORM_SAMPLE_HOLD,        //7
+    WAVEFORM_TRIANGLE_VARIABLE,  //8 
+ */
+
   //********************Oscillator Set Up********************
-  //String 1. string, osc, volume, waveform                   
-  martone.SetOsc(1,   1,  .5,      1);    
-  martone.SetOsc(1,   2,  .5,      0);     
-  martone.SetOsc(1,   3,  .5,      0);     
-  martone.SetOsc(1,   4,   0,      0);  
+  //String 1. string, osc, volume, waveform, freq, freqCut                  
+  martone.SetOsc(1,   1,  .5,      2,        220,  10000);    
+  martone.SetOsc(1,   2,  0,      0,        440,  10000);    
+  martone.SetOsc(1,   3,  0,      0,        880,  10000);     
+  martone.SetOsc(1,   4,   0,      0,        990,  10000); 
 
-  //String 2. string, osc, volume, waveform                   
-  martone.SetOsc(2,   1,  .5,      0);    
-  martone.SetOsc(2,   2,  .6,      0);     
-  martone.SetOsc(2,   3,  .7,      0);     
-  martone.SetOsc(2,   4,  .8,      0);    
+  //String 2. string, osc, volume, waveform, freq, freqCut                  
+  martone.SetOsc(2,   1,  .5,      0,        220,  10000);  
+  martone.SetOsc(2,   2,  .6,      0,        440,  10000);  
+  martone.SetOsc(2,   3,  .7,      0,        880,  10000);   
+  martone.SetOsc(2,   4,  .8,      0,       1000,  10000);  
 
-  //String 3. string, osc, volume, waveform                  
-  martone.SetOsc(3,   1,  .9,      0);    
-  martone.SetOsc(3,   2,  .11,      0);     
-  martone.SetOsc(3,   3,  .22,      0);     
-  martone.SetOsc(3,   4,  .33,      0);
+  //String 3. string, osc, volume, waveform, freq, freqCut                  
+  martone.SetOsc(3,   1,  .9,       0,      220,  10000);   
+  martone.SetOsc(3,   2,  .11,      0,      440,  10000);     
+  martone.SetOsc(3,   3,  .22,      0,      880,  10000);     
+  martone.SetOsc(3,   4,  .33,      0,     1660,  10000); 
 
-  //String 4. string, osc, volume, waveform                  
-  martone.SetOsc(4,   1,  .44,      0);    
-  martone.SetOsc(4,   2,  .55,      0);     
-  martone.SetOsc(4,   3,  .66,      0);     
-  martone.SetOsc(4,   4,  .77,      0);                    
+  //String 4. string, osc, volume, waveform, freq, freqCut                  
+  martone.SetOsc(4,   1,  .44,      0,      220,  10000);     
+  martone.SetOsc(4,   2,  .55,      0,      440,  10000);      
+  martone.SetOsc(4,   3,  .66,      0,      880,  10000);    
+  martone.SetOsc(4,   4,  .77,      0,     1660,  10000);                    
 
 //********************String Set Up*************************
 //              string, octave, startnote,  scale,                     vol, filtCutoff, filtRes, attack, decay, sustain, release, lfoShape, lfoMode, lfoSpeed, lfoDepth, lfoPitch, lfo, lfoRange, filtPercent, interpolate, poly, temperament,    electrode3D
