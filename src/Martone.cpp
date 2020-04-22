@@ -10,7 +10,7 @@
 //=================
 //Public Constants
 //=================
-const int waveforms[] = {
+const int Martone::waveforms[] = {
     WAVEFORM_SINE,               //0
     WAVEFORM_SAWTOOTH,           //1
     WAVEFORM_SQUARE,             //2

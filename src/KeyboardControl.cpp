@@ -1,15 +1,15 @@
 #include "Martone.h"
 
-const int waveforms[] = {
-    WAVEFORM_SINE,               //0
-    WAVEFORM_SAWTOOTH,           //1
-    WAVEFORM_SQUARE,             //2
-    WAVEFORM_TRIANGLE,           //3
-    WAVEFORM_ARBITRARY,          //4
-    WAVEFORM_PULSE,              //5
-    WAVEFORM_SAWTOOTH_REVERSE,   //6
-    WAVEFORM_SAMPLE_HOLD,        //7
-    WAVEFORM_TRIANGLE_VARIABLE}; //8
+// const int waveforms[] = {
+//     WAVEFORM_SINE,               //0
+//     WAVEFORM_SAWTOOTH,           //1
+//     WAVEFORM_SQUARE,             //2
+//     WAVEFORM_TRIANGLE,           //3
+//     WAVEFORM_ARBITRARY,          //4
+//     WAVEFORM_PULSE,              //5
+//     WAVEFORM_SAWTOOTH_REVERSE,   //6
+//     WAVEFORM_SAMPLE_HOLD,        //7
+//     WAVEFORM_TRIANGLE_VARIABLE}; //8
 
 void Martone::ProcessKeyboardData()
 {
@@ -149,7 +149,8 @@ void Martone::UpdateKeyboardData()
     case 5: //'%' Set Osc Waveform
         str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][m_pIndex]];
         AssignOsc(m_osc, m_str);
-        Serial.println(str[m_str].m_oscW[m_osc]);
+        //Serial.println(str[m_str].m_oscW[m_osc]);
+        Serial.println(m_setting->m_oscW[m_osc]);
         break;
     case 6: //'^' Set Osc Volume
         str[m_str].m_oscV[m_osc] = m_mappedKnobValue[m_str][m_pIndex];

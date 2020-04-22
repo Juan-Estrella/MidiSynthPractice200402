@@ -22,6 +22,9 @@ public:
     //=================
     //Public Constants
     //=================
+
+    static const int waveforms[9];
+
     enum scales
     {
         chromatic,
@@ -118,6 +121,7 @@ private:
     float m_low, m_high; //for range mapping
     float m_mappedKnobValue[m_NUM_STRINGS + 1][m_NUM_EFFECTS];
     float m_rawKnobValue;
+    stringParameters *m_setting = str;
 
     s8 m_octave;
     u8 m_startNote;
