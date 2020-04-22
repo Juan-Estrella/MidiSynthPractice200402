@@ -150,7 +150,7 @@ void Martone::UpdateKeyboardData()
         str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][m_pIndex]];
         AssignOsc(m_osc, m_str);
         //Serial.println(str[m_str].m_oscW[m_osc]);
-        Serial.println(m_setting->m_oscW[m_osc]);
+        Serial.println((m_setting+m_str)->m_oscW[m_osc]);
         break;
     case 6: //'^' Set Osc Volume
         str[m_str].m_oscV[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
