@@ -22,7 +22,11 @@ void Martone::ProcessKeyboardData()
 
         if (m_rawKnobValue < (m_oldKnobValue - 4) || m_rawKnobValue > (m_oldKnobValue + 4))
         {
-            m_oldKnobValue = m_rawKnobValue;
+            // if(m_rawKnobValue >= m_oldKnobValue)
+            // m_mappedKnobValue[m_str][m_pIndex] += (m_setting+m_str)->m_oscV[m_osc];
+            //  else
+            // m_mappedKnobValue[m_str][m_pIndex] -= (m_setting+m_str)->m_oscV[m_osc];
+            // m_oldKnobValue = m_rawKnobValue;
             UpdateKeyboardData();
             //Serial.println(m_mappedKnobValue[m_str][m_pIndex]);
         }
@@ -147,17 +151,24 @@ void Martone::UpdateKeyboardData()
     switch (m_pIndex)
     {
     case 5: //'%' Set Osc Waveform
+        //(m_setting+m_str)->m_oscW[m_osc];
+        m_setting[m_str]->m_oscW[m_osc];
         str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][m_pIndex]];
         AssignOsc(m_osc, m_str);
         //Serial.println(str[m_str].m_oscW[m_osc]);
-        Serial.println((m_setting+m_str)->m_oscW[m_osc]);
+        //Serial.println((m_setting+m_str)->m_oscW[m_osc]);
+        Serial.println(m_setting[m_str]->m_oscW[m_osc]);
         break;
     case 6: //'^' Set Osc Volume
+        //(m_setting+m_str)->m_oscV[m_osc];
+        m_setting[m_str]->m_oscV[m_osc];
         str[m_str].m_oscV[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
         AssignOsc(m_osc, m_str);
-        Serial.println(str[m_str].m_oscV[m_osc]);
+        //Serial.println(str[m_str].m_oscV[m_osc]);
+        Serial.println(m_setting[m_str]->m_oscV[m_osc]);
         break;
     case 7: //'&' Set Osc Frequency
+   //(m_setting+m_str)->m_freq[m_osc];
         str[m_str].m_freq[m_osc] = (int)m_mappedKnobValue[m_str][m_pIndex];
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_freq[m_osc]);

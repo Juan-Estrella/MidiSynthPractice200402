@@ -110,6 +110,7 @@ private:
 
     } str[m_NUM_STRINGS];
 
+    stringParameters *m_setting[m_NUM_STRINGS] = {&str[0], &str[1], &str[2], &str[3]};
     u8 m_osc;
     u8 m_str;
     u8 m_oscIndex;
@@ -121,7 +122,7 @@ private:
     float m_low, m_high; //for range mapping
     float m_mappedKnobValue[m_NUM_STRINGS + 1][m_NUM_EFFECTS];
     float m_rawKnobValue;
-    stringParameters *m_setting = str;
+  
 
     s8 m_octave;
     u8 m_startNote;
