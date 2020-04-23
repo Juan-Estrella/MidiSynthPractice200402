@@ -10,6 +10,7 @@
 //     WAVEFORM_SAWTOOTH_REVERSE,   //6
 //     WAVEFORM_SAMPLE_HOLD,        //7
 //     WAVEFORM_TRIANGLE_VARIABLE}; //8
+//extern Martone::stringParameters str[m_NUM_STRINGS];
 
 void Martone::ProcessKeyboardData()
 {

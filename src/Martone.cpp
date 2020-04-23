@@ -62,6 +62,7 @@ Martone::Martone()
     m_parameterSelect = false;
     m_mappedKnobValue[m_NUM_STRINGS][m_NUM_EFFECTS] = {0};
     m_str = 0;
+    m_osc = 0;
     m_stringSelect = false;
 }
 
