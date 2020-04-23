@@ -26,7 +26,7 @@ void Martone::ProcessKeyboardData()
             // m_mappedKnobValue[m_str][m_pIndex] += (m_setting+m_str)->m_oscV[m_osc];
             //  else
             // m_mappedKnobValue[m_str][m_pIndex] -= (m_setting+m_str)->m_oscV[m_osc];
-            // m_oldKnobValue = m_rawKnobValue;
+            m_oldKnobValue = m_rawKnobValue;
             UpdateKeyboardData();
             //Serial.println(m_mappedKnobValue[m_str][m_pIndex]);
         }
@@ -110,7 +110,7 @@ void Martone::ProcessKeyboardData()
          case '&': //waveform frequency
             m_pIndex = 7;
             m_low = 0;
-            m_high = 20000;
+            m_high = 1;
             m_parameterSelect = true;
             Serial.println("Oscillator Frequency ");
             break;
@@ -169,12 +169,13 @@ void Martone::UpdateKeyboardData()
         break;
     case 7: //'&' Set Osc Frequency
    //(m_setting+m_str)->m_freq[m_osc];
-        str[m_str].m_freq[m_osc] = (int)m_mappedKnobValue[m_str][m_pIndex];
+        //str[m_str].m_freq[m_osc] = (int)m_mappedKnobValue[m_str][m_pIndex];
+        str[m_str].m_freq[m_osc] = 10000* pow(   pow((1-(1-x)), (1/n)),   n);
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_freq[m_osc]);
         break;
     case 8: //'*' Set Filter Frequency Cutoff
-        str[m_str].m_freqCut[m_osc] = 5000* pow(   pow((1-(1-x)), (1/n)),   n);
+        str[m_str].m_freqCut[m_osc] = 10000* pow(   pow((1-(1-x)), (1/n)),   n);
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_freqCut[m_osc]);
         break;
