@@ -81,7 +81,7 @@ public:
 protected:
 
     //=================
-    //Private Constants
+    //Protected Constants
     //=================
     static const int m_NUM_VOICES = 4;
     static const int m_NUM_WAVEFORMS = 9;
@@ -95,9 +95,12 @@ protected:
     static const int m_NUM_CHARS = 32;
     static const int m_NUM_OSC = 4;
     static const int m_WAVEFORMS[];
+   
+
+    
 
     //=============================
-    //Private Variable Declarations
+    //Protected Variable Declarations
     //=============================
     struct stringParameters
     {
@@ -110,7 +113,9 @@ protected:
 
     } str[m_NUM_STRINGS];
 
-    stringParameters *m_setting[m_NUM_STRINGS] = {&str[0], &str[1], &str[2], &str[3]};
+    stringParameters strInit[m_NUM_STRINGS];
+    //stringParameters *m_setting[m_NUM_STRINGS] = {&str[0], &str[1], &str[2], &str[3]};
+    float currentSettingValue;
     u8 m_osc;
     u8 m_str;
     u8 m_oscIndex;
@@ -123,11 +128,10 @@ protected:
     float m_mappedKnobValue[m_NUM_STRINGS + 1][m_NUM_EFFECTS];
     float m_rawKnobValue;
   
-
+    float m_volume;
     s8 m_octave;
     u8 m_startNote;
-    u8 m_scale;
-    float m_volume;
+    u8 m_scale;  
     float m_filtFreqCutoff;
     float m_filtRes;
     float m_attack;  //default 10.5ms. Max 11880
@@ -153,7 +157,7 @@ protected:
     u8 m_string;
    
     //=============================
-    //Private Function Declarations
+    //Protected Function Declarations
     //=============================
     void UpdateKeyboardData();
     void SetFilter();
@@ -161,6 +165,8 @@ protected:
     void SetADSR(float attack, float decay, float sustain, float release, bool payNote);
     void ADSRoff();
     void ProcessKeyboardData();
+    void ProcessKnobData();
+
 
     u8 SetWaveform(u8 waveform, u8 target);
     void SetOctave(s8 octave, u8 target);
@@ -186,7 +192,7 @@ protected:
     void Detune(float detune, u8 target);
     void Interval(s8 interval, u8 target);
     void ProcessBluetoothDataData(u8 string);
-    void ProcessKnobData();
+    
     void StartOscPoly(u8 midiNote, u8 vel, u8 string, u8 wobble, u8 offset);
     void StopOscPoly(u8 note, u8 vel, u8 string, u8 offset);
     void StartOscMono(u8 midiNote, u8 offset, u8 string, u8 vel);

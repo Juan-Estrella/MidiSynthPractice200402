@@ -30,7 +30,7 @@ Martone::Martone()
     m_octave = -3;
     m_startNote = A;
     m_scale = chromatic;
-    m_volume = .9;
+    m_volume = .55;
     m_filtFreqCutoff = 700;
 
     for (int i = 0; i < m_NUM_STRINGS; i++)
@@ -72,20 +72,172 @@ Martone::~Martone() {}
 //=================
 //Public Functions
 //=================
+void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency, int freqCut, float filtSlope, float filtRes)
+{
+    if (string == 1)
+    {
+        if (osc == 1)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 2)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 3)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 4)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+    }
+    if (string == 2)
+    {
+        if (osc == 1)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 2)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 3)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 4)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+    }
+    if (string == 3)
+    {
+        if (osc == 1)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 2)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 3)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 4)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+    }
+    if (string == 4)
+    {
+        if (osc == 1)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 2)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 3)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+        if (osc == 4)
+        {
+            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
+            str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
+            str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
+            str[string - 1].m_filtSlope[osc - 1] = filtSlope, strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
+            str[string - 1].m_filtRes[osc - 1] = filtRes, strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+        }
+    }
+}
 void Martone::Initialize()
 {
-    delay(5000); // 3 second delay for recovery
+    delay(5000); // 5 second delay for recovery
     Serial.begin(115200);
     AudioMemory(20);
     sgtl5000_1.enable();
     sgtl5000_1.volume(0.4);
-    for (int j = m_NUM_STRINGS - 1; j >= 0; j--)
-    {
-        for (int i = 0; i < m_NUM_OSC; i++)
-        {
-            AssignOsc(i, j);
-        }
-    }
     SetADSR(1, 2, 3, 4, false);
     Serial.println("Martone Set-up Complete!");
 }
@@ -133,7 +285,7 @@ void Martone::AssignOsc(u8 osc, u8 string) const
         osc1a.frequency(str[string].m_freq[0]);
         filtosc1a.frequency(str[string].m_freqCut[0]);
         filtosc1a.resonance(str[string].m_filtRes[0]);
-       
+
         osc1b.begin(waveforms[str[string].m_oscW[1]]);
         osc1b.amplitude(str[string].m_oscV[1]);
         osc1b.frequency(str[string].m_freq[1]);
@@ -212,17 +364,6 @@ void Martone::SetADSR(float attack, float decay, float sustain, float release, b
         ADSRosc1c.release(400);
         ADSRosc1n.release(50);
     }
-}
-//************************************************************************
-void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency, int freqCut, float filtSlope, float filtRes)
-{
-    Serial.println("SetOsc");
-    str[string - 1].m_oscV[osc - 1] = volume;
-    str[string - 1].m_oscW[osc - 1] = waveform;
-    str[string - 1].m_freq[osc - 1] = frequency;
-    str[string - 1].m_freqCut[osc - 1] = freqCut;
-    str[string - 1].m_filtSlope[osc - 1] = filtSlope;
-    str[string - 1].m_filtRes[osc - 1] = filtRes;
 }
 //************************************************************
 void Martone::Update()
