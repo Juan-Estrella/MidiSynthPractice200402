@@ -78,7 +78,7 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
     {
         if (osc == 1)
         {
-            str[string - 1].m_oscV[osc - 1] = volume, strInit[string - 1].m_oscV[osc - 1] = volume;
+            str[string - 1].m_oscV[osc - 1] = strInit[string - 1].m_oscV[osc - 1] = volume;
             str[string - 1].m_oscW[osc - 1] = waveform, strInit[string - 1].m_oscW[osc - 1] = waveform;
             str[string - 1].m_freq[osc - 1] = frequency, strInit[string - 1].m_freq[osc - 1] = frequency;
             str[string - 1].m_freqCut[osc - 1] = freqCut, strInit[string - 1].m_freqCut[osc - 1] = freqCut;
