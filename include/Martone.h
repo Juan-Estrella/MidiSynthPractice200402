@@ -106,8 +106,8 @@ protected:
     {
         float m_oscV[m_NUM_OSC];
         u8 m_oscW[m_NUM_OSC];
-        int m_freq[m_NUM_OSC];
-        int m_freqCut[m_NUM_OSC];
+        double m_freq[m_NUM_OSC];
+        double m_freqCut[m_NUM_OSC];
         float m_filtSlope[m_NUM_OSC];
         float m_filtRes[m_NUM_OSC];
 

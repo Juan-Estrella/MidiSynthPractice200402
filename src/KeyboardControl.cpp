@@ -1,5 +1,9 @@
 #include "Martone.h"
 
+typedef uint8_t u8;
+typedef int8_t s8;
+
+
 void Martone::ProcessKeyboardData()
 {
     if (m_parameterSelect == true)
@@ -95,7 +99,7 @@ void Martone::ProcessKeyboardData()
         case '&': //waveform frequency
             m_pIndex = 7;
             m_low = 0;
-            m_high = 10000;
+            m_high = 20000;
             m_parameterSelect = true;
             Serial.println("Oscillator Frequency ");
             break;
@@ -103,7 +107,7 @@ void Martone::ProcessKeyboardData()
             m_pIndex = 8;
             m_low = 0;
             //m_high = 1;
-            m_high = 10000;
+            m_high =20000;
             m_parameterSelect = true;
             Serial.println("Filter Frequency Cutoff");
             break;
@@ -131,7 +135,8 @@ void Martone::ProcessKeyboardData()
 //********************************************************************
 void Martone::UpdateKeyboardData()
 {
-    float x = m_mappedKnobValue[m_str][m_pIndex];
+    //float x = map(m_mappedKnobValue[m_str][m_pIndex], m_low, m_high, 0,3.01); //for n&v function
+    float x = map(m_mappedKnobValue[m_str][m_pIndex], m_low, m_high, 0,1); //for roommate function
     float n = str[m_str].m_filtSlope[m_osc];
     // float xSpeed;
     switch (m_pIndex)
@@ -150,16 +155,16 @@ void Martone::UpdateKeyboardData()
         break;
     case 7: //'&' Set Osc Frequency
         currentSettingValue = strInit[m_str].m_freq[m_osc];
-        str[m_str].m_freq[m_osc] =  (int)m_mappedKnobValue[m_str][m_pIndex];
-        //str[m_str].m_freq[m_osc] = 10000 * pow(pow((1 - (1 - x)), (1 / n)), n);
+        //str[m_str].m_freq[m_osc] =  (int)m_mappedKnobValue[m_str][m_pIndex];
+        str[m_str].m_freq[m_osc] = 10000 * pow(1- pow( 1-x, (1 / n) ),  n);
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_freq[m_osc]);
         break;
     case 8: //'*' Set Filter Frequency Cutoff
         currentSettingValue = strInit[m_str].m_freqCut[m_osc];
-        //str[m_str].m_freqCut[m_osc] =  10000 * pow(pow((1 - (1 - x)), (1 / n)), n);
-        //pow(100, mappedKnobValue[str][pIndex] - 1); 
-        str[m_str].m_freqCut[m_osc] =  m_mappedKnobValue[m_str][m_pIndex];
+        str[m_str].m_freqCut[m_osc] = 10000 * pow(1- pow( 1-x, (1 / n) ),  n);
+       // str[m_str].m_freqCut[m_osc] = pow(100,x - 1); 
+        //str[m_str].m_freqCut[m_osc] =  m_mappedKnobValue[m_str][m_pIndex];
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_freqCut[m_osc]);
         break;
