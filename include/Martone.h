@@ -166,6 +166,7 @@ protected:
     void ADSRoff();
     void ProcessKeyboardData();
     void ProcessKnobData();
+    double MathFunctions(u8 function, float high, float slope, double x);
 
 
     u8 SetWaveform(u8 waveform, u8 target);

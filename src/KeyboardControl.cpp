@@ -3,7 +3,6 @@
 typedef uint8_t u8;
 typedef int8_t s8;
 
-
 void Martone::ProcessKeyboardData()
 {
     if (m_parameterSelect == true)
@@ -107,7 +106,7 @@ void Martone::ProcessKeyboardData()
             m_pIndex = 8;
             m_low = 0;
             //m_high = 1;
-            m_high =20000;
+            m_high = 20000;
             m_parameterSelect = true;
             Serial.println("Filter Frequency Cutoff");
             break;
@@ -136,14 +135,14 @@ void Martone::ProcessKeyboardData()
 void Martone::UpdateKeyboardData()
 {
     //float x = map(m_mappedKnobValue[m_str][m_pIndex], m_low, m_high, 0,3.01); //for n&v function
-    float x = map(m_mappedKnobValue[m_str][m_pIndex], m_low, m_high, 0,1); //for roommate function
+    float x = map(m_mappedKnobValue[m_str][m_pIndex], m_low, m_high, 0, 1); //for roommate function
     float n = str[m_str].m_filtSlope[m_osc];
     // float xSpeed;
     switch (m_pIndex)
     {
-    case 5: //'%' Set Osc Waveform
-        currentSettingValue = strInit[m_str].m_oscW[m_osc];  //initialization setting
-        str[m_str].m_oscW[m_osc] =  waveforms[(int)m_mappedKnobValue[m_str][m_pIndex]];
+    case 5:                                                 //'%' Set Osc Waveform
+        currentSettingValue = strInit[m_str].m_oscW[m_osc]; //initialization setting
+        str[m_str].m_oscW[m_osc] = waveforms[(int)m_mappedKnobValue[m_str][m_pIndex]];
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_oscW[m_osc]);
         break;
@@ -156,30 +155,52 @@ void Martone::UpdateKeyboardData()
     case 7: //'&' Set Osc Frequency
         currentSettingValue = strInit[m_str].m_freq[m_osc];
         //str[m_str].m_freq[m_osc] =  (int)m_mappedKnobValue[m_str][m_pIndex];
-        str[m_str].m_freq[m_osc] = 10000 * pow(1- pow( 1-x, (1 / n) ),  n);
+        str[m_str].m_freq[m_osc] = 10000 * pow(1 - pow(1 - x, (1 / n)), n);
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_freq[m_osc]);
         break;
     case 8: //'*' Set Filter Frequency Cutoff
         currentSettingValue = strInit[m_str].m_freqCut[m_osc];
-        str[m_str].m_freqCut[m_osc] = 10000 * pow(1- pow( 1-x, (1 / n) ),  n);
-       // str[m_str].m_freqCut[m_osc] = pow(100,x - 1); 
+        str[m_str].m_freqCut[m_osc] = MathFunctions(4, 10000, 1.55, x);
+        //str[m_str].m_freqCut[m_osc] = 10000 * pow(1 - pow(1 - x, (1 / n)), n); //good one
+        // str[m_str].m_freqCut[m_osc] = pow(100,x - 1);
         //str[m_str].m_freqCut[m_osc] =  m_mappedKnobValue[m_str][m_pIndex];
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_freqCut[m_osc]);
         break;
     case 9: //'(' Set Filter Slope
         currentSettingValue = strInit[m_str].m_filtSlope[m_osc];
-        str[m_str].m_filtSlope[m_osc] =  m_mappedKnobValue[m_str][m_pIndex];
+        str[m_str].m_filtSlope[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_filtSlope[m_osc]);
         break;
     case 10: //')' Set Filter Resonance
         currentSettingValue = strInit[m_str].m_filtRes[m_osc];
-        str[m_str].m_filtRes[m_osc] =  m_mappedKnobValue[m_str][m_pIndex];
+        str[m_str].m_filtRes[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_filtRes[m_osc]);
         break;
+
+    default:
+        break;
+    }
+}
+//********************************************************************************************
+double Martone::MathFunctions(u8 function, float highestValue, float slope, double x)
+{
+    switch (function)
+    {
+    case 1: //Exponential rising
+        return highestValue * pow(1 - pow(1 - x, (1 / slope)), slope);
+
+    case 2: //Exponential falling
+        return highestValue * pow(1-pow(x, 1/slope), slope);
+
+    case 3: //Sine    //slope = width = 0-10 /higher is narrower/ 2.5 avg
+        return highestValue * pow(sin(PI*x),slope);
+
+    case 4: //Cos    //slope = width = 0-10 /higher is narrower
+        return highestValue * (1-pow(sin(PI*x),slope));
 
     default:
         break;
