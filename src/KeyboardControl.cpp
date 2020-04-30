@@ -161,7 +161,7 @@ void Martone::UpdateKeyboardData()
         break;
     case 8: //'*' Set Filter Frequency Cutoff
         currentSettingValue = strInit[m_str].m_freqCut[m_osc];
-        str[m_str].m_freqCut[m_osc] = MathFunctions(4, 10000, 1.55, x);
+        str[m_str].m_freqCut[m_osc] = MathFunctions(1, 10000, 1.55, x);
         //str[m_str].m_freqCut[m_osc] = 10000 * pow(1 - pow(1 - x, (1 / n)), n); //good one
         // str[m_str].m_freqCut[m_osc] = pow(100,x - 1);
         //str[m_str].m_freqCut[m_osc] =  m_mappedKnobValue[m_str][m_pIndex];
