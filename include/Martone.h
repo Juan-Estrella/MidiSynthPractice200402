@@ -78,7 +78,7 @@ public:
 
     //****************************************Private****************************************
 
-protected:
+public:
 
     //=================
     //Protected Constants
@@ -96,9 +96,6 @@ protected:
     static const int m_NUM_OSC = 4;
     static const int m_WAVEFORMS[];
    
-
-    
-
     //=============================
     //Protected Variable Declarations
     //=============================
@@ -110,6 +107,13 @@ protected:
         double m_freqCut[m_NUM_OSC];
         float m_filtSlope[m_NUM_OSC];
         float m_filtRes[m_NUM_OSC];
+        
+        int m_lfoSpeed[m_NUM_OSC];
+        float m_lfoRange[m_NUM_OSC];
+        float m_lfo[m_NUM_OSC];
+        float m_filtPercent[m_NUM_OSC];
+        u8 m_lfoMode[m_NUM_OSC];
+        float m_lfoDepth[m_NUM_OSC];
 
     } str[m_NUM_STRINGS];
 
@@ -118,6 +122,7 @@ protected:
     float currentSettingValue;
     u8 m_osc;
     u8 m_str;
+    u8 m_string;
     u8 m_oscIndex;
     u8 m_pIndex; //for mapping commands to parameters
     bool m_parameterSelect;
@@ -128,33 +133,33 @@ protected:
     float m_mappedKnobValue[m_NUM_STRINGS + 1][m_NUM_EFFECTS];
     float m_rawKnobValue;
   
-    float m_volume;
-    s8 m_octave;
-    u8 m_startNote;
-    u8 m_scale;  
-    float m_filtFreqCutoff;
-    float m_filtRes;
-    float m_attack;  //default 10.5ms. Max 11880
-    float m_decay;   //default is 35ms. Max is 11880
-    float m_sustain; //0-1
-    float m_release; //default is 300ms. max is 11880
-    u8 m_lfoShape;
-    u8 m_lfoMode;
-    float m_lfoSpeed;
-    float m_lfoDepth;
-    float m_lfoPitch;
-    float m_lfo;
-    float m_lfoRange;
-    float m_filtPercent;
-    float m_scaleFreqs[m_NUM_NOTES_INST];
-    bool m_interpolate;
-    bool m_poly;
-    u8 m_temperament;
-    u8 m_electrode3D;
-    u8 m_channel;
-    u8 m_velocity;
-    u8 m_note;
-    u8 m_string;
+    // float m_volume;
+    // s8 m_octave;
+    // u8 m_startNote;
+    // u8 m_scale;  
+    // float m_filtFreqCutoff;
+    // float m_filtRes;
+    // float m_attack;  //default 10.5ms. Max 11880
+    // float m_decay;   //default is 35ms. Max is 11880
+    // float m_sustain; //0-1
+    // float m_release; //default is 300ms. max is 11880
+    // u8 m_lfoShape;
+    // u8 m_lfoMode;
+    // float m_lfoSpeed;
+    // float m_lfoDepth;
+    // float m_lfoPitch;
+    // float m_lfo;
+    // float m_lfoRange;
+    // float m_filtPercent;
+    // float m_scaleFreqs[m_NUM_NOTES_INST];
+    // bool m_interpolate;
+    // bool m_poly;
+    // u8 m_temperament;
+    // u8 m_electrode3D;
+    // u8 m_channel;
+    // u8 m_velocity;
+    // u8 m_note;
+    
    
     //=============================
     //Protected Function Declarations
@@ -167,41 +172,42 @@ protected:
     void ProcessKeyboardData();
     void ProcessKnobData();
     double MathFunctions(u8 function, float high, float slope, double x);
+    void LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 m_str, u8 m_osc);
 
-
-    u8 SetWaveform(u8 waveform, u8 target);
-    void SetOctave(s8 octave, u8 target);
-    void SetStartNote(u8 startNote);
-    void SetScale(u8 scale);
-    void SetVolume(float volume, u8 target);
-    void SetFreqCutoff(float cutoff, u8 target);
-    void SetFreqRes(float res, u8 target);
-    void SetAttack(float attack, u8 target);
-    void SetDecay(float decay, u8 target);
-    void SetSustain(float sustain, u8 target);
-    void SetRelease(float release, u8 target);
-    void SetLfoTarget(u8 target);
-    void SetLfoShape(u8 lfoShape, u8 target);
-    void SetLfoMode(u8 lfoMode, u8 target);
-    void SetLfoSpeed(u8 lfoSpeed, u8 target);
-    void SetLfoDepth(u8 lfoDepth, u8 target);
-    void SetLfoPitch(u8 lfoPitch, u8 target);
-    void SetTemperament(u8 temperament, u8 target);
-    void SetPoly(bool poly);
-    void ShowInfo();
-    void Transpose(s8 transpose, u8 target);
-    void Detune(float detune, u8 target);
-    void Interval(s8 interval, u8 target);
-    void ProcessBluetoothDataData(u8 string);
-    
-    void StartOscPoly(u8 midiNote, u8 vel, u8 string, u8 wobble, u8 offset);
-    void StopOscPoly(u8 note, u8 vel, u8 string, u8 offset);
-    void StartOscMono(u8 midiNote, u8 offset, u8 string, u8 vel);
-    void StopOscMono(u8 midiNote, u8 vel, u8 string, u8 offset);
-    void KeyBuff(u8 midiNote, u8 vel, u8 string, u8 wobble, u8 offset, bool playNote);
-    void LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom);
-    void GetReleaseState();
     void ShowWaveform(u8 m_waveform);
+    // u8 SetWaveform(u8 waveform, u8 target);
+    // void SetOctave(s8 octave, u8 target);
+    // void SetStartNote(u8 startNote);
+    // void SetScale(u8 scale);
+    // void SetVolume(float volume, u8 target);
+    // void SetFreqCutoff(float cutoff, u8 target);
+    // void SetFreqRes(float res, u8 target);
+    // void SetAttack(float attack, u8 target);
+    // void SetDecay(float decay, u8 target);
+    // void SetSustain(float sustain, u8 target);
+    // void SetRelease(float release, u8 target);
+    // void SetLfoTarget(u8 target);
+    // void SetLfoShape(u8 lfoShape, u8 target);
+    // void SetLfoMode(u8 lfoMode, u8 target);
+    // void SetLfoSpeed(u8 lfoSpeed, u8 target);
+    // void SetLfoDepth(u8 lfoDepth, u8 target);
+    // void SetLfoPitch(u8 lfoPitch, u8 target);
+    // void SetTemperament(u8 temperament, u8 target);
+    // void SetPoly(bool poly);
+    // void ShowInfo();
+    // void Transpose(s8 transpose, u8 target);
+    // void Detune(float detune, u8 target);
+    // void Interval(s8 interval, u8 target);
+    // void ProcessBluetoothDataData(u8 string);
+    
+    // void StartOscPoly(u8 midiNote, u8 vel, u8 string, u8 wobble, u8 offset);
+    // void StopOscPoly(u8 note, u8 vel, u8 string, u8 offset);
+    // void StartOscMono(u8 midiNote, u8 offset, u8 string, u8 vel);
+    // void StopOscMono(u8 midiNote, u8 vel, u8 string, u8 offset);
+    // void KeyBuff(u8 midiNote, u8 vel, u8 string, u8 wobble, u8 offset, bool playNote);
+    
+    // void GetReleaseState();
+   
     //***************************************************************************************************
 protected:
 };
