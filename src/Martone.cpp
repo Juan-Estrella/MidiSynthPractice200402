@@ -374,7 +374,7 @@ void Martone::Update()
 //*********************************************************
 void Martone::HandleNoteOn(u8 channel, u8 note, u8 velocity)
 {
-    str[m_str].m_lfoSpeed[m_osc] = 4000;
+    str[m_str].m_lfoSpeed[m_osc] = 7000;
     str[m_str].m_lfoRange[m_osc] = 1;
     str[m_str].m_filtPercent[m_osc] = 1;
     str[m_str].m_lfoMode[m_osc] = 1;

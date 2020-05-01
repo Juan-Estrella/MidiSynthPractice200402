@@ -105,7 +105,21 @@ void loop()
   martone.Update();
   myusb.Task();
   midi1.read();  
-  //LfoUpdate(false, sp.lfoModeSelect[2], sp.filterPercentage[2], sp.lfoDepth[2], 2);
+  if (Serial.available())
+  {
+    char ch = Serial.read();
+    if (ch == 'a')
+    {
+
+      MyNoteOn(1, 1, 1);
+      Serial.println("on");
+    }
+    if (ch == 's')
+    {
+      MyNoteOff(1, 1, 1);
+      Serial.println("off");
+    }
+  }
 }
 
 //=============================
@@ -115,7 +129,6 @@ void MyNoteOn(unsigned char channel, unsigned char note, unsigned char velocity)
 {
   martone.HandleNoteOn(channel, note, velocity);
   Serial.println("Note on");
-  //LfoUpdate(true, sp.lfoModeSelect[string], sp.filterPercentage[string], sp.lfoDepth[string], string);
 }
 
 void MyNoteOff(unsigned char channel, unsigned char note, unsigned char velocity)

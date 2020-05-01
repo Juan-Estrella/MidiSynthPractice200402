@@ -36,19 +36,20 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
       //localLFO[m_str][m_osc] = (localLFO[m_str][m_osc] - 0.01);
       localLFO[m_str][m_osc] = MathFunctions(2, 1, str[m_str].m_filtSlope[m_osc], (x++) * .01);
 
-      // if (localLFO[m_str][m_osc] <= 0)
-      // {
-      //   Serial.println("hello2");
-      //   lfoDirection[m_str][m_osc] = false;
-      //   lfoStop[m_str][m_osc] = true;
-      // }
+      if (localLFO[m_str][m_osc] <= .01)
+      {
+        x=0;
+        Serial.println("hello2");
+        lfoDirection[m_str][m_osc] = false;
+        lfoStop[m_str][m_osc] = true;
+      }
     }
 
     if (lfoDirection[m_str][m_osc] == false) //UP
     {
       //   //localLFO[m_str][m_osc] = (localLFO[m_str][m_osc] + 0.01);
       localLFO[m_str][m_osc] = MathFunctions(1, 1, str[m_str].m_filtSlope[m_osc], (x++) * .01);
-      if (localLFO[m_str][m_osc] >= 1)
+      if (localLFO[m_str][m_osc] >= .99)
       {
         x=0;
         Serial.println("hello");
@@ -68,8 +69,8 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
       if (retriggered == true)
       {
         Serial.println("retriggered");
-        lfoDirection[m_str][m_osc] = true;
-        x = 1;
+        lfoDirection[m_str][m_osc] = false;
+        x = 0;
         // lfoDirection[m_str][m_osc] = true;
         // localLFO[m_str][m_osc] = 1.0;
       }
