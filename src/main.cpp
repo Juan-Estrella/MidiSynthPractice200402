@@ -112,12 +112,12 @@ void loop()
     {
 
       MyNoteOn(1, 1, 1);
-      Serial.println("on");
+      Serial.println("Keyboard Entry");
     }
     if (ch == 's')
     {
       MyNoteOff(1, 1, 1);
-      Serial.println("off");
+      Serial.println("Keyboard Entry");
     }
   }
 }

@@ -370,6 +370,7 @@ void Martone::Update()
 {
     ProcessKeyboardData(); //defined in KeyboardControl.cpp file
     LfoUpdate(false, str[m_str].m_lfoMode[m_osc], str[m_str].m_filtPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
+    FilterUpdate();
 }
 //*********************************************************
 void Martone::HandleNoteOn(u8 channel, u8 note, u8 velocity)
@@ -377,37 +378,37 @@ void Martone::HandleNoteOn(u8 channel, u8 note, u8 velocity)
     str[m_str].m_lfoSpeed[m_osc] = 7000;
     str[m_str].m_lfoRange[m_osc] = 1;
     str[m_str].m_filtPercent[m_osc] = 1;
-    str[m_str].m_lfoMode[m_osc] = 1;
+    str[m_str].m_lfoMode[m_osc] = 2;
     str[m_str].m_lfoDepth[m_osc] = 0;
     SetADSR(1, 2, 3, 4, true);
     AssignOsc(m_osc, m_string);
-    //SetFilter();
     LfoUpdate(true, str[m_str].m_lfoMode[m_osc], str[m_str].m_filtPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
-    Serial.println("***");
+    Serial.println("***Handle Note On***");
 }
 //*************************************************************
 void Martone::HandleNoteOff(u8 channel, u8 note, u8 velocity)
 {
     ADSRoff();
-    Serial.println("***");
+    Serial.println("***Handle Note Off***");
 }
 //**************************************************************
-void Martone::SetFilter()
+void Martone::FilterUpdate()
 {
-    filter1.frequency(str[m_str].m_freqCut[m_osc]);
-    filter1.resonance(1);
+    filtosc1a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] *  str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]); 
+    // filter1.frequency(str[m_str].m_freqCut[m_osc]);
+    // filter1.resonance(1);
 
-    filtosc1a.frequency(str[m_str].m_freqCut[m_osc]); //tri
-    filtosc1a.resonance(1);
+    // filtosc1a.frequency(str[m_str].m_freqCut[m_osc]); //tri
+    // filtosc1a.resonance(1);
 
-    filtosc1b.frequency(str[m_str].m_freqCut[m_osc]); //saw
-    filtosc1b.resonance(1);
+    // filtosc1b.frequency(str[m_str].m_freqCut[m_osc]); //saw
+    // filtosc1b.resonance(1);
 
-    filtosc1c.frequency(str[m_str].m_freqCut[m_osc]); //square
-    filtosc1c.resonance(1);
+    // filtosc1c.frequency(str[m_str].m_freqCut[m_osc]); //square
+    // filtosc1c.resonance(1);
 
-    filtosc1n.frequency(str[m_str].m_freqCut[m_osc]); //noise
-    filtosc1n.resonance(1);
+    // filtosc1n.frequency(str[m_str].m_freqCut[m_osc]); //noise
+    // filtosc1n.resonance(1);
 }
 //***********************************************************
 void Martone::ADSRoff()
