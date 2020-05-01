@@ -15,7 +15,7 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
   static bool lfoStop[m_NUM_STRINGS][m_NUM_OSC] = {false};
   static bool retriggered = false;
   static double x = 0;
-  // //*************************************************************************
+  //*************************************************************************
   if (retrig == true)  retriggered = true;
    
   currentMicros = micros();
@@ -44,7 +44,7 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
       if (retriggered == true)
       {
         Serial.println("LFO Shape: Cosine Repeating");
-        lfoDirection[m_str][m_osc] = true;
+        lfoDirection[m_str][m_osc] = false;
         x = 1;
       }
       break;
@@ -87,4 +87,3 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
 
   } //millis
 } //end funct
-  //****************************************
