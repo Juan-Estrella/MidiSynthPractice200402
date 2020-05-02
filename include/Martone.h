@@ -106,6 +106,8 @@ protected:
         double m_freq[m_NUM_OSC];
         double m_freqCut[m_NUM_OSC];
         float m_filtSlope[m_NUM_OSC];
+        float m_lfo1Slope[m_NUM_OSC];
+        float m_lfo2Slope[m_NUM_OSC];
         float m_filtRes[m_NUM_OSC];
 
         unsigned int m_lfoSpeed[m_NUM_OSC];

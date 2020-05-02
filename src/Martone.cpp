@@ -380,16 +380,18 @@ void Martone::HandleNoteOn(u8 channel, u8 note, u8 velocity)
     str[m_str].m_filtPercent[m_osc] = 1;
     str[m_str].m_lfoMode[m_osc] = 2;
     str[m_str].m_lfoDepth[m_osc] = 0;
+    str[m_str].m_lfo1Slope[m_osc] = 1.5;
+    str[m_str].m_lfo2Slope[m_osc] = 1.5;
     SetADSR(1, 2, 3, 4, true);
     AssignOsc(m_osc, m_string);
     LfoUpdate(true, str[m_str].m_lfoMode[m_osc], str[m_str].m_filtPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
-    Serial.println("***Handle Note On***");
+    Serial.println("*** Handle Note On Function Called***");
 }
 //*************************************************************
 void Martone::HandleNoteOff(u8 channel, u8 note, u8 velocity)
 {
     ADSRoff();
-    Serial.println("***Handle Note Off***");
+    Serial.println("*** Handle Note Off Function Called***");
 }
 //**************************************************************
 void Martone::FilterUpdate()
