@@ -10,18 +10,21 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
 {
   static double localLFO[][m_NUM_OSC] = {0};
   static unsigned long lfoTime[][m_NUM_OSC] = {0};
-  static bool lfoDirection[m_NUM_STRINGS][m_NUM_OSC] = {true};
+  static u8 lfoDirection[m_NUM_STRINGS][m_NUM_OSC] = {0};
   unsigned long currentMicros;
   static bool lfoStop[m_NUM_STRINGS][m_NUM_OSC] = {false};
   static bool retriggered = false;
+  static bool oneShot = false;
   static double x = 0;
   static u8 wave1Selection = 1;
   static u8 wave2Selection = 2;
   static u8 lfoCount = 0;
-  static bool continuous = false;
+  static bool continuous1 = false;
+  static bool continuous2 = false;
   //*************************************************************************
-  if (retrig == true)   retriggered = true;
-  
+  if (retrig == true)
+    retriggered = true;
+
   currentMicros = micros();
 
   if (currentMicros - lfoTime[m_str][m_osc] >= str[m_str].m_lfoSpeed[m_osc])
@@ -31,68 +34,94 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
     if (str[m_str].m_lfoRange[m_osc] < 0)
       str[m_str].m_lfoRange[m_osc] = 0;
 
-    //*****************LFO Mode Control****************************************
+    //***********************LFO Mode Control****************************************
     switch (mode)
     {
-    case 0: //Filter OFF
+    case 0: //LFO OFF
       return;
       break;
-    case 1: //Filter Sine Repeating
+    case 1: //LFO. Sine Repeating
       if (retriggered == true)
       {
         Serial.println("LFO Shape: Sine Repeating");
-        lfoDirection[m_str][m_osc] = true;
-        continuous = true;
-        wave1Selection = 1;
-        wave2Selection = 2;
+        lfoDirection[m_str][m_osc] = 1;
+        continuous1 = true;    //Enables first half of waveform
+        continuous2 = true;    //Enables second half od waveform
+        wave1Selection = 1;   //1 = Exponential Rising Shape Selected.
+        wave2Selection = 2;   //2 = Exponential Falling Shape Selected
         x = 0;
       }
       break;
-    case 2: //Filter Cosine Repeating
+    case 2: //LFO. Cosine Repeating
       if (retriggered == true)
       {
         Serial.println("LFO Shape: Cosine Repeating");
-        lfoDirection[m_str][m_osc] = false;
-        continuous = true;
+        lfoDirection[m_str][m_osc] = 2;
+        continuous1 = true;
+        continuous2 = true;
         wave1Selection = 1;
         wave2Selection = 2;
-        x = 1;
+        x = 0;
       }
       break;
-    case 3: //LFO. Exponential Rising. 1 shot
+    case 3: //LFO. Exponential Rising. Repeating
       if (retriggered == true)
       {
-        x = 0;
-        Serial.println("LFO Shape: Exponential Rising");
-        continuous = false;
+        Serial.println("LFO Shape: Exponential Rising Repeating");
+        lfoDirection[m_str][m_osc] = 1;
+        continuous1 = true;
+        continuous2 = true;
         wave1Selection = 1;
-      }
-      break;
-    case 4: //LFO. Exponential Falling. 1 shot
-      if (retriggered == true)
-      {
-        x = 1;
-        Serial.println("LFO Shape: Exponential Falling");
-        continuous = false;
-        wave1Selection = 2;
-      }
-      break;
-    case 5: //LFO. Sine. 1 shot
-      if (retriggered == true)
-      {
+        wave2Selection = 1;
         x = 0;
-        Serial.println("LFO Shape: Sine 1 Shot");
-        continuous = false;
-        wave1Selection = 3;
       }
       break;
-    case 6: //LFO. Cosine. 1 shot
+    case 4: //LFO. Exponential Falling. Repeating
       if (retriggered == true)
       {
-        x = 1;
-        Serial.println("LFO Shape: Cosine 1 Shot");
-        continuous = false;
-        wave1Selection = 4;
+        Serial.println("LFO Shape: Exponential Falling Repeating");
+        lfoDirection[m_str][m_osc] = 1;
+        continuous1 = true;
+        continuous2 = true;
+        wave1Selection = 2;
+        wave2Selection = 2;
+        x = 0;
+      }
+      break;
+    case 5: //LFO. Exponential Rising 1 Shot Sustained
+      if (retriggered == true)
+      {
+        Serial.println("LFO Shape: Exponential Rising 1 Shot Sustained");
+        lfoDirection[m_str][m_osc] = 1;
+        continuous1 = true;
+        continuous2 = false;
+        wave1Selection = 1;
+        wave2Selection = 1;
+        x = 0;
+      }
+      break;
+     case 6: //LFO. Exponential Rising 1 Shot Stopped
+      if (retriggered == true)
+      {
+        Serial.println("LFO Shape: Exponential Rising 1 Shot Stopped");
+        lfoDirection[m_str][m_osc] = 1;
+        continuous1 = false;
+        continuous2 = false;
+        wave1Selection = 1;
+        wave2Selection = 1;
+        x = 0;
+      }
+      break;
+       case 7: //LFO. Exponential Falling 1 Shot Stopped
+      if (retriggered == true)
+      {
+        Serial.println("LFO Shape: Exponential Falling 1 Shot Stopped");
+        lfoDirection[m_str][m_osc] = 1;
+        continuous1 = false;
+        continuous2 = false;
+        wave1Selection = 2;
+        wave2Selection = 1;
+        x = 0;
       }
       break;
 
@@ -100,36 +129,30 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
       break;
     } //switch
     retriggered = false;
-    str[m_str].m_lfo[m_osc] = localLFO[m_str][m_osc]; //Assign local LFO value to global LFO value here.
+    str[m_str].m_lfo[m_osc] = localLFO[m_str][m_osc];    //Assign local LFO value to global LFO value here.
 
-    //************LFO Waveforms****(LFO value gets incremented here.)***********
+    //************Increment LFOs Here********************
 
-    if (lfoDirection[m_str][m_osc] == true && continuous == true) //UP
+    if (lfoDirection[m_str][m_osc] == 1 && continuous1 == true) //UP
     {
       localLFO[m_str][m_osc] = MathFunctions(wave1Selection, 1, str[m_str].m_lfo1Slope[m_osc], (x++) * .01);
-      if (localLFO[m_str][m_osc] >= .99)
+      if (x * .01 >= 1)
       {
         x = 0;
-        lfoDirection[m_str][m_osc] = false;
-        lfoStop[m_str][m_osc] = true;
+        lfoDirection[m_str][m_osc] = 2;
       }
     }
 
-    if (lfoDirection[m_str][m_osc] == false && continuous == true) //Down
+    if (lfoDirection[m_str][m_osc] == 2 && continuous2 == true) //Down
     {
       localLFO[m_str][m_osc] = MathFunctions(wave2Selection, 1, str[m_str].m_lfo2Slope[m_osc], (x++) * .01);
-      if (localLFO[m_str][m_osc] <= .01)
+      if (x * .01 >= 1)
       {
         x = 0;
-        lfoDirection[m_str][m_osc] = true;
-        lfoStop[m_str][m_osc] = true;
+        lfoDirection[m_str][m_osc] = 1;
       }
     }
-    //************************************************************************
-    if (continuous == false)
-      localLFO[m_str][m_osc] = MathFunctions(wave1Selection, 1, str[m_str].m_lfo1Slope[m_osc], (x++) * .01);
-
-    lfoCount++;
-
+    else  //For 1 Shot Stopped  LFO Waveforms
+      localLFO[m_str][m_osc] = MathFunctions(wave1Selection, 1, str[m_str].m_lfo1Slope[m_osc], (x++) * .01); 
   } //millis
 } //end funct

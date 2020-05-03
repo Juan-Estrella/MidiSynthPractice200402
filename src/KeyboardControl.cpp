@@ -7,10 +7,10 @@ void Martone::ProcessKeyboardData()
 {
     if (m_parameterSelect == true)
     {
-        m_rawKnobValue = analogRead(A13); // double read?
-        m_rawKnobValue = analogRead(A13); // double read?
+        m_rawKnobValue = analogRead(A1); // double read?
+        m_rawKnobValue = analogRead(A1); // double read?
         m_rawKnobValue = constrain(m_rawKnobValue, 5, 1023);
-        m_mappedKnobValue[m_str][m_pIndex] = (map(m_rawKnobValue, 1023, 5, m_low - currentSettingValue, m_high - currentSettingValue)) + currentSettingValue;
+        m_mappedKnobValue[m_str][m_pIndex] = (map(m_rawKnobValue, 5, 1023, m_low - currentSettingValue, m_high - currentSettingValue)) + currentSettingValue;
         if (m_rawKnobValue < (m_oldKnobValue - 5) || m_rawKnobValue > (m_oldKnobValue + 5))
         {
             m_oldKnobValue = m_rawKnobValue;
@@ -124,6 +124,21 @@ void Martone::ProcessKeyboardData()
             m_parameterSelect = true;
             Serial.println("Filter Resonance");
             break;
+        case '_': //LFO Mode
+            m_pIndex = 11;
+            m_low = 0;
+            m_high = 10;
+            m_parameterSelect = true;
+            Serial.println("LFO Mode");
+            break;
+        case 'a': //TriggerNote               *******
+            HandleNoteOn(1, 1, 1);
+            Serial.println("Qwerty Note On Trigger");
+            break;
+        case 's': //TriggerNote             *******
+            HandleNoteOff(1, 1, 1);
+            Serial.println("Qwerty Note Off Trigger");
+            break;
 
         default:
             // Serial.println("Invalid Entry");
@@ -180,6 +195,12 @@ void Martone::UpdateKeyboardData()
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_filtRes[m_osc]);
         break;
+    case 11: //'_' Set LFO Mode
+        currentSettingValue = strInit[m_str].m_lfoMode[m_osc];
+        str[m_str].m_lfoMode[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_lfoMode[m_osc]);
+        break;
 
     default:
         break;
@@ -190,18 +211,23 @@ double Martone::MathFunctions(u8 function, float highestValue, float slope, doub
 {
     switch (function)
     {
+
     case 1: //Exponential rising
         return highestValue * pow(1 - pow(1 - x, (1 / slope)), slope);
 
     case 2: //Exponential falling
-        return highestValue * pow(1-pow(x, 1/slope), slope);
+        return highestValue * pow(1 - pow(x, 1 / slope), slope);
 
     case 3: //Sine    //slope = width = 0-10 /higher is narrower/ 2.5 avg
-        return highestValue * pow(sin(PI*x),slope);
-
-    case 4: //Cos    //slope = width = 0-10 /higher is narrower
-        return highestValue * (1-pow(sin(PI*x),slope));
-
+        if (x < 1)
+            return highestValue * (pow(sin(PI * x), slope));
+        else
+            return -1;
+    case 4: //Cosine    //slope = width = 0-10 /higher is narrower
+        if (x < 1)
+            return highestValue * (1 - pow(sin(PI * x), slope)); //cosine
+        else
+            return -1;
     default:
         break;
     }
