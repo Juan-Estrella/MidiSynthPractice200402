@@ -242,7 +242,7 @@ void Martone::Initialize()
      str[m_str].m_lfoSpeed[m_osc] = 7000;
     str[m_str].m_lfoRange[m_osc] = 1;
     str[m_str].m_filtPercent[m_osc] = 1;
-    str[m_str].m_lfoMode[m_osc] = 5;
+    str[m_str].m_lfoMode[m_osc] = 1;
     str[m_str].m_lfoDepth[m_osc] = 0;
     str[m_str].m_lfo1Slope[m_osc] = 1.5;
     str[m_str].m_lfo2Slope[m_osc] = 1.5;
