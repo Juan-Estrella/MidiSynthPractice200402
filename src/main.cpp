@@ -105,21 +105,6 @@ void loop()
   martone.Update();
   myusb.Task();
   midi1.read();  
-  // if (Serial.available())        //provides simple qwerty trigger of notes for debugging
-  // {
-  //   char ch = Serial.read();
-  //   if (ch == 'a')
-  //   {
-
-  //     MyNoteOn(1, 1, 1);
-  //     Serial.println("Qwerty Keyboard Entry");
-  //   }
-  //   if (ch == 's')
-  //   {
-  //     MyNoteOff(1, 1, 1);
-  //     Serial.println("Qwerty Keyboard Entry");
-  //   }
-  // }
 }
 
 //=============================
