@@ -146,7 +146,7 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
      case 9: //LFO. Cosine 1 Shot Stopped
       if (retriggered == true)
       {
-        Serial.println("LFO Shape: Sine Wave 1 Shot Stopped");
+        Serial.println("LFO Shape: Cosine Wave 1 Shot Stopped");
         lfoDirection[m_str][m_osc] = 3;
         waveFunction1 = 4;
         x = 0;
