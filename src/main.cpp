@@ -3,6 +3,7 @@
        -Uses MIDI Controller plugged into Teensy 3.6  to trigger notes.
        -Alternatively, the letter 'a' on the qwerty keyboard can trigger a note by sending a MIDI 'Note On' message for debugging.
        -And the letter 's' sends MIDI 'Note Off'.
+       -Program was written on Microsoft Visual Studio Code, with PlatformIO extension.
        -All controls can be selected via qwerty input and modified with a potentiometer.
        -4 simultaneous oscillators per note, each with separate waveforms(9), LFOs, envelopes, filters, and settings.
        -9 LFO shapes selectable, each with adjustable slope, depth, speed, and height.
