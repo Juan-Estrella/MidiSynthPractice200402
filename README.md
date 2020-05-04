@@ -1,7 +1,7 @@
 # MidiSynthPractice200402
-First attempt at a talking midi synthesizer
+# First attempt at a talking midi synthesizer
 
-The Program:
+# The Program:
        -Uses MIDI Controller plugged into Teensy 3.6  to trigger notes.
        -Alternatively, the letter 'a' on the qwerty keyboard can trigger a note by sending a MIDI 'Note On' message for debugging.
        -And the letter 's' sends MIDI 'Note Off'.
@@ -14,12 +14,12 @@ The Program:
        -Most other functions are defined in 'Martone.cpp' file.
        -'GuiTool.cpp' contains the code exported from the Teensy Audio Library. (See link below).
        -(Currently I only have 1 note enabled (A440), bc I'm working on modulation and vocal formants, (i.e. LFOs and Filters) not melody.)
-     The Circuit:
+#      The Circuit:
        -USB Midi controller plugged into USB host port jack on on Teensy 3.6
        -Teensy Audio Shield plugged on top of Teensy.
        -10k pot connected to 'A1' on Teensy. (I'm using a thumbwheel that I soldered onto the Audio Shield. See Teensy Audio Workshop below.)
        -The pot modifies different parameters (attack, volume, filter, etc.), depending on which parameter is selected via qwerty input.
-     References:
+#     References:
        -  https://forum.pjrc.com/threads/41862-MIDI-notes-to-trigger-Audio-Board-synth?highlight=polyphony 'Seenthysizer' Polyphony example
        -  https://www.youtube.com/watch?v=evVRCL9-TWs  'Create a Bluetooth App and control the Arduino.'
        -  http://www.martyncurrey.com/arduino-hm-10-and-app-inventor-2-adding-a-slider/ Adding a Slider to MIT App Inventor. 
