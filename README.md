@@ -12,6 +12,7 @@ First attempt at a talking midi synthesizer.
        -USB MIDI note allocation to voice number method.
        -LFO functionality is defined in LfoUpdate.cpp file in the src folder.
        -Most other functions are defined in 'Martone.cpp' file in the src folder.
+       -Teensy specific settings (Serial port, baud Rate, etc.) are defined in the platform.ini file.
        -'GuiTool.cpp' contains the code exported from the Teensy Audio Library. (See link below).
        -(Currently I only have 1 note enabled (A440), bc I'm working on modulation and vocal formants, (i.e. LFOs and Filters) not melody.)
 #      The Circuit:
