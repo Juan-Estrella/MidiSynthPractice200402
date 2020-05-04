@@ -227,8 +227,7 @@ double Martone::MathFunctions(u8 function, float highestValue, float slope, doub
         if (x < 1)
             return highestValue * (1 - pow(sin(PI * x), slope)); //cosine
         else
-            return 1;
-           // return highestValue * (1 - pow(sin(PI * x), slope));
+            return -1;
     default:
         break;
     }
