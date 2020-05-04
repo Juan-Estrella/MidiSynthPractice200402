@@ -28,5 +28,5 @@ First attempt at a talking midi synthesizer
        -  https://github.com/k2rek/martone-prototype/blob/master/Final%20Prototype/main/main.ino  Martone V1 code. Kyle Tworek
        -  https://www.pjrc.com/store/audio_tutorial_kit.html Teensy Audio Workshop
        -  https://www.pjrc.com/teensy/gui/ Teensy Audio Library
-     Author(s):
+  #   Author(s):
        Juan Estrella
