@@ -1,5 +1,5 @@
 # MidiSynthPractice200402
-First attempt at a talking midi synthesizer
+First attempt at a talking midi synthesizer.
 
 # The Program:
        -Uses MIDI Controller plugged into Teensy 3.6  to trigger notes.
