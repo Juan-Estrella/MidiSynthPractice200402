@@ -10,8 +10,8 @@ First attempt at a talking midi synthesizer.
        -4 simultaneous oscillators per note, each with separate waveforms(9), LFOs, envelopes, filters, and settings.
        -9 LFO shapes selectable, each with adjustable slope, depth, speed, and height.
        -USB MIDI note allocation to voice number method.
-       -LFO functionality is defined in LfoUpdate.cpp file.
-       -Most other functions are defined in 'Martone.cpp' file.
+       -LFO functionality is defined in LfoUpdate.cpp file in the src folder.
+       -Most other functions are defined in 'Martone.cpp' file in the src folder.
        -'GuiTool.cpp' contains the code exported from the Teensy Audio Library. (See link below).
        -(Currently I only have 1 note enabled (A440), bc I'm working on modulation and vocal formants, (i.e. LFOs and Filters) not melody.)
 #      The Circuit:
