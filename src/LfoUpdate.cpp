@@ -15,9 +15,11 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
  // static bool lfoStop[m_NUM_STRINGS][m_NUM_OSC] = {false};
   static bool retriggered = false;
   static double x = 0;
-  static u8 wave1Selection = 1;
-  static u8 wave2Selection = 2;
-  static u8 lfoCount = 0;
+  static u8 waveFunction1 = 1;
+  static u8 waveFunction2 = 2;
+  static u8 lfoCount1 = 0;
+  static u8 lfoCount2 = 0;
+  u8 maxLfoCount = 3;
   static bool continuous1 = false;
   static bool continuous2 = false;
   //*************************************************************************
@@ -46,21 +48,25 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
         lfoDirection[m_str][m_osc] = 1;
         continuous1 = true; //Enables first half of waveform
         continuous2 = true; //Enables second half of waveform
-        wave1Selection = 1; //1 = Exponential Rising Shape Selected.
-        wave2Selection = 2; //2 = Exponential Falling Shape Selected
+        waveFunction1 = 1; //1 = Exponential Rising Shape Selected.
+        waveFunction2 = 2; //2 = Exponential Falling Shape Selected
         x = 0;
+        lfoCount1 = 0;
+        lfoCount2 = 0;
       }
       break;
     case 2: //LFO. Cosine Repeating
       if (retriggered == true)
       {
         Serial.println("LFO Shape: Cosine Repeating");
-        lfoDirection[m_str][m_osc] = 2;
+        lfoDirection[m_str][m_osc] = 1;
         continuous1 = true;
         continuous2 = true;
-        wave1Selection = 1;
-        wave2Selection = 2;
+        waveFunction1 = 2;
+        waveFunction2 = 1;
         x = 0;
+        lfoCount1 = 0;
+        lfoCount2 = 0;
       }
       break;
     case 3: //LFO. Exponential Rising. Repeating
@@ -70,9 +76,11 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
         lfoDirection[m_str][m_osc] = 1;
         continuous1 = true;
         continuous2 = true;
-        wave1Selection = 1;
-        wave2Selection = 1;
+        waveFunction1 = 1;
+        waveFunction2 = 1;
         x = 0;
+        lfoCount1 = 0;
+        lfoCount2 = 0;
       }
       break;
     case 4: //LFO. Exponential Falling. Repeating
@@ -82,9 +90,11 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
         lfoDirection[m_str][m_osc] = 1;
         continuous1 = true;
         continuous2 = true;
-        wave1Selection = 2;
-        wave2Selection = 2;
+        waveFunction1 = 2;
+        waveFunction2 = 2;
         x = 0;
+        lfoCount1 = 0;
+        lfoCount2 = 0;
       }
       break;
     case 5: //LFO. Exponential Rising 1 Shot Sustained
@@ -94,9 +104,11 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
         lfoDirection[m_str][m_osc] = 1;
         continuous1 = true;
         continuous2 = false;
-        wave1Selection = 1;
-        wave2Selection = 1;
+        waveFunction1 = 1;
+        waveFunction2 = 1;
         x = 0;
+        lfoCount1 = 0;
+        lfoCount2 = 0;
       }
       break;
     case 6: //LFO. Exponential Rising 1 Shot Stopped
@@ -106,9 +118,11 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
         lfoDirection[m_str][m_osc] = 3;
         // continuous1 = false;
         // continuous2 = false;
-        wave1Selection = 1;
-        // wave2Selection = 1;
+        waveFunction1 = 1;
+        // waveFunction2 = 1;
         x = 0;
+        lfoCount1 = 0;
+        lfoCount2 = 0;
       }
       break;
     case 7: //LFO. Exponential Falling 1 Shot Stopped
@@ -118,9 +132,11 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
         lfoDirection[m_str][m_osc] = 3;
         // continuous1 = false;
         //  continuous2 = false;
-        wave1Selection = 2;
-        // wave2Selection = 1;
+        waveFunction1 = 2;
+        // waveFunction2 = 1;
         x = 0;
+        lfoCount1 = 0;
+        lfoCount2 = 0;
       }
       break;
 
@@ -132,27 +148,36 @@ void Martone::LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 
 
     //************Increment LFOs Here********************
 
+if((lfoCount2 < maxLfoCount && waveFunction1 != waveFunction2) ||  (waveFunction1 == waveFunction2 && (lfoCount1+lfoCount2) < maxLfoCount))
+{
     if (lfoDirection[m_str][m_osc] == 1 && continuous1 == true) //UP
     {
-      localLFO[m_str][m_osc] = MathFunctions(wave1Selection, 1, str[m_str].m_lfo1Slope[m_osc], (x++) * .01);
+      localLFO[m_str][m_osc] = MathFunctions(waveFunction1, 1, str[m_str].m_lfo1Slope[m_osc], (x++) * .01);
       if (x * .01 >= 1)
       {
         x = 0;
         lfoDirection[m_str][m_osc] = 2;
+        lfoCount1++;
       }
     }
 
     if (lfoDirection[m_str][m_osc] == 2 && continuous2 == true) //Down
     {
-      localLFO[m_str][m_osc] = MathFunctions(wave2Selection, 1, str[m_str].m_lfo2Slope[m_osc], (x++) * .01);
+      localLFO[m_str][m_osc] = MathFunctions(waveFunction2, 1, str[m_str].m_lfo2Slope[m_osc], (x++) * .01);
       if (x * .01 >= 1)
       {
         x = 0;
-        lfoDirection[m_str][m_osc] = 1;
+        lfoDirection[m_str][m_osc] = 1; 
+        Serial.println(lfoCount2++);
       }
-    }
+    }   
+}
+//else if(waveFunction1 == waveFunction2 && (lfoCount1+lfoCount2) < maxLfoCount)
 
     if (lfoDirection[m_str][m_osc] == 3) //For 1 Shot Stopped  LFO Waveforms
-      localLFO[m_str][m_osc] = MathFunctions(wave1Selection, 1, str[m_str].m_lfo1Slope[m_osc], (x++) * .01);
+      localLFO[m_str][m_osc] = MathFunctions(waveFunction1, 1, str[m_str].m_lfo1Slope[m_osc], (x++) * .01);
+    //    if (x * .01 >= 1 && lfoCount++ < maxLfoCount)
+    //    x = 0;
+
   } //millis
 } //end funct
