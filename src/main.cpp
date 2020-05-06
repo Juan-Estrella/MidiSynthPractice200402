@@ -8,8 +8,9 @@
        -4 simultaneous oscillators per note, each with separate waveforms(9), LFOs, envelopes, filters, and settings.
        -9 LFO shapes selectable, each with adjustable slope, depth, speed, and height.
        -USB MIDI note allocation to voice number method.
-       -LFO functionality is defined in LfoUpdate.cpp file.
-       -Most other functions are defined in 'Martone.cpp' file.
+       -LFO functionality is defined in LfoUpdate.cpp file in the src folder.
+       -Most other functions are defined in 'Martone.cpp' file src folder.
+       -Teensy specific settings (Serial port, baud Rate, etc. are defined in the platform.ini file.)
        -'GuiTool.cpp' contains the code exported from the Teensy Audio Library. (See link below).
        -(Currently I only have 1 note enabled (A440), bc I'm working on modulation and vocal formants, (i.e. LFOs and Filters) not melody.)
      The Circuit:
@@ -63,7 +64,8 @@ void MyNoteOff(unsigned char channel, unsigned char note, unsigned char velocity
 //================
 void setup()
 {
- /* WAVEFORM_SINE,               //0
+ /*      -Selectable Waveforms- 
+    WAVEFORM_SINE,               //0
     WAVEFORM_SAWTOOTH,           //1
     WAVEFORM_SQUARE,             //2
     WAVEFORM_TRIANGLE,           //3
@@ -74,30 +76,43 @@ void setup()
     WAVEFORM_TRIANGLE_VARIABLE,  //8 
  */
 
+/*    -Selectable LFO Modes-
+ 0 = LFO Off
+ 1 = LFO Sine Repeating
+ 2 = LFO Cosine Repeating
+ 3 = LFO Exponential. Rising. Repeating.
+ 4 = LFO Exponential. Falling. Repeating.
+ 5 = LFO Exponential. Rising. 1 Shot. Sustained.
+ 6 = LFO Exponential. Rising. 1 Shot. Stopped.
+ 7 = LFO Exponential. Falling. 1 Shot. Stopped.
+ 8 = LFO Sine. 1 Shot. Stopped.
+ 9 = LFO Cosine. 1 Shot. Stopped.
+*/
+
   //********************Oscillator Set Up********************
-  //String 1. string, osc, volume, waveform, freq, freqCut, filtSlope, filtRes                  
-  martone.SetOsc(1,   1,  .5,      1,        220,  10000,   1.9,      1);    
-  martone.SetOsc(1,   2,  0,       5,        440,  10000,   1.9,      1);       
-  martone.SetOsc(1,   3,  0,       9,        880,  10000,   1.9,      1);        
-  martone.SetOsc(1,   4,  0,       3,        990,  10000,   1.9,      1);   
+  //String 1. string, osc, volume, waveform, freq, freqCut, filtSlope, filtRes, lfoMode, lfoSpeed, lfoFrSlope, lfoBckSlope, lfoRange, lfoDepth, lfoFilt%                  
+  martone.SetOsc(1,   1,  .5,      1,        220,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);    
+  martone.SetOsc(1,   2,  .5,       2,        440,  10000,   1.9,       1,       9,       3000,     1.5,        1.5,         1,        0,        1);          
+  martone.SetOsc(1,   3,  0,       3,        880,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);          
+  martone.SetOsc(1,   4,  .3,       3,        990,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);     
 
   //String 2. string, osc, volume, waveform, freq, freqCut, filtSlope. filtRes                  
-  martone.SetOsc(2,   1,  .5,      2,        220,  10000,   1.9,      1);    
-  martone.SetOsc(2,   2,  .6,      6,        440,  10000,   1.9,      1);      
-  martone.SetOsc(2,   3,  .7,      0,        880,  10000,   1.9,      1);       
-  martone.SetOsc(2,   4,  .8,     4,       1000,  10000,   1.9,      1);     
+  martone.SetOsc(2,   1,  .5,      2,        220,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);      
+  martone.SetOsc(2,   2,  .6,      6,        440,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);         
+  martone.SetOsc(2,   3,  .7,      0,        880,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);         
+  martone.SetOsc(2,   4,  .8,      4,       1000,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);       
 
   //String 3. string, osc, volume, waveform, freq, freqCut, filtSlope, filtRes                  
-  martone.SetOsc(3,   1,  .9,      3,      220,  10000,   1.9,      1);       
-  martone.SetOsc(3,   2,  .11,      7,      440,  10000,   1.9,      1);        
-  martone.SetOsc(3,   3,  .22,     1,      880,  10000,   1.9,      1);        
-  martone.SetOsc(3,   4,  .33,      5,     1660,  10000,   1.9,      1);     
+  martone.SetOsc(3,   1,  .9,      3,        220,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);         
+  martone.SetOsc(3,   2,  .11,     7,        440,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);          
+  martone.SetOsc(3,   3,  .22,     1,        880,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);          
+  martone.SetOsc(3,   4,  .33,     5,       1660,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);       
 
   //String 4. string, osc, volume, waveform, freq, freqCut, filtSlope, filtRes                  
-  martone.SetOsc(4,   1,  .44,      4,      220,  10000,   1.9,      1);         
-  martone.SetOsc(4,   2,  .55,      8,      440,  10000,   1.9,      1);          
-  martone.SetOsc(4,   3,  .66,     2,      880,  10000,   1.9,      1);      
-  martone.SetOsc(4,   4,  .69,      7,     1660,  10000,   1.9,      1);                       
+  martone.SetOsc(4,   1,  .44,     4,        220,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);           
+  martone.SetOsc(4,   2,  .55,     8,        440,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);             
+  martone.SetOsc(4,   3,  .66,     2,        880,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);        
+  martone.SetOsc(4,   4,  .69,     7,       1660,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);                         
 
 //********************String Set Up*************************
 //              string, octave, startnote,  scale,                     vol, filtCutoff, filtRes, attack, decay, sustain, release, lfoShape, lfoMode, lfoSpeed, lfoDepth, lfoPitch, lfo, lfoRange, filtPercent, interpolate, poly, temperament,    electrode3D

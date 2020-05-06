@@ -72,8 +72,9 @@ Martone::~Martone() {}
 //=================
 //Public Functions
 //=================
-void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency, int freqCut, float filtSlope, float filtRes)
+void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency, int freqCut, float filtSlope, float filtRes, u8 lfoMode, unsigned int lfoSpeed, float lfoFrontSlope, float lfoBackSlope, float lfoRange, float lfoDepth, float lfoFiltPercent)
 {
+    //*****************************String 1 Initialization****************************************************
     if (string == 1)
     {
         if (osc == 1)
@@ -84,6 +85,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 2)
         {
@@ -93,6 +102,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 3)
         {
@@ -102,6 +119,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 4)
         {
@@ -111,8 +136,17 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
     }
+    //*****************************String 2 Initialization*******************************************************
     if (string == 2)
     {
         if (osc == 1)
@@ -123,6 +157,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 2)
         {
@@ -132,6 +174,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 3)
         {
@@ -141,6 +191,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 4)
         {
@@ -150,8 +208,17 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
     }
+    //*****************************String 3 Initialization*******************************************************
     if (string == 3)
     {
         if (osc == 1)
@@ -162,6 +229,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 2)
         {
@@ -171,6 +246,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 3)
         {
@@ -180,6 +263,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 4)
         {
@@ -189,8 +280,17 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
     }
+    //*****************************String 4 Initialization*******************************************************
     if (string == 4)
     {
         if (osc == 1)
@@ -201,6 +301,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 2)
         {
@@ -210,6 +318,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 3)
         {
@@ -219,6 +335,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
         if (osc == 4)
         {
@@ -228,6 +352,14 @@ void Martone::SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency
             str[string - 1].m_freqCut[osc - 1] = strInit[string - 1].m_freqCut[osc - 1] = freqCut;
             str[string - 1].m_filtSlope[osc - 1] = strInit[string - 1].m_filtSlope[osc - 1] = filtSlope;
             str[string - 1].m_filtRes[osc - 1] = strInit[string - 1].m_filtRes[osc - 1] = filtRes;
+
+            str[string - 1].m_lfoMode[osc - 1] = strInit[string - 1].m_lfoMode[osc - 1] = lfoMode;
+            str[string - 1].m_lfoSpeed[osc - 1] = strInit[string - 1].m_lfoSpeed[osc - 1] = lfoSpeed;
+            str[string - 1].m_lfoFrontSlope[osc - 1] = strInit[string - 1].m_lfoFrontSlope[osc - 1] = lfoFrontSlope;
+            str[string - 1].m_lfoBackSlope[osc - 1] = strInit[string - 1].m_lfoBackSlope[osc - 1] = lfoBackSlope;
+            str[string - 1].m_lfoRange[osc - 1] = strInit[string - 1].m_lfoRange[osc - 1] = lfoRange;
+            str[string - 1].m_lfoDepth[osc - 1] = strInit[string - 1].m_lfoDepth[osc - 1] = lfoDepth;
+            str[string - 1].m_lfoFiltPercent[osc - 1] = strInit[string - 1].m_lfoFiltPercent[osc - 1] = lfoDepth;
         }
     }
 }
@@ -239,13 +371,13 @@ void Martone::Initialize()
     sgtl5000_1.enable();
     sgtl5000_1.volume(0.4);
     SetADSR(1, 2, 3, 4, false);
-     str[m_str].m_lfoSpeed[m_osc] = 7000;
-    str[m_str].m_lfoRange[m_osc] = 1;
-    str[m_str].m_filtPercent[m_osc] = 1;
-    str[m_str].m_lfoMode[m_osc] = 7;
-    str[m_str].m_lfoDepth[m_osc] = 0;
-    str[m_str].m_lfo1Slope[m_osc] = 1.5;
-    str[m_str].m_lfo2Slope[m_osc] = 1.5;
+    // str[m_str].m_lfoSpeed[m_osc] = 7000;
+    // str[m_str].m_lfoRange[m_osc] = 1;
+    // str[m_str].m_lfoFiltPercent[m_osc] = 1;
+    // str[m_str].m_lfoMode[m_osc] = 7;
+    // str[m_str].m_lfoDepth[m_osc] = 0;
+    // str[m_str].m_lfoFrontSlope[m_osc] = 1.5;
+    // str[m_str].m_lfoBackSlope[m_osc] = 1.5;
     Serial.println("Martone Set-up Complete!");
 }
 //********************************************************************
@@ -265,7 +397,7 @@ void Martone::AssignOsc(u8 osc, u8 string) const
         osc1b.begin(waveforms[str[string].m_oscW[osc]]);
         osc1b.amplitude(str[string].m_oscV[osc]);
         osc1b.frequency(str[string].m_freq[osc]);
-        filtosc1b.frequency(str[string].m_freqCut[osc]);
+        //filtosc1b.frequency(str[string].m_freqCut[osc]);
         filtosc1b.resonance(str[string].m_filtRes[osc]);
         //Serial.println(str[string].m_oscW[osc]);
     }
@@ -274,14 +406,14 @@ void Martone::AssignOsc(u8 osc, u8 string) const
         osc1c.begin(waveforms[str[string].m_oscW[osc]]);
         osc1c.amplitude(str[string].m_oscV[osc]);
         osc1c.frequency(str[string].m_freq[osc]);
-        filtosc1c.frequency(str[string].m_freqCut[osc]);
+        // filtosc1c.frequency(str[string].m_freqCut[osc]);
         filtosc1c.resonance(str[string].m_filtRes[osc]);
         //Serial.println(str[string].m_oscW[osc]);
     }
     if (osc == 3) //osc 4
     {
         osc1n.amplitude(str[string].m_oscV[osc]);
-        filtosc1n.frequency(str[string].m_freqCut[osc]);
+        // filtosc1n.frequency(str[string].m_freqCut[osc]);
         filtosc1n.resonance(str[string].m_filtRes[osc]);
         //Serial.println(str[string].m_oscV[osc]);
     }
@@ -290,19 +422,19 @@ void Martone::AssignOsc(u8 osc, u8 string) const
         osc1a.begin(waveforms[str[string].m_oscW[0]]);
         osc1a.amplitude(str[string].m_oscV[0]);
         osc1a.frequency(str[string].m_freq[0]);
-        filtosc1a.frequency(str[string].m_freqCut[0]);
+        //filtosc1a.frequency(str[string].m_freqCut[0]);
         filtosc1a.resonance(str[string].m_filtRes[0]);
 
         osc1b.begin(waveforms[str[string].m_oscW[1]]);
         osc1b.amplitude(str[string].m_oscV[1]);
         osc1b.frequency(str[string].m_freq[1]);
-        filtosc1b.frequency(str[string].m_freqCut[1]);
+        // filtosc1b.frequency(str[string].m_freqCut[1]);
         filtosc1b.resonance(str[string].m_filtRes[1]);
 
         osc1c.begin(waveforms[str[string].m_oscW[2]]);
         osc1c.amplitude(str[string].m_oscV[2]);
         osc1c.frequency(str[string].m_freq[2]);
-        filtosc1c.frequency(str[string].m_freqCut[2]);
+        //filtosc1c.frequency(str[string].m_freqCut[2]);
         filtosc1c.resonance(str[string].m_filtRes[2]);
 
         osc1n.amplitude(0);
@@ -376,16 +508,22 @@ void Martone::SetADSR(float attack, float decay, float sustain, float release, b
 void Martone::Update()
 {
     ProcessKeyboardData(); //defined in KeyboardControl.cpp file
-    LfoUpdate(false, str[m_str].m_lfoMode[m_osc], str[m_str].m_filtPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
+    //LfoUpdate(false, str[m_str].m_lfoMode[m_osc], str[m_str].m_lfoFiltPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
+    LfoUpdate(false, str[m_str].m_lfoMode[m_osc], 1, 0, m_str, m_osc);
     FilterUpdate();
 }
 //*********************************************************
 void Martone::HandleNoteOn(u8 channel, u8 note, u8 velocity)
 {
     SetADSR(1, 2, 3, 4, true);
-    AssignOsc(m_osc, m_string);
-    LfoUpdate(true, str[m_str].m_lfoMode[m_osc], str[m_str].m_filtPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
-    Serial.println("*** Handle Note On Function Called ***");
+    for (int i = 0; i< m_NUM_OSC;i++)
+    {
+        AssignOsc(i, m_string);
+    }
+    //LfoUpdate(true, str[m_str].m_lfoMode[m_osc], str[m_str].m_lfoFiltPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
+    LfoUpdate(true, str[m_str].m_lfoMode[m_osc], 1, 0, m_str, m_osc);
+    //Serial.println("*** Handle Note On Function Called ***");
+    Serial.println(str[m_str].m_oscV[m_osc]);
 }
 //*************************************************************
 void Martone::HandleNoteOff(u8 channel, u8 note, u8 velocity)
@@ -396,7 +534,25 @@ void Martone::HandleNoteOff(u8 channel, u8 note, u8 velocity)
 //**************************************************************
 void Martone::FilterUpdate()
 {
-    filtosc1a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] *  str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]); 
+    filtosc1a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc1b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc1c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc1n.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+
+    filtosc2a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc2b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc2c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc2n.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+
+    filtosc3a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc3b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc3c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc3n.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+
+    filtosc4a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc4b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc4c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc4n.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
     // filter1.frequency(str[m_str].m_freqCut[m_osc]);
     // filter1.resonance(1);
 

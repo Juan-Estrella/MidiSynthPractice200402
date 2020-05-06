@@ -131,6 +131,27 @@ void Martone::ProcessKeyboardData()
             m_parameterSelect = true;
             Serial.println("LFO Mode");
             break;
+         case '+': //LFO Speed
+            m_pIndex = 12;
+            m_low = 50;
+            m_high = 20000;
+            m_parameterSelect = true;
+            Serial.println("LFO Speed");
+            break;
+        case 'q': //LFO front Slope
+            m_pIndex = 13;
+            m_low = 0;
+            m_high = 10;
+            m_parameterSelect = true;
+            Serial.println("LFO Front Slope");
+            break;
+         case 'w': //LFO back Slope
+            m_pIndex = 14;
+            m_low = 0;
+            m_high = 10;
+            m_parameterSelect = true;
+            Serial.println("LFO Back Slope");
+            break;
         case 'a': //TriggerNote               *******
             HandleNoteOn(1, 1, 1);
             Serial.println("Qwerty Note On Trigger");
@@ -201,6 +222,25 @@ void Martone::UpdateKeyboardData()
         AssignOsc(m_osc, m_str);
         Serial.println(str[m_str].m_lfoMode[m_osc]);
         break;
+    case 12: //'+' Set LFO Speed
+        currentSettingValue = strInit[m_str].m_lfoSpeed[m_osc];
+        str[m_str].m_lfoSpeed[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_lfoSpeed[m_osc]);
+        break;
+    case 13: //'q' Set LFO Front Slope
+        currentSettingValue = strInit[m_str].m_lfoFrontSlope[m_osc];
+        str[m_str].m_lfoFrontSlope[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_lfoFrontSlope[m_osc]);
+        break;
+    case 14: //'w' Set LFO Back Slope
+        currentSettingValue = strInit[m_str].m_lfoBackSlope[m_osc];
+        str[m_str].m_lfoBackSlope[m_osc] = m_mappedKnobValue[m_str][m_pIndex];
+        AssignOsc(m_osc, m_str);
+        Serial.println(str[m_str].m_lfoBackSlope[m_osc]);
+        break;
+
 
     default:
         break;

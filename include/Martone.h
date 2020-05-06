@@ -70,7 +70,7 @@ public:
     //Public Functions
     //=================
     void Initialize();
-    void SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency, int freqCut, float filtSlope, float filtRes);     //  int osc1W, int osc2W, int osc3W, float osc1V, float osc2V, float osc3V, float osc4V);
+    void SetOsc(u8 string, u8 osc, float volume, u8 waveform, int frequency, int freqCut, float filtSlope, float filtRes, u8 lfoMode, unsigned int lfoSpeed, float lfoFrontSlope, float lfoBackSlope, float lfoRange, float lfoDepth, float filtPercent  );     
     void SetString(u8 string, s8 octave, u8 startnote, u8 scale, float volume, float filtFreqCutoff, float filtRes, float attack, float decay, float sustain, float release, u8 lfoShape, u8 lfoMode, float lfoSpeed, float lfoDepth, float lfoPitch, float lfo, float lfoRange, float filtPercent, bool interpolate, bool poly, u8 temperament, u8 electrode3D);
     void Update();
     void HandleNoteOn(u8 channel, u8 note, u8 velocity);
@@ -106,16 +106,18 @@ protected:
         double m_freq[m_NUM_OSC];
         double m_freqCut[m_NUM_OSC];
         float m_filtSlope[m_NUM_OSC];
-        float m_lfo1Slope[m_NUM_OSC];
-        float m_lfo2Slope[m_NUM_OSC];
         float m_filtRes[m_NUM_OSC];
 
-        unsigned int m_lfoSpeed[m_NUM_OSC];
-        float m_lfoRange[m_NUM_OSC];
-        float m_lfo[m_NUM_OSC];
-        float m_filtPercent[m_NUM_OSC];
         u8 m_lfoMode[m_NUM_OSC];
+        unsigned int m_lfoSpeed[m_NUM_OSC];
+        float m_lfoFrontSlope[m_NUM_OSC];
+        float m_lfoBackSlope[m_NUM_OSC];
+        float m_lfoRange[m_NUM_OSC];
         float m_lfoDepth[m_NUM_OSC];
+        float m_lfoFiltPercent[m_NUM_OSC];
+        float m_lfo[m_NUM_OSC];
+        
+        
 
     } str[m_NUM_STRINGS];
 
