@@ -508,22 +508,29 @@ void Martone::SetADSR(float attack, float decay, float sustain, float release, b
 void Martone::Update()
 {
     ProcessKeyboardData(); //defined in KeyboardControl.cpp file
+    m_osc1 = 1;
+    m_str1 = 0;
     //LfoUpdate(false, str[m_str].m_lfoMode[m_osc], str[m_str].m_lfoFiltPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
-    LfoUpdate(false, str[m_str].m_lfoMode[m_osc], 1, 0, m_str, m_osc);
+    LfoUpdate(false, str[m_str1].m_lfoMode[m_osc1], 1, 0, m_str1, m_osc1);
     FilterUpdate();
 }
 //*********************************************************
 void Martone::HandleNoteOn(u8 channel, u8 note, u8 velocity)
 {
     SetADSR(1, 2, 3, 4, true);
-    for (int i = 0; i< m_NUM_OSC;i++)
-    {
-        AssignOsc(i, m_string);
-    }
+    m_osc1 = 1;
+    m_str1 = 0;
+   // for (int i = 3; i>= 0;i--)
+   // { //osc, string
+        AssignOsc(m_osc, m_str);
+        
+   // }
+     LfoUpdate(true, str[m_str1].m_lfoMode[m_osc1], 1, 0, m_str1,m_osc1);
+      //LfoUpdate(true, str[m_str].m_lfoMode[m_osc], 1, 0, m_str,1);
     //LfoUpdate(true, str[m_str].m_lfoMode[m_osc], str[m_str].m_lfoFiltPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
-    LfoUpdate(true, str[m_str].m_lfoMode[m_osc], 1, 0, m_str, m_osc);
+   
     //Serial.println("*** Handle Note On Function Called ***");
-    Serial.println(str[m_str].m_oscV[m_osc]);
+    Serial.println(str[m_str1].m_oscV[m_osc1]);
 }
 //*************************************************************
 void Martone::HandleNoteOff(u8 channel, u8 note, u8 velocity)

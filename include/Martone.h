@@ -125,6 +125,8 @@ protected:
     //stringParameters *m_setting[m_NUM_STRINGS] = {&str[0], &str[1], &str[2], &str[3]};
     float currentSettingValue;
     u8 m_osc;
+    int m_osc1;
+    int m_str1;
     u8 m_str;
     u8 m_string;
     u8 m_oscIndex;
