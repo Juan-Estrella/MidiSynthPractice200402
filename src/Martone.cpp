@@ -27,37 +27,6 @@ const int Martone::waveforms[] = {
 //============
 Martone::Martone()
 {
-    // m_octave = -3;
-    // m_startNote = A;
-    // m_scale = chromatic;
-    // m_volume = .55;
-    // m_filtFreqCutoff = 700;
-
-    // for (int i = 0; i < m_NUM_STRINGS; i++)
-    // {
-    //     for (int j = 0; j < m_NUM_OSC; j++)
-    //     {
-    //         str[i].m_filtSlope[j] = 2.33;
-    //     }
-    // }
-
-    // m_filtRes = 1;
-    // m_attack = 100;
-    // m_decay = 35;
-    // m_sustain = 1;
-    // m_release = 40;
-    // //m_lfoShape;
-    // m_lfoMode = 1;
-    // m_lfoSpeed = 7000 * 0.7;
-    // m_lfoDepth = 0;
-    // m_lfoPitch = 1;
-    // //m_lfo;
-    // // m_lfoRange;
-    // m_filtPercent = 1;
-    // m_interpolate = false;
-    // m_poly = true;
-    // m_temperament = justTemp;
-    // // m_electrode3D;
     m_pIndex = 0; //for mapping commands to parameters
     m_parameterSelect = false;
     m_mappedKnobValue[m_NUM_STRINGS][m_NUM_EFFECTS] = {0};

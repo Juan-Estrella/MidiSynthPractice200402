@@ -7,10 +7,10 @@ void Martone::ProcessKeyboardData()
 {
     if (m_parameterSelect == true)
     {
-        m_rawKnobValue = analogRead(A1); // double read?
-        m_rawKnobValue = analogRead(A1); // double read?
+        m_rawKnobValue = analogRead(A13); // double read?
+        m_rawKnobValue = analogRead(A13); // double read?
         m_rawKnobValue = constrain(m_rawKnobValue, 5, 1023);
-        m_mappedKnobValue[m_str][m_pIndex] = (map(m_rawKnobValue, 5, 1023, m_low - currentSettingValue, m_high - currentSettingValue)) + currentSettingValue;
+        m_mappedKnobValue[m_str][m_pIndex] = (map(m_rawKnobValue, 1023, 5, m_low - currentSettingValue, m_high - currentSettingValue)) + currentSettingValue;
         if (m_rawKnobValue < (m_oldKnobValue - 5) || m_rawKnobValue > (m_oldKnobValue + 5))
         {
             m_oldKnobValue = m_rawKnobValue;
