@@ -508,7 +508,7 @@ void Martone::SetADSR(float attack, float decay, float sustain, float release, b
 void Martone::Update()
 {
     ProcessKeyboardData(); //defined in KeyboardControl.cpp file
-    m_osc1 = 1;
+    m_osc1 = 0;
     m_str1 = 0;
     //LfoUpdate(false, str[m_str].m_lfoMode[m_osc], str[m_str].m_lfoFiltPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
     LfoUpdate(false, str[m_str1].m_lfoMode[m_osc1], 1, 0, m_str1, m_osc1);
@@ -518,7 +518,7 @@ void Martone::Update()
 void Martone::HandleNoteOn(u8 channel, u8 note, u8 velocity)
 {
     SetADSR(1, 2, 3, 4, true);
-    m_osc1 = 1;
+    m_osc1 = 0;
     m_str1 = 0;
    // for (int i = 3; i>= 0;i--)
    // { //osc, string
