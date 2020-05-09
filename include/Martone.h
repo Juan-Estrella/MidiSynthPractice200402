@@ -178,6 +178,7 @@ protected:
     double MathFunctions(u8 function, float high, float slope, double x);
     void LfoUpdate(bool retrig, u8 mode, float FILtop, float FILbottom, u8 m_str, u8 m_osc);
     void FilterUpdate();
+    void ShowValues() const;
     
     void ShowWaveform(u8 m_waveform);
     // u8 SetWaveform(u8 waveform, u8 target);

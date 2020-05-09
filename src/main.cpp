@@ -97,10 +97,10 @@ void setup()
   martone.SetOsc(1,   4,  .3,       3,        990,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);     
 
   //String 2. string, osc, volume, waveform, freq, freqCut, filtSlope. filtRes                  
-  martone.SetOsc(2,   1,  .5,      2,        220,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);      
-  martone.SetOsc(2,   2,  .6,      6,        440,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);         
-  martone.SetOsc(2,   3,  .7,      0,        880,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);         
-  martone.SetOsc(2,   4,  .8,      4,       1000,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);       
+  martone.SetOsc(2,   1,  .0,      1,        220,  10000,   1.9,       1,       0,       7000,     1.5,        1.5,         1,        0,        1);      
+  martone.SetOsc(2,   2,  .0,      1,        440,  10000,   1.9,       1,       0,       7000,     1.5,        1.5,         1,        0,        1);         
+  martone.SetOsc(2,   3,  .0,      1,        880,  10000,   1.9,       1,       0,       7000,     1.5,        1.5,         1,        0,        1);         
+  martone.SetOsc(2,   4,  .8,      1,       1000,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);       
 
   //String 3. string, osc, volume, waveform, freq, freqCut, filtSlope, filtRes                  
   martone.SetOsc(3,   1,  .9,      3,        220,  10000,   1.9,       1,       1,       7000,     1.5,        1.5,         1,        0,        1);         
