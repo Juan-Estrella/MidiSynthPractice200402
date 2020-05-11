@@ -480,10 +480,11 @@ void Martone::HandleNoteOn(u8 channel, u8 note, u8 velocity)
     SetADSR(1, 2, 3, 4, true);
     for (int osc = 0; osc < m_NUM_OSC; osc++)
     {
-        int str = 1;
-        AssignOsc(osc,str);
+        int st = 0;
+        AssignOsc(osc,st);
+         LfoUpdate(true, str[st].m_lfoMode[osc], str[st].m_lfoFiltPercent[osc], str[st].m_lfoDepth[osc], st, osc);
     }
-    LfoUpdate(true, str[m_str].m_lfoMode[m_osc], str[m_str].m_lfoFiltPercent[m_osc], str[m_str].m_lfoDepth[m_osc], m_str, m_osc);
+   
     Serial.println("*** Handle Note On Function Called ***");
    // Serial.println(str[m_str].m_oscV[m_osc]);
 }
@@ -496,6 +497,8 @@ void Martone::HandleNoteOff(u8 channel, u8 note, u8 velocity)
 //**************************************************************
 void Martone::FilterUpdate()
 {
+    if( str[m_str].m_lfoMode[m_str] >0)
+    {
     filtosc1a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
     filtosc1b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
     filtosc1c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
@@ -515,6 +518,29 @@ void Martone::FilterUpdate()
     filtosc4b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
     filtosc4c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
     filtosc4n.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] * str[m_str].m_lfo[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    }else
+    {
+    filtosc1a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc1b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc1c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc1n.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+
+    filtosc2a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc2b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc2c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc2n.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+
+    filtosc3a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc3b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc3c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc3n.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+
+    filtosc4a.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc4b.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc]) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc4c.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    filtosc4n.frequency(str[m_str].m_freqCut[m_osc] * (str[m_str].m_lfoRange[m_osc] ) + str[m_str].m_lfoDepth[m_osc]);
+    }
+    
     // filter1.frequency(str[m_str].m_freqCut[m_osc]);
     // filter1.resonance(1);
 
